@@ -5,23 +5,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | Rimmer's Shop</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- Removed internal style for consistency. All styling now comes from css/style.css -->
+  <style>
+    body {
+      background: #000000;
+      color: #fff;
+      font-family: "Playfair Display", serif;
+      margin: 0;
+      padding: 0;
+    }
+    .contact-header {
+      background: #002147;
+      padding: 11px;
+    }
+    .contact-header .logo {
+      width: 150px;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+    .contact-title {
+      font-size: 2em;
+      margin: 0;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    .contact-container {
+      max-width: 400px;
+      margin: 40px auto;
+      background: rgba(34, 34, 34, 0.95);
+      border-radius: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .contact-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.15em;
+      color: #fff;
+    }
+    .contact-info i {
+      font-size: 1.3em;
+      color: #4fc3f7;
+    }
+    .contact-label {
+      font-weight: bold;
+      color: #4fc3f7;
+      min-width: 90px;
+    }
+    .contact-name {
+      text-align: center;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #4fc3f7;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    @media (max-width: 600px) {
+      .contact-container {
+        max-width: 95vw;
+        padding: 18px 6vw;
+      }
+      .contact-header .logo {
+        width: 90px;
+      }
+    }
+  </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
-    <div class="header-flex">
-      <div class="header-left">
-        <a href="contact.html" class="contact-btn">Contact</a>
-      </div>
-      <div class="header-center">
-        <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
-      </div>
-      <div class="header-right">
-        <a href="https://wa.me/972535455468" target="_blank" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
-      </div>
+  <div class="header-flex">
+    <div class="header-left">
+      <a href="contact.html" style="background: #4fc3f7; color: #fff; text-decoration: none; font-weight: bold; font-size: 1.1em; padding: 7px 18px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; margin-right: 8px;">Contact</a>
     </div>
-  </header>
+    <div class="header-center">
+      <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
+    </div>
+    <div class="header-right">
+      <a href="https://wa.me/972535455468" target="_blank" style="background: #25D366; color: #fff; padding: 7px 18px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fab fa-whatsapp" style="font-size: 1.5em;"></i></a>
+    </div>
+  </div>
+</header>
   <main>
     <div class="contact-container">
       <div class="contact-info"><i class="fas fa-phone"></i><span class="contact-label">Phone:</span> <a href="tel:0533191655" style="color:#fff;text-decoration:none;">053 319 1655</a></div>
