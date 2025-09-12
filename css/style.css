@@ -36,7 +36,7 @@ header {
   background-color: #002147; /* Elegant navy blue */
   color: white;
   text-align: center;
-  padding: 20px;
+  padding: 11px;
 }
 
 .logo {
@@ -153,9 +153,12 @@ footer {
 }
 
 @media (max-width: 600px) {
+  header {
+    padding: 11px;
+  }
   header h1 {
     font-size: 1.5em;
-    padding: 10px;
+    padding: 0;
   }
 
   .gallery {
@@ -171,7 +174,7 @@ footer {
   .tie-details {
     width: 100%;
     max-width: 100%;
-    padding: 10px;
+    padding: 11px;
     margin: 10px auto;
   }
 
@@ -187,6 +190,6 @@ footer {
   .tie-details {
     max-width: 100%;
     width: 100%;
-    padding: 10px;
+    padding: 11px;
   }
 }
