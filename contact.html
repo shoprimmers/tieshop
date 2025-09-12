@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+    .floating-whatsapp {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 2000;
+      background: #25D366;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      transition: box-shadow 0.2s, background 0.2s;
+      text-decoration: none;
+      font-size: 2em;
+      border: none;
+    }
+    .floating-whatsapp:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+      background: #128C7E;
+    }
+    .floating-whatsapp i {
+      color: #fff;
+      font-size: 2em;
+    }
+    @media (max-width: 600px) {
+      .floating-whatsapp {
+        width: 48px;
+        height: 48px;
+        font-size: 1.3em;
+        right: 12px;
+        bottom: 12px;
+      }
+      .floating-whatsapp i {
+        font-size: 1.3em;
+      }
+    }
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | Rimmer's Shop</title>
@@ -78,6 +119,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <a href="https://wa.me/972535455468" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
   <header>
   <div class="header-flex">
     <div class="header-center">

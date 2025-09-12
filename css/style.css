@@ -33,11 +33,42 @@ h2 {
 }
 
 /* ---------------- HEADER ---------------- */
+ .header-flex {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 24px;
+   width: 100%;
+   height: 100%;
+ }
+ .header-left {
+   flex: 1;
+   text-align: left;
+   display: flex;
+   align-items: center;
+   height: 100%;
+ }
+ .header-center {
+   flex: 1;
+   text-align: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+ }
+ .logo {
+   width: 150px;
+   height: auto;
+   display: block;
+   margin: 0 auto;
+   filter: brightness(0) invert(1); /* makes dark SVG appear white */
+   align-self: center;
+ }
 header {
   background-color: #002147; /* Elegant navy blue */
   color: white;
   text-align: center;
-  padding: 11px;
+  padding: 13px;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -62,7 +93,7 @@ header h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 20px;
+  padding: 0;
 }
 
 .tie-card {
@@ -139,10 +170,13 @@ header h1 {
 /* ---------------- FOOTER ---------------- */
 footer {
   text-align: center;
-  padding: 15px;
+  padding: 15px 0;
   background: #002147;
   color: white;
   margin-top: 40px;
+  width: 100vw;
+  left: 0;
+  position: relative;
 }
 
 /* ---------------- RESPONSIVE DESIGN ---------------- */
