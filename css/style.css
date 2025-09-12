@@ -1,10 +1,13 @@
 /* ---------------- GLOBAL STYLES ---------------- */
 body {
   font-family: "Playfair Display", serif;
-  background-color: #f8f8f8;
+  background-color: #000000;
   color: #333;
   margin: 0;
   padding: 0;
+}
+h2 {
+  text-align: center;
 }
 
 .tie-card {
@@ -87,6 +90,7 @@ header h1 {
 .tie-card h2 {
   font-size: 1.2em;
   padding: 10px;
+  text-align: center;
   color: #002147;
 }
 
