@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,33 +49,66 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
   <a href="https://wa.me/972535455468" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
-<header>
-    <h1></h1>
-      <div class="header-flex">
-        <div class="header-left">
-          <a href="contact.html" style="background: #4fc3f7; color: #fff; text-decoration: none; font-weight: bold; font-size: 1.1em; padding: 7px 18px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; margin-right: 8px;">Contact</a>
-        </div>
-        <div class="header-center">
-          <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
-        </div>
-        <div class="header-right">
-    <!-- WhatsApp button removed from header -->
-        </div>
+  <header>
+    <div class="header-flex">
+      <div class="header-left">
+  <a href="contact.html" style="background: none; color: #fff; text-decoration: underline; font-weight: bold; font-size: 1.1em; border: none; padding: 0; border-radius: 0;">Contact</a>
       </div>
+      <div class="header-center">
+        <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
+      </div>
+      <div class="header-right">
+        <!-- WhatsApp button removed from header -->
+      </div>
+    </div>
+    <style>
+      .header-flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        width: 100%;
+      }
+      .header-left {
+        flex: 1;
+        text-align: left;
+      }
+      .header-center {
+        flex: 1;
+        text-align: center;
+      }
+      .header-right {
+        flex: 1;
+        text-align: right;
+      }
+      @media (max-width: 600px) {
+        .header-flex {
+          flex-direction: row;
+        }
+        .header-left {
+          order: 1;
+          text-align: left;
+        }
+        .header-center {
+          order: 2;
+          text-align: center;
+        }
+        .header-right {
+          order: 3;
+          text-align: right;
+        }
+      }
+    </style>
   </header>
-
   <h2>R1 - Blue and Red Stars Tie - Satin Silk</h2>
   <img src="images/satin-red-and-blue-pattens.jpg" alt="Silk Tie 1 Large" class="large">
   <img src="images/satin-red-and-blue-pattens-behind.jpg" alt="Silk Tie 1 Large" class="large">
   <img src="images/satin-red-and-blue-pattens-tongue.jpg" alt="Silk Tie 1 Large" class="large">
   <img src="images/satin-red-blue-body.jpg" alt="Silk Tie 1 Large" class="large">
-
-
   <!-- Back to main page -->
   <p><a href="index.html">← Back to Collection</a></p>
 </body>
