@@ -37,7 +37,7 @@
   background: rgba(2, 20, 122, 0.8);
   color: #fff;
   font-size: 1.5em;
-  font-family: 'Montserrat', 'Playfair Display', serif;
+  font-family: 'Inter', 'Libre Bodoni', serif;
   padding: 18px 38px;
   border: none;
   border-radius: 0;
@@ -53,7 +53,7 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.18);
       border-color: #e3f2fd;
     }
-    @import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
+  /* Fonts loaded globally via <link> in the head */
     @media (max-width: 600px) {
       .poster-btn {
         font-size: 1em;
@@ -107,6 +107,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tie Collection | Rimmer's</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -114,18 +117,26 @@
   <a href="https://wa.me/972535455468" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
-  <header>
+  <header class="fullscreen" id="site-header">
     <div class="header-flex">
       <div class="header-left">
-  <a href="contact.html" style="color: #fff; text-decoration: underline; font-weight: bold; font-size: 1.1em; margin-right: 8px; background: none; border: none; padding: 0; border-radius: 0;">Contact</a>
+  <a href="contact.html" class="contact-link" style="color: #fff; text-decoration: underline; font-weight: bold; font-size: 1.1em; margin-right: 8px; background: none; border: none; padding: 0; border-radius: 0;">Contact</a>
       </div>
       <div class="header-center">
         <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
+  <div class="scroll-hint">Scroll down to see our catalog<br><span class="arrow"></span></div>
       </div>
       <div class="header-right">
-  <!-- WhatsApp button removed from header -->
+  <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
       </div>
     </div>
+    <nav id="mobile-menu" class="mobile-menu" role="menu">
+      <a href="contact.html" role="menuitem">Contact</a>
+    </nav>
   <style>
     .header-flex {
       display: flex;
@@ -166,14 +177,146 @@
   </style>
   </header>
 
-  <main class="gallery">
-  <div class="poster-container" style="margin-top:0;padding-top:0;width:100vw;">
-    <div class="poster-relative">
-      <img src="images/satin-silk-red-blue-poster-home.webp" alt="Rimmer's Poster" class="poster-image">
-      <button class="poster-btn" onclick="document.getElementById('tie-collection').scrollIntoView({behavior: 'smooth'});">Check Our Collection</button>
-    </div>
-  </div>
+  <script>
+  // Collapse fullscreen header on logo click or user scroll, and reveal ties together with the bar (no auto-scroll)
+    (function() {
+      var header = document.getElementById('site-header');
+      if (!header) return;
+      var logo = header.querySelector('.logo');
+  var target = document.getElementById('tie-collection');
+  var firstCard = document.querySelector('#tie-collection .tie-card');
+  var anchor = document.getElementById('collection-start');
+  var wa = document.querySelector('.floating-whatsapp');
+      // Detect Safari (exclude Chrome/Chromium/Edge variants)
+      var ua = navigator.userAgent || navigator.vendor || "";
+      var isSafari = /Safari/i.test(ua) && !(/Chrome|Chromium|CriOS|Edg/i.test(ua));
+      var didCollapse = false;
+      function collapse() {
+        if (didCollapse) return;
+        didCollapse = true;
+        // Add shrunk class (target state) and remove fullscreen to let CSS animate max-height/height
+        header.classList.add('shrunk');
+        header.classList.remove('fullscreen');
+  // Reveal the collection so cards animate in while the bar shrinks
+  if (target) target.classList.add('revealed');
+  try { sessionStorage.setItem('headerShrunk', '1'); } catch (e) {}
+        if (logo) logo.removeEventListener('click', onLogoClick, true);
+        window.removeEventListener('scroll', onFirstScroll, true);
+        // Show WhatsApp now that we're leaving fullscreen
+        if (wa) wa.classList.remove('hidden');
+        // After the collapse animation completes, bring the first row to the top
+        var scrolled = false;
+        function onEnded(ev){
+          if (scrolled) return;
+          scrolled = true;
+          header.removeEventListener('transitionend', onEnded);
+          var el = firstCard || target || anchor;
+          if (!el) return;
+
+          if (isSafari) {
+            // In Safari, wait for layout to fully settle, then scroll, then correct any tiny offset.
+            requestAnimationFrame(function(){
+              requestAnimationFrame(function(){
+                // Prefer CSS variable for shrunk height, fallback to measured height, then constant.
+                var root = document.documentElement;
+                var varVal = getComputedStyle(root).getPropertyValue('--header-shrunk-height') || '';
+                var shrunkPx = parseFloat(varVal) || Math.round(header.getBoundingClientRect().height) || 56;
+                // Maintain a small visual gap under the bar (matches #tie-collection padding-top)
+                var gap = 12;
+                var rect1 = el.getBoundingClientRect();
+                var targetY = Math.round(window.scrollY + rect1.top - shrunkPx - gap);
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+                // Micro-correction pass after smooth scroll finishes
+                setTimeout(function(){
+                  var rect2 = el.getBoundingClientRect();
+                  var delta = Math.round(rect2.top - shrunkPx - gap);
+                  if (Math.abs(delta) > 2) {
+                    window.scrollTo({ top: Math.round(window.scrollY + delta), behavior: 'auto' });
+                  }
+                }, 650);
+              });
+            });
+          } else {
+            // Keep existing behavior for non-Safari browsers (e.g., Chrome)
+            var headerHeight = header.getBoundingClientRect().height || 56;
+            var rect = el.getBoundingClientRect();
+            // Apply the same small gap under the bar for consistency
+            var y = window.scrollY + rect.top - headerHeight - 12;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        }
+        // Fallback timeout in case transitionend is missed
+        setTimeout(onEnded, 1300);
+        header.addEventListener('transitionend', onEnded, { once: true });
+      }
+      function onLogoClick(e) {
+        e.preventDefault();
+        collapse();
+      }
+      function onFirstScroll(e) {
+        if (window.scrollY > 10) {
+          collapse();
+        }
+      }
+      // Start shrunk if user already interacted in this session
+      try {
+        if (sessionStorage.getItem('headerShrunk') === '1') {
+          header.classList.add('shrunk');
+          header.classList.remove('fullscreen');
+          if (target) target.classList.add('revealed');
+          if (wa) wa.classList.remove('hidden');
+        } else if (logo) {
+          logo.addEventListener('click', onLogoClick, true);
+          // Also collapse on first user scroll
+          window.addEventListener('scroll', onFirstScroll, { passive: true, capture: true });
+          // Hide WhatsApp while fullscreen
+          if (wa) wa.classList.add('hidden');
+        }
+      } catch (e) {
+        if (logo) logo.addEventListener('click', onLogoClick, true);
+        window.addEventListener('scroll', onFirstScroll, { passive: true, capture: true });
+        if (wa) wa.classList.add('hidden');
+      }
+    })();
+
+    // Mobile hamburger toggle
+    (function() {
+      var toggle = document.querySelector('.menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      if (!toggle || !menu) return;
+
+      function closeMenu() {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        // Remove focus so :focus-visible styles don’t linger on mobile
+        try { toggle.blur(); } catch (e) {}
+      }
+      function openMenu() {
+        menu.classList.add('open');
+        toggle.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+      function toggleMenu() {
+        if (menu.classList.contains('open')) closeMenu(); else openMenu();
+      }
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+      document.addEventListener('click', function(e) {
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+          closeMenu();
+        }
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
+  </script>
+
   <main class="gallery" id="tie-collection">
+    <div id="collection-start"></div>
   
     <div class="tie-card">
       <a href="tie1.html">

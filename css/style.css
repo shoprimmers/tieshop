@@ -1,15 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Slab:wght@400;600;700;800;900&display=swap');
+
 /* ---------------- GLOBAL STYLES ---------------- */
+:root {
+  --header-shrunk-height: 56px;
+  --brand-blue: #002147; /* E. Marinella-inspired navy (update if exact hex is provided) */
+  --font-display: 'Roboto Slab', serif; /* squared, less-detailed serif */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 body {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-sans);
   background-color: #000000;
   color: #ffffff;
   margin: 0;
   padding: 0;
 }
-h2 {
-  text-align: center;
-  color: #fff;
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
+h2 { text-align: center; color: #fff; }
 
 .tie-card {
   position: relative;
@@ -61,6 +77,7 @@ h2 {
   text-align: right;
   display: flex;
   align-items: center;
+  justify-content: flex-end; /* push toggle to the far right */
   height: 100%;
 }
  .logo {
@@ -72,22 +89,119 @@ h2 {
    align-self: center;
  }
 header {
-  background-color: #002147; /* Elegant navy blue */
-  color: white;
+  /* Animated background that transitions from blue to white during collapse */
+  background: linear-gradient(to bottom, var(--brand-blue) 0%, var(--brand-blue) 50%, #ffffff 50%, #ffffff 100%);
+  background-size: 100% 200%;
+  background-position: 0 0; /* fullscreen starts with blue on top */
+  color: white; /* text/icon color on blue */
   text-align: center;
   padding: 13px;
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: height 1.2s ease-in-out, padding 1.2s ease-in-out, background-position 1.2s ease-in-out, box-shadow 0.3s ease;
+  will-change: height, padding, background-position;
+  box-sizing: border-box; /* ensure declared height includes padding */
 }
+
+/* Fullscreen-to-shrunk header states */
+header.fullscreen {
+  height: 100vh;           /* full screen height */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+header.shrunk {
+  height: var(--header-shrunk-height); /* classic thin bar (variable-controlled) */
+  padding-top: 6px;
+  padding-bottom: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  background-position: 0 100%; /* slide to white on top */
+  color: var(--brand-blue); /* text/icon color on white */
+  border-bottom: 1px solid #e6e9ef; /* very thin, light grey underline when thin */
+}
+
+header.fullscreen .header-flex,
+header.shrunk .header-flex {
+  height: 100%;
+}
+
+/* The header shrink naturally reveals the collection; no extra top padding animation needed */
+
+/* Show Contact link only when shrunk; hide in fullscreen */
+header .header-left a {
+  transition: opacity 0.3s ease;
+}
+header.fullscreen .header-left a {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+header.shrunk .header-left a {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Scroll hint text/arrow - visible only in fullscreen header */
+header .scroll-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.85);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.9;
+  text-align: center;
+}
+header .scroll-hint .arrow {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  animation: arrow-bounce 1.4s ease-in-out infinite;
+}
+@keyframes arrow-bounce {
+  0%, 100% { transform: translateY(0) rotate(45deg); }
+  50% { transform: translateY(6px) rotate(45deg); }
+}
+header.fullscreen .scroll-hint { display: inline-flex; }
+
+/* Subtle logo scale for emphasis in fullscreen */
+/* Smoothly animate logo size via max-height (only in special header states) */
+header .logo {
+  transition: max-height 1.2s ease-in-out, transform 1.2s ease-in-out, filter 0.4s ease-in-out;
+}
+header.fullscreen .logo,
+header.shrunk .logo {
+  width: auto;           /* allow height to drive size */
+  height: auto;
+  max-width: 90vw;
+}
+header.fullscreen .logo { max-height: 65vh; }
+header.shrunk .logo { max-height: 42px; }
 
 .logo {
   width: 150px;
   height: auto;
   display: block;
   margin: 0 auto;
-  filter: brightness(0) invert(1); /* makes dark SVG appear white */
+  /* default filter neutral; state rules below control color */
 }
+
+/* Logo color per state */
+header.fullscreen .logo { filter: brightness(0) invert(1); } /* white on blue */
+header.shrunk .logo { filter: none; } /* original SVG color (should appear blue) */
 
 header h1 {
   margin: 0;
@@ -100,40 +214,127 @@ header h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 0;
+  padding: 0; /* attach directly under the bar */
+  gap: 20px;
+  background: #ffffff; /* white background for the collection area */
+  position: relative; /* allow absolutely-positioned anchor without affecting flex flow */
 }
 
 .tie-card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  margin: 15px;
+  background: #ffffff;
+  border: none;
+  border-radius: 0;
+  margin: 0; /* spacing now handled by .gallery gap */
   width: 250px;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  box-shadow: none;
+  transition: transform 0.2s;
 }
 
-.tie-card:hover {
-  transform: scale(1.05);
+/* Remove underlines and keep color consistent for card links */
+.tie-card a,
+.tie-card a:hover,
+.tie-card a:focus {
+  text-decoration: none;
+  color: inherit;
 }
+
+.tie-card:hover { transform: none; }
+
+/* When header is fullscreen, keep ties subtly hidden until reveal */
+header.fullscreen ~ main#tie-collection .tie-card {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* Reveal animation once header collapses */
+#tie-collection.revealed .tie-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+/* Staggered reveal for the first couple of rows */
+#tie-collection.revealed .tie-card:nth-child(1)  { transition-delay: 0ms; }
+#tie-collection.revealed .tie-card:nth-child(2)  { transition-delay: 50ms; }
+#tie-collection.revealed .tie-card:nth-child(3)  { transition-delay: 100ms; }
+#tie-collection.revealed .tie-card:nth-child(4)  { transition-delay: 150ms; }
+#tie-collection.revealed .tie-card:nth-child(5)  { transition-delay: 200ms; }
+#tie-collection.revealed .tie-card:nth-child(6)  { transition-delay: 250ms; }
+#tie-collection.revealed .tie-card:nth-child(7)  { transition-delay: 300ms; }
+#tie-collection.revealed .tie-card:nth-child(8)  { transition-delay: 350ms; }
+#tie-collection.revealed .tie-card:nth-child(9)  { transition-delay: 400ms; }
+#tie-collection.revealed .tie-card:nth-child(10) { transition-delay: 450ms; }
+#tie-collection.revealed .tie-card:nth-child(11) { transition-delay: 500ms; }
+#tie-collection.revealed .tie-card:nth-child(12) { transition-delay: 550ms; }
 
 .tie-card img {
-  max-width: 95%;              
+  width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto;
-  border: 8px solid white;     
-  border-radius: 8px;          
-  box-shadow: 0 0 10px rgba(0,0,0,0.3); 
-  background: transparent;     
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 .tie-card h2 {
-  font-size: 1.2em;
-  padding: 10px;
+  font-size: 0.98em; /* smaller, boutique style */
+  padding: 8px 0;
+  text-align: left;
+  color: var(--brand-blue);
+  font-family: var(--font-display);
+  font-weight: 700; /* slightly less thick to match reference */
+  letter-spacing: 0.02em; /* very tight tracking */
+  line-height: 1.15; /* tight */
+  text-transform: uppercase;
+  display: block; /* ensure full-width block for consistent divider */
+  min-height: 2.6em; /* reserve space so divider sits at equal distance */
+  overflow: hidden; /* prevent overly long wrap from pushing divider */
+}
+
+/* Brand label above each tie title */
+.tie-card h2::before {
+  content: 'Rimmer’s';
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400; /* normal, not bold */
+  text-transform: none; /* not uppercase */
+  letter-spacing: 0.003em; /* very tight */
+  color: var(--brand-blue); /* match header color */
+  font-size: 0.82em;
+  line-height: 1.1;
+  margin-bottom: 3px; /* closer to the title */
+}
+
+/* Price below with a divider line (consistent spacing and width) */
+.tie-card h2::after {
+  content: '₪350,00';
+  display: block;
+  width: 100%;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: var(--brand-blue); /* match header color */
+  font-size: 1.1em; /* ~15% larger */
+  line-height: 1.2;
+  margin-top: 14px;  /* longer, consistent gap */
+  padding-top: 12px; /* longer, consistent gap */
+  border-top: 1px solid #e6e9ef;
+}
+
+/* Tie details page headings: mirror the catalog title styling */
+.tie-details h1,
+.tie-details h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-blue);
+  line-height: 1.25;
   text-align: center;
-  color: #002147;
 }
 
 /* ---------------- TIE DETAILS PAGE ---------------- */
@@ -142,7 +343,7 @@ header h1 {
   margin: 20px auto;
   padding: 20px;
   background: white;
-  border-radius: 6px;
+  /* default filter neutral; state rules below control color */
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
@@ -174,11 +375,34 @@ header h1 {
   border-radius: 4px;
 }
 
+/* Make anchor scroll account for sticky header height */
+#tie-collection { scroll-margin-top: 64px; }
+#tie-collection {
+  margin-top: 0;          /* avoid any unintended offset */
+  padding-top: 12px;      /* small breathing room under the bar to avoid hover overlap */
+  border-top: 1px solid transparent; /* prevents first-child margin collapse */
+}
+/* Show a subtle divider only once the header is shrunk */
+header.shrunk ~ main#tie-collection { border-top-color: #e6e9ef; }
+header.fullscreen ~ main#tie-collection { border-top-color: transparent; }
+#collection-start {
+  /* Keep as an anchor but remove from flex flow so it doesn't take a slot */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  scroll-margin-top: 64px;
+  pointer-events: none;
+}
+
 /* ---------------- FOOTER ---------------- */
 footer {
   text-align: center;
   padding: 15px 0;
-  background: #002147;
+  background: var(--brand-blue);
   color: white;
   margin-top: 40px;
   width: 100vw;
@@ -188,16 +412,54 @@ footer {
 
 /* ---------------- RESPONSIVE DESIGN ---------------- */
 @media (max-width: 900px) {
+  /* Perfectly center the logo in the bar on small screens */
+  header .header-flex { position: relative; }
+  header .header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+  }
+  header .header-left, header .header-right { position: relative; z-index: 3; }
+
+  /* Show hamburger, hide Contact text on small screens */
+  header .header-left a { display: none; }
+  .menu-toggle { display: inline-flex; }
+
+  /* Tweak fullscreen logo for tablets (smaller) */
+  header.fullscreen .logo {
+    max-height: 36vh;
+    max-width: 78vw;
+  }
+  header .scroll-hint { bottom: 18px; font-size: 0.8rem; }
+
   .gallery {
     justify-content: space-around;
   }
 
   .tie-card {
-    width: 45%; /* two per row on tablets */
+    /* Two per row on tablets, slightly larger and robust */
+    flex: 0 1 calc(50% - 10px); /* 20px total gap per row */
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* iPad and small laptop portrait refinements */
+@media (max-width: 1200px) and (orientation: portrait) {
+  header.fullscreen .logo {
+    max-height: 52vh;
+    max-width: 85vw;
   }
 }
 
 @media (max-width: 600px) {
+  /* Use small/ dynamic viewport units on mobile for better fullscreen fit */
+  header.fullscreen { height: 100svh; height: 100dvh; }
   header {
     padding: 11px;
   }
@@ -205,16 +467,31 @@ footer {
     font-size: 1.5em;
     padding: 0;
   }
+  /* Tame fullscreen logo for phones (smaller) */
+  header.fullscreen .logo { max-height: 28vh; max-width: 74vw; }
+  /* Slightly smaller shrunk logo on phones */
+  header.shrunk .logo { max-height: 36px; }
+  header .scroll-hint { bottom: 14px; font-size: 0.75rem; }
 
+  /* Two-per-row layout on smartphones */
   .gallery {
-    flex-direction: column;
-    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px; /* tighter gap to fit two nicely */
   }
 
   .tie-card {
-    width: 90%; /* full width on phones */
-    margin: 10px 0;
+    /* Robust two-column sizing: exactly two per row from the first row */
+    flex: 0 1 calc(50% - 6px); /* half width minus half the gap */
+    width: auto;               /* let flex-basis control size */
+    max-width: none;
+    margin: 0;
   }
+
+  .tie-card h2 { font-size: 0.90em; }
+  .tie-card h2::before { font-size: 0.8em; }
 
   .tie-details {
     width: 100%;
@@ -231,10 +508,171 @@ footer {
   }
 }
 
+/* Tablet and Desktop: make shrunk bar 20% taller and logo scale accordingly */
+@media (min-width: 601px) {
+  :root {
+    --header-shrunk-height: 68px; /* 56px * 1.2 */
+  }
+  header.shrunk .logo {
+    max-height: 50px; /* 42px * 1.2 (rounded) */
+  }
+}
+
 @media (max-width: 600px) {
   .tie-details {
     max-width: 100%;
     width: 100%;
     padding: 11px;
+  }
+}
+
+/* Utility for JS-controlled visibility (e.g., WhatsApp button) */
+.hidden { display: none !important; }
+
+/* ---------- Hamburger and menu (all sizes) ---------- */
+/* Replace Contact link with menu button on all sizes */
+header .header-left .contact-link { display: none !important; }
+
+.menu-toggle {
+  display: inline-flex; /* visible on desktop and mobile */
+  width: 40px; /* hit target */
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  background: transparent; /* no square */
+  border: none; /* no border */
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: none;
+}
+.menu-toggle:hover, .menu-toggle:focus-visible {
+  background: transparent; /* stay clean */
+  border-color: transparent; /* no border */
+  outline: none;
+}
+.menu-toggle .bar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  transform-origin: center center;
+  width: 22px; /* line width */
+  height: 2px;
+  background: currentColor;
+  transition: transform 200ms ease, top 200ms ease, margin-left 200ms ease;
+}
+.menu-toggle .bar:nth-child(1) { top: 12px; }
+.menu-toggle .bar:nth-child(2) { top: 19px; }
+.menu-toggle .bar:nth-child(3) { top: 26px; }
+
+/* On hover (pointer devices), lines become vertical in the center */
+@media (hover: hover) and (pointer: fine) {
+  .menu-toggle:hover .bar,
+  .menu-toggle:focus-visible .bar {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  .menu-toggle:hover .bar:nth-child(1),
+  .menu-toggle:focus-visible .bar:nth-child(1) { margin-left: -9px; }
+  .menu-toggle:hover .bar:nth-child(2),
+  .menu-toggle:focus-visible .bar:nth-child(2) { margin-left: 0; }
+  .menu-toggle:hover .bar:nth-child(3),
+  .menu-toggle:focus-visible .bar:nth-child(3) { margin-left: 9px; }
+}
+
+/* Show hamburger only on small screens when header is shrunk; hide in fullscreen */
+header.fullscreen .menu-toggle { opacity: 0; visibility: hidden; pointer-events: none; }
+header.shrunk .menu-toggle { opacity: 1; visibility: visible; }
+
+/* Menu icon color per state */
+header.fullscreen .menu-toggle { color: #ffffff; }
+header.shrunk .menu-toggle { color: var(--brand-blue); }
+
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0; /* full-width on mobile by default; narrowed on desktop below */
+  background: #ffffff; /* clean white dropdown */
+  color: #002147;
+  border-top: 1px solid #e6e9ef;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  display: none;
+  z-index: 1200;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a {
+  display: block;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: #002147;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+.mobile-menu a:hover { background: #f5f7fb; }
+
+/* ---------- Open state: turn hamburger into an X ---------- */
+.menu-toggle.open { background: transparent; border-color: transparent; }
+.menu-toggle.open .bar {
+  top: 50% !important;
+  left: 50% !important;
+  margin-left: 0 !important;
+  transform: translate(-50%, -50%) rotate(0deg) !important; /* base reset */
+}
+.menu-toggle.open .bar:nth-child(1) {
+  transform: translate(-50%, -50%) rotate(45deg) !important;
+}
+.menu-toggle.open .bar:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.open .bar:nth-child(3) {
+  transform: translate(-50%, -50%) rotate(-45deg) !important;
+}
+
+/* Desktop dropdown style: compact, rounded panel aligned to right side */
+@media (min-width: 901px) {
+  /* Constrain the gallery on desktop to avoid full-bleed width */
+  .gallery {
+    max-width: 1140px;  /* narrower container for larger side gutters */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px; /* slightly smaller inner padding */
+    gap: 12px; /* bring pictures closer together on desktop */
+  }
+  .mobile-menu {
+    left: auto;
+    right: 12px;
+    width: max-content;
+    min-width: 220px;
+    border-radius: 12px;
+    margin-top: 8px;
+    border: 1px solid #e6e9ef;
+  }
+}
+
+/* Mobile/tablet: keep full-width feel, soft rounded bottom corners */
+@media (max-width: 900px) {
+  .mobile-menu {
+    left: 0;
+    right: 0;
+    border-radius: 0 0 12px 12px;
+  }
+}
+
+/* ---------- Desktop layout: cap at 4 columns ---------- */
+/* On large screens, switch the gallery to a 4-column grid so the first row always shows 4 ties and never more than 4 per row. */
+@media (min-width: 1200px) {
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px; /* tighter spacing between items */
+    align-items: start;
+    justify-items: center; /* center fixed-width cards if narrower than column */
+  }
+  .gallery .tie-card {
+    width: 100%;
+    max-width: 270px; /* ~25% smaller maximum for desktop fullscreen */
   }
 }
