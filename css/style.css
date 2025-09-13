@@ -49,6 +49,24 @@ h2 { text-align: center; color: #fff; }
 }
 
 /* ---------------- HEADER ---------------- */
+.preheader {
+  background: var(--brand-blue);
+  color: #ffffff;
+  width: 100%;
+}
+.preheader__inner {
+  margin: 0; /* full-bleed bar */
+  width: 100%;
+  padding: 6px 16px; /* thin bar padding */
+  box-sizing: border-box;
+}
+.preheader__text {
+  font-family: var(--font-display);
+  font-weight: 700; /* same feel as titles */
+  text-transform: none; /* do not uppercase */
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
  .header-flex {
    display: flex;
    align-items: center;
@@ -57,29 +75,9 @@ h2 { text-align: center; color: #fff; }
    width: 100%;
    height: 100%;
  }
- .header-left {
-   flex: 1;
-   text-align: left;
-   display: flex;
-   align-items: center;
-   height: 100%;
- }
- .header-center {
-   flex: 1;
-   text-align: center;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   height: 100%;
- }
- .header-right {
-  flex: 1;
-  text-align: right;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end; /* push toggle to the far right */
-  height: 100%;
-}
+.preheader { display: none; }
+.preheader__inner { display: none; }
+.preheader__text { display: none; }
  .logo {
    width: 150px;
    height: auto;
@@ -113,13 +111,15 @@ header.fullscreen {
 
 header.shrunk {
   height: var(--header-shrunk-height); /* classic thin bar (variable-controlled) */
-  padding-top: 6px;
+  padding-top: 6px; /* keep white bar vertical padding */
   padding-bottom: 6px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  background-position: 0 100%; /* slide to white on top */
+  background: #ffffff; /* solid white, no gradient */
   color: var(--brand-blue); /* text/icon color on white */
   border-bottom: 1px solid #e6e9ef; /* very thin, light grey underline when thin */
 }
+
+/* Preheader removed */
+header.fullscreen .scroll-hint { display: inline-flex; }
 
 header.fullscreen .header-flex,
 header.shrunk .header-flex {
@@ -208,6 +208,8 @@ header h1 {
   font-size: 2em;
   letter-spacing: 1px;
 }
+
+/* Catalog bar removed */
 
 /* ---------------- GALLERY ---------------- */
 .gallery {
@@ -376,15 +378,13 @@ header.fullscreen ~ main#tie-collection .tie-card {
 }
 
 /* Make anchor scroll account for sticky header height */
-#tie-collection { scroll-margin-top: 64px; }
+#tie-collection { scroll-margin-top: var(--header-shrunk-height); }
 #tie-collection {
   margin-top: 0;          /* avoid any unintended offset */
   padding-top: 12px;      /* small breathing room under the bar to avoid hover overlap */
-  border-top: 1px solid transparent; /* prevents first-child margin collapse */
+  border-top: 0; /* no top divider; rely on header's thin underline only */
 }
-/* Show a subtle divider only once the header is shrunk */
-header.shrunk ~ main#tie-collection { border-top-color: #e6e9ef; }
-header.fullscreen ~ main#tie-collection { border-top-color: transparent; }
+/* Removed extra top divider under header */
 #collection-start {
   /* Keep as an anchor but remove from flex flow so it doesn't take a slot */
   position: absolute;
@@ -394,7 +394,7 @@ header.fullscreen ~ main#tie-collection { border-top-color: transparent; }
   height: 0;
   margin: 0;
   padding: 0;
-  scroll-margin-top: 64px;
+  scroll-margin-top: var(--header-shrunk-height);
   pointer-events: none;
 }
 
@@ -508,13 +508,10 @@ footer {
   }
 }
 
-/* Tablet and Desktop: make shrunk bar 20% taller and logo scale accordingly */
+/* Tablet and Desktop: make shrunk white bar 20% thicker (keep logo size unchanged) */
 @media (min-width: 601px) {
   :root {
-    --header-shrunk-height: 68px; /* 56px * 1.2 */
-  }
-  header.shrunk .logo {
-    max-height: 50px; /* 42px * 1.2 (rounded) */
+    --header-shrunk-height: 67px; /* 56px * 1.2 ≈ 67px */
   }
 }
 
@@ -659,6 +656,7 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     right: 0;
     border-radius: 0 0 12px 12px;
   }
+  .preheader__inner { padding-left: 12px; padding-right: 12px; }
 }
 
 /* ---------- Desktop layout: cap at 4 columns ---------- */
