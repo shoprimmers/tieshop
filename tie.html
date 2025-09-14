@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <title>Silk Tie 3 - Rimmer's Collection</title>
+  <title>Silk Tie - Rimmer's Collection</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -12,16 +12,17 @@
   <a href="https://wa.me/972535455468" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
+
   <header class="shrunk">
     <div class="header-flex">
       <div class="header-left">
-        <a href="contact.html" class="contact-link" style="background: none; color: var(--brand-blue); text-decoration: underline; font-weight: bold; font-size: 1.1em; border: none; padding: 0; border-radius: 0;">Contact</a>
+        <a href="contact.html" class="contact-link" style="color: var(--brand-blue); text-decoration: underline; font-weight: bold; font-size: 1.1em; margin-right: 8px; background: none; border: none; padding: 0; border-radius: 0;">Contact</a>
       </div>
       <div class="header-center">
         <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
       </div>
       <div class="header-right">
-  <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
@@ -32,7 +33,7 @@
       <a href="contact.html" role="menuitem">Contact</a>
     </nav>
   </header>
-  
+
   <script>
     // Mobile hamburger toggle for tie pages
     (function() {
@@ -68,40 +69,23 @@
       });
     })();
   </script>
-  
+
   <div class="tie-details">
-    <h2>R3 - Dark Blue and Grey Stars Tie - Satin Silk</h2>
-    
+    <h2 id="tie-title">Loading...</h2>
+
     <div class="tie-carousel">
       <div class="carousel-container">
         <div class="carousel-track" id="carousel-track">
-          <div class="carousel-slide">
-            <img src="images/satin-darkgrey.jpg" alt="Dark Blue and Grey Stars Tie - Front View">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/satin-darkgrey-back.webp" alt="Dark Blue and Grey Stars Tie - Back View">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/satin-darkgrey-tongue.webp" alt="Dark Blue and Grey Stars Tie - Detail View">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/satin-darkgrey-body.webp" alt="Dark Blue and Grey Stars Tie - Full Body">
-          </div>
+          <!-- Slides injected by JS -->
         </div>
-        
         <button class="carousel-nav prev" onclick="changeSlide(-1)">‹</button>
         <button class="carousel-nav next" onclick="changeSlide(1)">›</button>
       </div>
-      
-      <div class="carousel-indicators">
-        <button class="carousel-dot active" onclick="currentSlide(1)"></button>
-        <button class="carousel-dot" onclick="currentSlide(2)"></button>
-        <button class="carousel-dot" onclick="currentSlide(3)"></button>
-        <button class="carousel-dot" onclick="currentSlide(4)"></button>
+      <div class="carousel-indicators" id="carousel-indicators">
+        <!-- Dots injected by JS -->
       </div>
     </div>
-    
-    <!-- Back to main page + WhatsApp inline on tablet/phone -->
+
     <p class="back-actions">
       <a href="index.html" class="back-link-inline">← Back to Collection</a>
       <a href="https://wa.me/972535455468" target="_blank" class="whatsapp-inline" aria-label="Chat on WhatsApp">
@@ -111,16 +95,57 @@
   </div>
 
   <script>
-    // Image Carousel functionality
+    // Tiny data-driven tie page: reads ?id=NUMBER and loads images/title from data/ties.json
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+
+    function renderTie(tie) {
+      const titleEl = document.getElementById('tie-title');
+      const track = document.getElementById('carousel-track');
+      const indicators = document.getElementById('carousel-indicators');
+      titleEl.textContent = tie.title;
+      track.innerHTML = '';
+      indicators.innerHTML = '';
+      tie.images.forEach((img, idx) => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        const image = document.createElement('img');
+        image.src = img.src;
+        image.alt = img.alt || tie.title + ' - Image ' + (idx + 1);
+        slide.appendChild(image);
+        track.appendChild(slide);
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+        dot.onclick = () => currentSlide(idx + 1);
+        indicators.appendChild(dot);
+      });
+      // Reset carousel state
+      currentSlideIndex = 0;
+      slides = document.querySelectorAll('.carousel-slide');
+      dots = document.querySelectorAll('.carousel-dot');
+      updateCarousel();
+    }
+
+    fetch('data/ties.json')
+      .then(r => r.json())
+      .then(data => {
+        const tie = data.ties[id];
+        if (!tie) throw new Error('Tie not found: ' + id);
+        renderTie(tie);
+      })
+      .catch(err => {
+        document.getElementById('tie-title').textContent = 'Tie not found';
+        console.error(err);
+      });
+
+    // Carousel logic (same as other pages)
     let currentSlideIndex = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dot');
+    let slides = [];
+    let dots = [];
     const track = document.getElementById('carousel-track');
 
     function updateCarousel() {
       track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
-      
-      // Update active dot
       dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlideIndex);
       });
@@ -128,13 +153,8 @@
 
     function changeSlide(direction) {
       currentSlideIndex += direction;
-      
-      if (currentSlideIndex >= slides.length) {
-        currentSlideIndex = 0;
-      } else if (currentSlideIndex < 0) {
-        currentSlideIndex = slides.length - 1;
-      }
-      
+      if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
+      else if (currentSlideIndex < 0) currentSlideIndex = slides.length - 1;
       updateCarousel();
     }
 
@@ -143,43 +163,21 @@
       updateCarousel();
     }
 
-    // Touch/swipe support for mobile
+    // Touch/swipe support
     let startX = 0;
     let isDragging = false;
-
-    track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      isDragging = true;
-    });
-
-    track.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-    });
-
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; });
+    track.addEventListener('touchmove', (e) => { if (!isDragging) return; e.preventDefault(); });
     track.addEventListener('touchend', (e) => {
-      if (!isDragging) return;
-      isDragging = false;
-      
-      const endX = e.changedTouches[0].clientX;
-      const diffX = startX - endX;
-      
-      if (Math.abs(diffX) > 50) { // Minimum swipe distance
-        if (diffX > 0) {
-          changeSlide(1); // Swipe left - next slide
-        } else {
-          changeSlide(-1); // Swipe right - previous slide
-        }
-      }
+      if (!isDragging) return; isDragging = false;
+      const endX = e.changedTouches[0].clientX; const diffX = startX - endX;
+      if (Math.abs(diffX) > 50) { changeSlide(diffX > 0 ? 1 : -1); }
     });
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        changeSlide(-1);
-      } else if (e.key === 'ArrowRight') {
-        changeSlide(1);
-      }
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+      else if (e.key === 'ArrowRight') changeSlide(1);
     });
   </script>
 </body>

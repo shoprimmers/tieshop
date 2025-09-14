@@ -2,7 +2,7 @@
 
 /* ---------------- GLOBAL STYLES ---------------- */
 :root {
-  --header-shrunk-height: 56px;
+  --header-shrunk-height: 56px; /* Base height for smartphones */
   --brand-blue: #002147; /* E. Marinella-inspired navy (update if exact hex is provided) */
   --font-display: 'Roboto Slab', serif; /* squared, less-detailed serif */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -341,12 +341,251 @@ header.fullscreen ~ main#tie-collection .tie-card {
 
 /* ---------------- TIE DETAILS PAGE ---------------- */
 .tie-details {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
   background: white;
-  /* default filter neutral; state rules below control color */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: none;
+}
+
+/* Override global black background for tie pages */
+body:has(.tie-details) {
+  background-color: white !important;
+}
+
+/* Fallback for browsers that don't support :has() */
+.tie-page-body {
+  background-color: white !important;
+}
+
+.tie-details h2 {
+  text-align: center;
+  margin: 0 auto;
+  padding: 15px 20px;
+  background: var(--brand-blue);
+  color: white;
+  max-width: fit-content;
+  border-radius: 0;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+/* Ensure no gaps on mobile and tablet */
+@media (max-width: 1023px) {
+  .tie-details {
+    margin: 0;
+    padding: 0;
+  }
+  .tie-details h2 {
+    width: 100vw;
+    margin: 0;
+    max-width: none;
+  }
+  .tie-carousel {
+    margin: 0;
+  }
+}
+
+/* Back to Collection button styling */
+.tie-details p {
+  text-align: center;
+  margin: 10px 0 20px 0;
+  padding: 0;
+}
+
+.tie-details p a {
+  color: var(--brand-blue);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+/* Mobile and tablet spacing adjustments */
+@media (max-width: 1023px) {
+  .tie-details p {
+    margin: 5px 0 10px 0;
+  }
+  
+  /* Remove any gaps around carousel on mobile/tablet */
+  .tie-carousel {
+    margin: 0 !important;
+  }
+}
+
+/* Image Carousel for Tie Detail Pages */
+.tie-carousel {
+  max-width: 100%;
+  margin: 0;
+  position: relative;
+  background: white;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: white;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s ease;
+  width: 100%;
+  background: white;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  padding: 0;
+  position: relative;
+}
+
+.carousel-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  z-index: 10;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  text-align: center;
+  line-height: 1;
+}
+
+.carousel-nav:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.carousel-nav.prev {
+  left: calc(50% - 250px);
+  padding-right: 2px;
+}
+
+.carousel-nav.next {
+  right: calc(50% - 250px);
+  padding-left: 2px;
+}
+
+.carousel-indicators {
+  display: none;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.carousel-dot.active {
+  background: var(--brand-blue);
+}
+
+.carousel-dot:hover {
+  background: #bbb;
+}
+
+/* Responsive carousel sizing */
+@media (min-width: 1024px) {
+  .tie-carousel {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .carousel-slide {
+    height: 85vh;
+    max-height: none;
+  }
+  .carousel-nav.prev {
+    left: calc(50% - 300px);
+  }
+  .carousel-nav.next {
+    right: calc(50% - 300px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tie-carousel {
+    max-width: 100%;
+    margin: 0;
+  }
+  .carousel-slide {
+    height: 75vh;
+    max-height: none;
+  }
+  .carousel-nav {
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    line-height: 1;
+  }
+  .carousel-nav.prev {
+    left: 20px;
+    padding-right: 2px;
+  }
+  .carousel-nav.next {
+    right: 20px;
+    padding-left: 2px;
+  }
+}
+
+@media (max-width: 767px) {
+  .tie-carousel {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+  .carousel-slide {
+    height: 70vh;
+    max-height: none;
+    padding: 0;
+  }
+  .carousel-nav {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    line-height: 1;
+  }
+  .carousel-nav.prev {
+    left: 10px;
+    padding-right: 1px;
+  }
+  .carousel-nav.next {
+    right: 15px;
+    padding-left: 1px;
+  }
 }
 
 /* Large tie images */
@@ -508,10 +747,24 @@ footer {
   }
 }
 
-/* Tablet and Desktop: make shrunk white bar 20% thicker (keep logo size unchanged) */
-@media (min-width: 601px) {
+/* iPads and Desktop: make shrunk white bar 80px height (keep logo size unchanged) */
+@media (min-width: 768px) {
   :root {
-    --header-shrunk-height: 67px; /* 56px * 1.2 ≈ 67px */
+    --header-shrunk-height: 80px; /* Set to 80px for desktop/iPad */
+  }
+  /* Reinforce in case any other rule interferes */
+  header.shrunk { height: var(--header-shrunk-height) !important; }
+  
+  /* Ensure content stays vertically centered in the taller bar */
+  header .header-left,
+  header .header-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Fix menu positioning - ensure it stays right-aligned */
+  header .header-right {
+    justify-content: flex-end;
   }
 }
 
@@ -525,6 +778,133 @@ footer {
 
 /* Utility for JS-controlled visibility (e.g., WhatsApp button) */
 .hidden { display: none !important; }
+
+/* ---------- Floating WhatsApp (desktop) ---------- */
+.floating-whatsapp {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2000;
+  background: #25D366;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  transition: box-shadow 0.2s, background 0.2s;
+  text-decoration: none;
+  font-size: 2em;
+  border: none;
+}
+.floating-whatsapp:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+  background: #128C7E;
+}
+.floating-whatsapp i {
+  color: #fff;
+  font-size: 2em;
+}
+@media (max-width: 600px) {
+  .floating-whatsapp {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3em;
+    right: 12px;
+    bottom: 80px;
+  }
+  .floating-whatsapp i {
+    font-size: 1.3em;
+  }
+}
+
+/* ---------- Tie page tight spacing overrides ---------- */
+/* Remove any breathing room around the tie details on tie pages */
+.tie-page .tie-details, .tie1-page .tie-details { margin: 0 !important; padding: 0 !important; }
+.tie-page .tie-details h2, .tie1-page .tie-details h2 {
+  margin: 0 auto !important; /* centered on desktop */
+  padding: 10px 16px !important; /* slightly tighter vertical padding */
+}
+@media (max-width: 1023px) {
+  .tie-page .tie-details h2, .tie1-page .tie-details h2 { width: 100%; margin: 0 !important; }
+}
+.tie-page .tie-carousel, .tie1-page .tie-carousel { margin: 0 !important; }
+.tie-page .carousel-container, .tie1-page .carousel-container { margin: 0 !important; }
+.tie-page .carousel-slide, .tie1-page .carousel-slide { padding: 0 !important; }
+.tie-page .carousel-slide img, .tie1-page .carousel-slide img { margin: 0 !important; }
+/* Minimize space above the Back to Collection link */
+.tie-page .tie-details p, .tie1-page .tie-details p { margin: 12px 0 12px 0 !important; padding: 0 !important; }
+@media (max-width: 767px) {
+  .tie-page .tie-details p, .tie1-page .tie-details p { margin: 10px 0 12px 0 !important; }
+}
+
+/* Inline Back + WhatsApp row on tie pages for tablet/phone */
+.tie-page .back-actions, .tie1-page .back-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.tie-page .back-actions .back-link-inline, .tie1-page .back-actions .back-link-inline {
+  color: var(--brand-blue);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05em;
+}
+.tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline {
+  display: none; /* hidden by default; enabled on tablet/phone */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+.tie-page .back-actions .whatsapp-inline i, .tie1-page .back-actions .whatsapp-inline i { font-size: 1.2em; color: #fff; }
+
+/* Show inline WhatsApp on tablet/phone (incl. iPad landscape), hide floating */
+@media (max-width: 1199px) {
+  .tie-page .back-actions, .tie1-page .back-actions {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* center column fits the back link */
+    align-items: center;
+    width: 100%;
+    padding: 0 14px; /* small side padding */
+    box-sizing: border-box;
+    gap: 8px;
+  }
+  .tie-page .back-actions .back-link-inline, .tie1-page .back-actions .back-link-inline {
+    grid-column: 2;
+    justify-self: center;
+  }
+  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline {
+    grid-column: 3;
+    justify-self: end;
+    display: inline-flex;
+    margin-right: 8px; /* a little inset from the right edge */
+  }
+  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp { display: none !important; }
+}
+/* Desktop: hide inline, keep floating */
+@media (min-width: 1200px) {
+  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline { display: none !important; }
+}
+
+/* Smartphone: make the image fill width and avoid side white bars */
+@media (max-width: 767px) {
+  .tie-page .carousel-slide, .tie1-page .carousel-slide { height: auto !important; }
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+}
 
 /* ---------- Hamburger and menu (all sizes) ---------- */
 /* Replace Contact link with menu button on all sizes */

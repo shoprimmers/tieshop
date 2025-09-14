@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
-  <title>Silk Tie 8 - Rimmer's Collection</title>
-  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="tie-page">
+  <!-- Floating WhatsApp for desktop; hidden on tablet/phone by CSS -->
+  <a href="https://wa.me/972535455468" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -59,15 +60,153 @@
       }
     }
   </style>
-    </div>
   </header>
-  <h2>R8 - Dark Blue and Red Tie - Satin Silk</h2>
-  <img src="images/satin-darkblue-red-drawn.jpg" alt="Silk Tie 8 Large" class="large">
-  <img src="images/satin-darkblue-red-drawn-back.webp" alt="Silk Tie 8 Large" class="large">
-  <img src="images/satin-darkblue-red-drawn-tongue.webp" alt="Silk Tie 8 Large" class="large">
-  <img src="images/satin-darkblue-red-drawn-body.webp" alt="Silk Tie 8 Large" class="large">
+  
+  <script>
+    // Mobile hamburger toggle for tie pages
+    (function() {
+      var toggle = document.querySelector('.menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      if (!toggle || !menu) return;
 
-  <!-- Back to main page -->
-  <p><a href="index.html">← Back to Collection</a></p>
+      function closeMenu() {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        try { toggle.blur(); } catch (e) {}
+      }
+      function openMenu() {
+        menu.classList.add('open');
+        toggle.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+      function toggleMenu() {
+        if (menu.classList.contains('open')) closeMenu(); else openMenu();
+      }
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+      document.addEventListener('click', function(e) {
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+          closeMenu();
+        }
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
+  </script>
+  
+  <div class="tie-details">
+    <h2>R8 - Dark Blue and Red Tie - Satin Silk</h2>
+    
+    <div class="tie-carousel">
+      <div class="carousel-container">
+        <div class="carousel-track" id="carousel-track">
+          <div class="carousel-slide">
+            <img src="images/satin-darkblue-red-drawn.jpg" alt="Dark Blue and Red Tie - Front View">
+          </div>
+          <div class="carousel-slide">
+            <img src="images/satin-darkblue-red-drawn-back.webp" alt="Dark Blue and Red Tie - Back View">
+          </div>
+          <div class="carousel-slide">
+            <img src="images/satin-darkblue-red-drawn-tongue.webp" alt="Dark Blue and Red Tie - Detail View">
+          </div>
+          <div class="carousel-slide">
+            <img src="images/satin-darkblue-red-drawn-body.webp" alt="Dark Blue and Red Tie - Full Body">
+          </div>
+        </div>
+        
+        <button class="carousel-nav prev" onclick="changeSlide(-1)">‹</button>
+        <button class="carousel-nav next" onclick="changeSlide(1)">›</button>
+      </div>
+      
+      <div class="carousel-indicators">
+        <button class="carousel-dot active" onclick="currentSlide(1)"></button>
+        <button class="carousel-dot" onclick="currentSlide(2)"></button>
+        <button class="carousel-dot" onclick="currentSlide(3)"></button>
+        <button class="carousel-dot" onclick="currentSlide(4)"></button>
+      </div>
+    </div>
+    
+    <!-- Back to main page -->
+    <p style="text-align: center; margin-top: 30px;">
+  <a href="index.html" class="back-link-inline">← Back to Collection</a>
+    </p>
+  </div>
+
+  <script>
+    // Image Carousel functionality
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const track = document.getElementById('carousel-track');
+
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+      
+      // Update active dot
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlideIndex);
+      });
+    }
+
+    function changeSlide(direction) {
+      currentSlideIndex += direction;
+      
+      if (currentSlideIndex >= slides.length) {
+        currentSlideIndex = 0;
+      } else if (currentSlideIndex < 0) {
+        currentSlideIndex = slides.length - 1;
+      }
+      
+      updateCarousel();
+    }
+
+    function currentSlide(index) {
+      currentSlideIndex = index - 1;
+      updateCarousel();
+    }
+
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let isDragging = false;
+
+    track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    });
+
+    track.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+    });
+
+    track.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      
+      const endX = e.changedTouches[0].clientX;
+      const diffX = startX - endX;
+      
+      if (Math.abs(diffX) > 50) { // Minimum swipe distance
+        if (diffX > 0) {
+          changeSlide(1); // Swipe left - next slide
+        } else {
+          changeSlide(-1); // Swipe right - previous slide
+        }
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        changeSlide(-1);
+      } else if (e.key === 'ArrowRight') {
+        changeSlide(1);
+      }
+    });
+  </script>
 </body>
 </html>
