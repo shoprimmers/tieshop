@@ -4,6 +4,7 @@
       "title": "R1 - Blue and Red Stars Tie - Satin Silk",
       "images": [
         {"src": "images/satin-red-and-blue-pattens.jpg", "alt": "Blue and Red Stars Tie - Front View"},
+        {"src": "images/satin-red-blue-closeup.jpg", "alt": "Blue and Red Stars Tie - Close-up Detail"},
         {"src": "images/satin-red-and-blue-pattens-behind.jpg", "alt": "Blue and Red Stars Tie - Back View"},
         {"src": "images/satin-red-and-blue-pattens-tongue.jpg", "alt": "Blue and Red Stars Tie - Detail View"},
         {"src": "images/satin-red-blue-body.jpg", "alt": "Blue and Red Stars Tie - Full Body"}
@@ -13,6 +14,7 @@
       "title": "R2 - Dark blue and Blue Stars Tie - Satin Silk",
       "images": [
         {"src": "images/satin-blue.jpg", "alt": "Dark Blue Stars Tie - Front View"},
+        {"src": "images/satin-blue-closeup.jpg", "alt": "Dark Blue Stars Tie - Close-up Detail"},
         {"src": "images/satin-blue-behind.jpg", "alt": "Dark Blue Stars Tie - Back View"},
         {"src": "images/satin-blue-tongue.jpg", "alt": "Dark Blue Stars Tie - Detail View"},
         {"src": "images/satin-blue-body.webp", "alt": "Dark Blue Stars Tie - Full Body"}
@@ -22,6 +24,7 @@
       "title": "R3 - Dark Blue and Grey Stars Tie - Satin Silk",
       "images": [
         {"src": "images/satin-darkgrey.jpg", "alt": "Dark Blue and Grey Stars Tie - Front View"},
+        {"src": "images/satin-darkgrey-closeup.jpg", "alt": "Dark Blue and Grey Stars Tie - Close-up Detail"},
         {"src": "images/satin-darkgrey-back.webp", "alt": "Dark Blue and Grey Stars Tie - Back View"},
         {"src": "images/satin-darkgrey-tongue.webp", "alt": "Dark Blue and Grey Stars Tie - Detail View"},
         {"src": "images/satin-darkgrey-body.webp", "alt": "Dark Blue and Grey Stars Tie - Full Body"}
@@ -31,6 +34,7 @@
       "title": "R4 - Dark Grey and Blue Stars Tie - Satin Silk",
       "images": [
         {"src": "images/satin-darkblue.jpg", "alt": "Dark Grey and Blue Stars Tie - Front View"},
+        {"src": "images/satin-darkblue-closeup.jpg", "alt": "Dark Grey and Blue Stars Tie - Close-up Detail"},
         {"src": "images/satin-darkblue-back.webp", "alt": "Dark Grey and Blue Stars Tie - Back View"},
         {"src": "images/satin-darkblue-tongue.webp", "alt": "Dark Grey and Blue Stars Tie - Detail View"},
         {"src": "images/satin-darkblue-body.webp", "alt": "Dark Grey and Blue Stars Tie - Full Body"}
@@ -40,6 +44,7 @@
       "title": "R5 - Red and Blue Lines Tie - Satin Silk",
       "images": [
         {"src": "images/satin-red-bluelines.jpg", "alt": "Red and Blue Lines Tie - Front View"},
+        {"src": "images/satin-redblue-lines-closeup.jpg", "alt": "Red and Blue Lines Tie - Close-up Detail"},
         {"src": "images/satin-redblue-lines-back.webp", "alt": "Red and Blue Lines Tie - Back View"},
         {"src": "images/satin-redblue-lines-tongue.webp", "alt": "Red and Blue Lines Tie - Detail View"},
         {"src": "images/satin-redblue-lines-body.webp", "alt": "Red and Blue Lines Tie - Full Body"}
@@ -49,6 +54,7 @@
       "title": "R6 - Light Blue and Blue Stars Tie - Satin Silk",
       "images": [
         {"src": "images/satin-light-blue-blue-starts.jpg", "alt": "Light Blue and Blue Stars Tie - Front View"},
+        {"src": "images/satin-lightblue-blue-stars.jpg", "alt": "Light Blue and Blue Stars Tie - Close-up Detail"},
         {"src": "images/satin-lightblue-stars-back.webp", "alt": "Light Blue and Blue Stars Tie - Back View"},
         {"src": "images/satin-lightblue-stars-tongue.webp", "alt": "Light Blue and Blue Stars Tie - Detail View"},
         {"src": "images/satin-lightblue-stars-body.webp", "alt": "Light Blue and Blue Stars Tie - Full Body"}
@@ -58,6 +64,7 @@
       "title": "R7 - Dark Grey and Blue Tie - Satin Silk",
       "images": [
         {"src": "images/satin-darkgreydrawn.jpg", "alt": "Dark Grey and Blue Tie - Front View"},
+        {"src": "images/satin-darkgreydrawn.closeup.jpg", "alt": "Dark Grey and Blue Tie - Close-up Detail"},
         {"src": "images/satin-darkgreydrawn-back.webp", "alt": "Dark Grey and Blue Tie - Back View"},
         {"src": "images/satin-darkgreydrawn-tongue.webp", "alt": "Dark Grey and Blue Tie - Detail View"},
         {"src": "images/satin-darkgrey-drawn-body.webp", "alt": "Dark Grey and Blue Tie - Full Body"}
@@ -67,6 +74,7 @@
       "title": "R8 - Dark Blue and Red Tie - Satin Silk",
       "images": [
         {"src": "images/satin-darkblue-red-drawn.jpg", "alt": "Dark Blue and Red Tie - Front View"},
+        {"src": "images/satin-darkblue-red-drawn-closeup.jpg", "alt": "Dark Blue and Red Tie - Close-up Detail"},
         {"src": "images/satin-darkblue-red-drawn-back.webp", "alt": "Dark Blue and Red Tie - Back View"},
         {"src": "images/satin-darkblue-red-drawn-tongue.webp", "alt": "Dark Blue and Red Tie - Detail View"},
         {"src": "images/satin-darkblue-red-drawn-body.webp", "alt": "Dark Blue and Red Tie - Full Body"}
@@ -76,6 +84,7 @@
       "title": "R9 - Light Blue and Dark Blue Tie - Satin Silk",
       "images": [
         {"src": "images/satin-lightblue-drawn.jpg", "alt": "Light Blue and Dark Blue Tie - Front View"},
+        {"src": "images/satin-lightblue-drawn-closeup.jpg", "alt": "Light Blue and Dark Blue Tie - Close-up Detail"},
         {"src": "images/satin-lightblue-drawn-back.webp", "alt": "Light Blue and Dark Blue Tie - Back View"},
         {"src": "images/satin-lightblue-drawn-tongue.webp", "alt": "Light Blue and Dark Blue Tie - Detail View"},
         {"src": "images/satin-lightblue-drawn-body.webp", "alt": "Light Blue and Dark Blue Tie - Full Body"}
@@ -85,6 +94,7 @@
       "title": "R10 - Blue Geometrics Tie - Satin Silk",
       "images": [
         {"src": "images/blue-geometrics.jpg", "alt": "Blue Geometrics Tie - Front View"},
+        {"src": "images/blue-geometrics-closeup.jpg", "alt": "Blue Geometrics Tie - Close-up Detail"},
         {"src": "images/satin-bluechains-back.webp", "alt": "Blue Geometrics Tie - Back View"},
         {"src": "images/satin-bluechains-tongue.webp", "alt": "Blue Geometrics Tie - Detail View"},
         {"src": "images/satin-lightblue-drawn-body.webp", "alt": "Blue Geometrics Tie - Full Body"}
@@ -94,6 +104,7 @@
       "title": "R11 - Navy Blue Tie with Light Blue Flowers - Satin Silk",
       "images": [
         {"src": "images/navyblue-flowers.jpg", "alt": "Navy Blue Tie with Light Blue Flowers - Front View"},
+        {"src": "images/navyblue-flowers-closeup.jpg", "alt": "Navy Blue Tie with Light Blue Flowers - Close-up Detail"},
         {"src": "images/blue-flowers-back.webp", "alt": "Navy Blue Tie with Light Blue Flowers - Back View"},
         {"src": "images/blue-flowers-tongue.webp", "alt": "Navy Blue Tie with Light Blue Flowers - Detail View"},
         {"src": "images/blue-flowers-body.webp", "alt": "Navy Blue Tie with Light Blue Flowers - Full Body"}
@@ -103,6 +114,7 @@
       "title": "R12 - Blue Avion and Bordeux Starts - Silk and Cotton",
       "images": [
         {"src": "images/silk-cotton-darkblue-redstars.jpg", "alt": "Blue Avion and Bordeux Starts - Front View"},
+        {"src": "images/silk-cotton-darkblue-redstars.closeup.jpg", "alt": "Blue Avion and Bordeux Starts - Close-up Detail"},
         {"src": "images/silk-cotton-darkblue-redstars-back.jpg", "alt": "Blue Avion and Bordeux Starts - Back View"},
         {"src": "images/silk-cotton-darkblue-redstars-tongue.jpg", "alt": "Blue Avion and Bordeux Starts - Detail View"},
         {"src": "images/silk-cotton-darkblue-redstars-body.webp", "alt": "Blue Avion and Bordeux Starts - Full Body"}
@@ -112,6 +124,7 @@
       "title": "R13 - Dark Blue and White Stars - Silk and Cotton",
       "images": [
         {"src": "images/silk-cotton-darkblue-stars.jpg", "alt": "Dark Blue and White Stars - Front View"},
+        {"src": "images/silk-cotton-blue-stars-closeup.jpg", "alt": "Dark Blue and White Stars - Close-up Detail"},
         {"src": "images/silk-cotton-darkblue-starts-back.webp", "alt": "Dark Blue and White Stars - Back View"},
         {"src": "images/silk-cotton-darkblue-stars-tongue.webp", "alt": "Dark Blue and White Stars - Detail View"},
         {"src": "images/silk-cotton-darkblue-body.webp", "alt": "Dark Blue and White Stars - Full Body"}
@@ -121,6 +134,7 @@
       "title": "R14 - Dark Blue and Red Tiny Patterns - Silk and Cotton",
       "images": [
         {"src": "images/darkblue-red-tinypaterns.jpg", "alt": "Dark Blue and Red Tiny Patterns - Front View"},
+        {"src": "images/darkblue-red-tinypaterns-closeup.jpg", "alt": "Dark Blue and Red Tiny Patterns - Close-up Detail"},
         {"src": "images/darkblue-red-tinypatterns.webp", "alt": "Dark Blue and Red Tiny Patterns - Back View"},
         {"src": "images/darkblue-red-tinypatterns-tongue.webp", "alt": "Dark Blue and Red Tiny Patterns - Detail View"}
       ]
@@ -129,6 +143,7 @@
       "title": "R15 - Dark Blue Tiny Patterns - Silk and Cotton",
       "images": [
         {"src": "images/darkblue-tinypaterns.jpg", "alt": "Dark Blue Tiny Patterns - Front View"},
+        {"src": "images/darkblue-tinypatterns.closeup.jpg", "alt": "Dark Blue Tiny Patterns - Close-up Detail"},
         {"src": "images/darkblue-tinypatterns-back.webp", "alt": "Dark Blue Tiny Patterns - Back View"},
         {"src": "images/darkblue-tinypatterns-body.webp", "alt": "Dark Blue Tiny Patterns - Full Body"}
       ]
@@ -137,6 +152,7 @@
       "title": "R16 - Dark Green and Black Stars Tie - Silk and Cotton",
       "images": [
         {"src": "images/silk-cotton-green-starts.jpg", "alt": "Dark Green and Black Stars - Front View"},
+        {"src": "images/silk-cotton-green-stars-closeup.jpg", "alt": "Dark Green and Black Stars - Close-up Detail"},
         {"src": "images/silk-cotton-green-back.jpg", "alt": "Dark Green and Black Stars - Back View"},
         {"src": "images/silk-cotton-green-tongue.jpg", "alt": "Dark Green and Black Stars - Detail View"},
         {"src": "images/silk-cotton-green-body.webp", "alt": "Dark Green and Black Stars - Full Body"}
@@ -146,6 +162,7 @@
       "title": "R17 - Eletric Blue with White Polka Dots - Silk and Cotton",
       "images": [
         {"src": "images/eletric-blue-polkadots.jpg", "alt": "Eletric Blue Polka Dots - Front View"},
+        {"src": "images/eletric-blue-polkadots-closeup.jpg", "alt": "Eletric Blue Polka Dots - Close-up Detail"},
         {"src": "images/eletric-blue-polkadots-back.webp", "alt": "Eletric Blue Polka Dots - Back View"},
         {"src": "images/eletricblue-polkadots-body.webp", "alt": "Eletric Blue Polka Dots - Full Body"}
       ]
@@ -154,6 +171,7 @@
       "title": "R18 - Blue Avion with White Polka Dots - Silk and Cotton",
       "images": [
         {"src": "images/blueavion-polkadots.webp", "alt": "Blue Avion White Dots - Front View"},
+        {"src": "images/blue-avion-polka-dots.jpg", "alt": "Blue Avion White Dots - Close-up Detail"},
         {"src": "images/blue-avion-polkadots-back.webp", "alt": "Blue Avion White Dots - Back View"},
         {"src": "images/blue-avion-polkadots-body.webp", "alt": "Blue Avion White Dots - Full Body"}
       ]
@@ -167,6 +185,15 @@
         {"src": "images/satin-darkblue-darkgreydrawn-back.webp", "alt": "R19 - Dark Blue and Grey - Back View"},
         {"src": "images/satin-darkblue-darkgreydrawn-tongue.webp", "alt": "R19 - Dark Blue and Grey - Tongue Detail"},
         {"src": "images/satin-darkblue-darkgreydrawn-body.webp", "alt": "R19 - Dark Blue and Grey - Full Body"}
+      ]
+    },
+    "20": {
+      "title": "Dark Blue With Squares",
+      "images": [
+        {"src": "images/verydarkblue-small-squares-face.jpg", "alt": "Dark Blue With Squares - Front View"},
+        {"src": "images/verydarkblue-small-squares-closeup.jpg", "alt": "Dark Blue With Squares - Close-up Detail"},
+        {"src": "images/verydarkblue-small-squares-back.jpg", "alt": "Dark Blue With Squares - Back View"},
+        {"src": "images/verydarkblue-small-squares-body.jpg", "alt": "Dark Blue With Squares - Full Body"}
       ]
     }
   }
