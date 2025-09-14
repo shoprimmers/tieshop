@@ -937,6 +937,7 @@ body:has(.tie-details) {
 
 /* Make anchor scroll account for sticky header height */
 #tie-collection { scroll-margin-top: var(--header-shrunk-height); }
+#collection-start { scroll-margin-top: calc(var(--header-shrunk-height) + 12px); }
 #tie-collection {
   margin-top: 0;          /* avoid any unintended offset */
   padding-top: 12px;      /* small breathing room under the bar to avoid hover overlap */
@@ -1320,27 +1321,14 @@ footer.site-footer .footer-right { text-align: right; }
   }
   /* Lower the floating WhatsApp on small screens */
   .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp {
-    /* Raise the button so it sits higher on the page (closer to the title area);
-       include safe-area inset for iOS bottom bar */
-    bottom: calc(112px + env(safe-area-inset-bottom));
+    bottom: 16px;
     right: 12px;
   }
 }
-/* Tablets only: show floating, hide inline to avoid duplication */
+/* Tablets only: show inline, hide floating to avoid duplication */
 @media (min-width: 768px) and (max-width: 1199px) {
-  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp { display: flex !important; }
-  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline { display: none !important; }
-}
-/* Phone-specific tweaks: raise floating WhatsApp higher to align near title/price */
-@media (max-width: 600px) {
-  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp {
-    bottom: calc(192px + env(safe-area-inset-bottom));
-  }
-}
-@media (min-width: 601px) and (max-width: 767px) {
-  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp {
-    bottom: calc(168px + env(safe-area-inset-bottom));
-  }
+  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp { display: none !important; }
+  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline { display: inline-flex !important; }
 }
 /* Desktop: hide inline, keep floating */
 @media (min-width: 1200px) {

@@ -124,7 +124,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20250915-1">
+  <link rel="stylesheet" href="css/style.css?v=20250915-2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -197,10 +197,12 @@
     (function() {
       var header = document.getElementById('site-header');
       if (!header) return;
-      var logo = header.querySelector('.logo');
-  var target = document.getElementById('tie-collection');
-  var firstCard = document.querySelector('#tie-collection .tie-card');
-  var anchor = document.getElementById('collection-start');
+  var logo = header.querySelector('.logo');
+  var hint = header.querySelector('.scroll-hint');
+    // Use a stable anchor just above the first row to avoid overshooting rows on mobile/Safari
+    var anchor = document.getElementById('collection-start');
+    var target = document.getElementById('tie-collection');
+    var firstCard = document.querySelector('#tie-collection .tie-card');
   var wa = document.querySelector('.floating-whatsapp');
       // Detect Safari (exclude Chrome/Chromium/Edge variants)
       var ua = navigator.userAgent || navigator.vendor || "";
@@ -215,7 +217,8 @@
   // Reveal the collection so cards animate in while the bar shrinks
   if (target) target.classList.add('revealed');
   try { sessionStorage.setItem('headerShrunk', '1'); } catch (e) {}
-        if (logo) logo.removeEventListener('click', onLogoClick, true);
+  if (logo) logo.removeEventListener('click', onLogoClick, true);
+  if (hint) hint.removeEventListener('click', onLogoClick, true);
         window.removeEventListener('scroll', onFirstScroll, true);
         // Show WhatsApp now that we're leaving fullscreen
         if (wa) wa.classList.remove('hidden');
@@ -225,7 +228,8 @@
           if (scrolled) return;
           scrolled = true;
           header.removeEventListener('transitionend', onEnded);
-          var el = firstCard || target || anchor;
+          // Prefer the explicit anchor, then the first card, then the whole section
+          var el = anchor || firstCard || target;
           if (!el) return;
 
           if (isSafari) {
@@ -253,10 +257,11 @@
             });
           } else {
             // Keep existing behavior for non-Safari browsers (e.g., Chrome)
-            var headerHeight = header.getBoundingClientRect().height || 56;
+            var root = document.documentElement;
+            var varVal = getComputedStyle(root).getPropertyValue('--header-shrunk-height') || '';
+            var headerHeight = parseFloat(varVal) || header.getBoundingClientRect().height || 56;
             var rect = el.getBoundingClientRect();
-            // Apply the same small gap under the bar for consistency
-            var y = window.scrollY + rect.top - headerHeight - 12;
+            var y = Math.round(window.scrollY + rect.top - headerHeight - 12);
             window.scrollTo({ top: y, behavior: 'smooth' });
           }
         }
@@ -282,6 +287,7 @@
           if (wa) wa.classList.remove('hidden');
         } else if (logo) {
           logo.addEventListener('click', onLogoClick, true);
+          if (hint) hint.addEventListener('click', onLogoClick, true);
           // Also collapse on first user scroll
           window.addEventListener('scroll', onFirstScroll, { passive: true, capture: true });
           // Hide WhatsApp while fullscreen
@@ -289,6 +295,7 @@
         }
       } catch (e) {
         if (logo) logo.addEventListener('click', onLogoClick, true);
+        if (hint) hint.addEventListener('click', onLogoClick, true);
         window.addEventListener('scroll', onFirstScroll, { passive: true, capture: true });
         if (wa) wa.classList.add('hidden');
       }
