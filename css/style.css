@@ -375,6 +375,10 @@ header.fullscreen ~ main#tie-collection .tie-card {
   border-top: 1px solid #e6e9ef;
 }
 
+/* Utility: hide pseudo content when measuring title height via JS (index only) */
+.tie-card h2.measuring::before,
+.tie-card h2.measuring::after { display: none !important; }
+
 /* Tie details page headings: mirror the catalog title styling */
 .tie-details h1,
 .tie-details h2 {
@@ -741,15 +745,49 @@ footer {
   header .scroll-hint { bottom: 18px; font-size: 0.8rem; }
 
   .gallery {
-    justify-content: space-around;
+    /* Glue cards together with shared 1px separators */
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0; /* no separation between cards */
+    justify-content: stretch;
+    align-items: stretch;
+    border-right: 1px solid #e6e9ef; /* close the grid on the far edge */
+    border-bottom: 1px solid #e6e9ef; /* close the grid along the bottom */
   }
 
   .tie-card {
-    /* Two per row on tablets, slightly larger and robust */
-    flex: 0 1 calc(50% - 10px); /* 20px total gap per row */
-    width: auto;
-    max-width: none;
+    /* In grid, each card contributes the top/left separator only to avoid double borders */
+    border: none;
+    border-top: 1px solid #e6e9ef;
+    border-left: 1px solid #e6e9ef;
+    box-sizing: border-box;
+    overflow: hidden; /* ensure content aligns with the border */
+    width: 100%;
+    padding: 10px; /* inset content so it doesn't touch the border */
   }
+
+  /* Shrink the whole content column slightly, keep left-aligned */
+  .tie-card a { display: block; width: 93%; margin: 0 auto; }
+  .tie-card img,
+  .tie-card h2 { width: 100%; }
+
+  /* Slightly smaller titles on tablet; align all text and divider to card padding */
+  .tie-card h2 { font-size: 0.95em; padding: 8px 0; }
+  .tie-card h2::before { padding-left: 0; padding-right: 0; }
+  .tie-card h2::after { padding-left: 0; padding-right: 0; font-size: 1.06em; }
+  /* Exactly three lines visible for the title text; keep space even if shorter */
+  .tie-card h2 .title-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    line-height: 1.18;
+    min-height: calc(1.18em * 3);
+    max-height: calc(1.18em * 3);
+  }
+  /* Keep uniform height for titles across all cards; do not change size per-card */
+  .tie-card h2.condensed { letter-spacing: 0.01em; }
 }
 
 /* iPad and small laptop portrait refinements */
@@ -779,25 +817,50 @@ footer {
   /* Even closer when the header is in fullscreen (big blue bar) */
   header.fullscreen .scroll-hint { bottom: 96px; }
 
-  /* Two-per-row layout on smartphones */
+  /* Two-per-row layout on smartphones: no gap, shared single-pixel separators */
   .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    justify-content: stretch;
     align-items: stretch;
-    gap: 12px; /* tighter gap to fit two nicely */
+    border-right: 1px solid #e6e9ef;
+    border-bottom: 1px solid #e6e9ef;
   }
 
   .tie-card {
-    /* Robust two-column sizing: exactly two per row from the first row */
-    flex: 0 1 calc(50% - 6px); /* half width minus half the gap */
-    width: auto;               /* let flex-basis control size */
-    max-width: none;
+    /* Provide only top/left borders so adjacent items share a single line */
     margin: 0;
+    border: none;
+    border-top: 1px solid #e6e9ef;
+    border-left: 1px solid #e6e9ef;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    padding: 8px; /* inset content so it doesn't touch the border */
   }
 
-  .tie-card h2 { font-size: 0.90em; }
-  .tie-card h2::before { font-size: 0.8em; }
+  /* Shrink the whole content column slightly, keep left-aligned */
+  .tie-card a { display: block; width: 93%; margin: 0 auto; }
+  .tie-card img,
+  .tie-card h2 { width: 100%; }
+
+  .tie-card h2 { font-size: 0.88em; padding: 6px 0; }
+  .tie-card h2::before { font-size: 0.78em; padding-left: 0; padding-right: 0; }
+  .tie-card h2::after { padding-left: 0; padding-right: 0; font-size: 1.04em; }
+  /* Exactly three lines visible for the title text; keep space even if shorter */
+  .tie-card h2 .title-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    line-height: 1.16;
+    min-height: calc(1.16em * 3);
+    max-height: calc(1.16em * 3);
+  }
+  /* Keep uniform height for titles across all cards; do not change size per-card */
+  .tie-card h2.condensed { letter-spacing: 0.01em; }
 
   .tie-details {
     width: 100%;
