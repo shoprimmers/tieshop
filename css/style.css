@@ -412,6 +412,8 @@ body:has(.tie-details) {
 
 /* Tie page info block mirrors index: brand label above title, brand blue text, no divider */
 .tie-info { background: white; color: var(--brand-blue); padding: 0; }
+/* Group title and price in one container for consistent left edge */
+.tie-header { display: block; }
 @media (max-width: 1023px) {
   /* Match the centered 93% column on small screens */
   .tie-info { width: 93%; margin: 0 auto; padding-left: 0; padding-right: 0; }
@@ -457,17 +459,25 @@ body:has(.tie-details) {
   font-variant-numeric: lining-nums; /* consistent numeral metrics */
 }
 @media (min-width: 1024px) {
-  .tie-details .tie-price { padding-left: 6px !important; padding-right: 0 !important; margin-left: 0 !important; }
+  /* Desktop: align price left edge exactly with title/brand */
+  .tie-details .tie-price {
+    position: relative;
+    margin-left: 0 !important;
+    padding-left: 14px !important; /* same inset as title */
+    padding-right: 0 !important;
+  }
+  /* Give the title the same inset so brand, title, and price share one line */
+  .tie-details .tie-info h2 { padding-left: 14px !important; padding-right: 0 !important; }
+  /* No special shifts for currency/digits now; both align from the same inset */
+  .tie-details .tie-price .currency { display: inline-block; margin-left: 0; }
+  .tie-details .tie-price .amount { display: inline-block; margin-left: 0; }
 }
 
 /* Ensure new tie-info heading is not stretched full-width by older rules */
 @media (max-width: 1023px) {
   .tie-details .tie-info h2 { width: auto !important; max-width: none !important; margin: 0 !important; }
 }
-/* Ensure desktop h2 has no side padding so price aligns perfectly */
-@media (min-width: 1024px) {
-  .tie-details .tie-info h2 { padding-left: 0 !important; padding-right: 0 !important; }
-}
+/* Desktop h2 aligns with price using the shared inset (set below) */
 
 /* Match index: clamp title to exactly three lines on small screens */
 @media (max-width: 900px) {

@@ -97,8 +97,10 @@
 
     <!-- Info block below the images: brand label (via CSS), title, and price -->
     <div class="tie-info">
-      <h2 id="tie-title"><span class="title-text">Loading...</span></h2>
-      <div id="tie-price" class="tie-price">₪350,00</div>
+      <div class="tie-header">
+        <h2 id="tie-title"><span class="title-text">Loading...</span></h2>
+        <div id="tie-price" class="tie-price">₪350,00</div>
+      </div>
     </div>
 
     <p class="back-actions">
@@ -125,7 +127,15 @@
         const span = titleEl.querySelector('.title-text');
         if (span) span.textContent = tie.title; else titleEl.textContent = tie.title;
       }
-      if (priceEl) priceEl.textContent = (tie.price || '₪350,00');
+      if (priceEl) {
+        const raw = (tie.price || '₪350,00').toString().trim();
+        const hasSymbol = raw.startsWith('₪');
+        const amount = hasSymbol ? raw.slice(1) : raw;
+        priceEl.innerHTML = `${hasSymbol ? '<span class="currency" aria-hidden="true">₪</span>' : ''}<span class="amount">${amount}</span>`;
+        if (hasSymbol) {
+          try { priceEl.setAttribute('aria-label', `NIS ${amount}`); } catch(e) {}
+        }
+      }
 
       // Slides
       track.innerHTML = '';

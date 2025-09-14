@@ -158,5 +158,16 @@
         {"src": "images/blue-avion-polkadots-body.webp", "alt": "Blue Avion White Dots - Full Body"}
       ]
     }
+    ,
+    "19": {
+      "title": "R19 - Dark Blue and Grey - Satin Silk",
+      "images": [
+        {"src": "images/satin-darkblue-greydrawn-face.jpg", "alt": "R19 - Dark Blue and Grey - Front View"},
+        {"src": "images/satin-darkblue-greydrawn-closeup.jpg", "alt": "R19 - Dark Blue and Grey - Detail View"},
+        {"src": "images/satin-darkblue-darkgreydrawn-back.webp", "alt": "R19 - Dark Blue and Grey - Back View"},
+        {"src": "images/satin-darkblue-darkgreydrawn-tongue.webp", "alt": "R19 - Dark Blue and Grey - Tongue Detail"},
+        {"src": "images/satin-darkblue-darkgreydrawn-body.webp", "alt": "R19 - Dark Blue and Grey - Full Body"}
+      ]
+    }
   }
 }
