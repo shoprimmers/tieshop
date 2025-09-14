@@ -473,6 +473,11 @@ body:has(.tie-details) {
   .tie-details .tie-price .amount { display: inline-block; margin-left: 0; }
 }
 
+/* Tablet: tighten price closer to the title on tie pages only */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tie-page .tie-price, .tie1-page .tie-price { margin-top: 2px !important; }
+}
+
 /* Ensure new tie-info heading is not stretched full-width by older rules */
 @media (max-width: 1023px) {
   .tie-details .tie-info h2 { width: auto !important; max-width: none !important; margin: 0 !important; }
@@ -492,11 +497,32 @@ body:has(.tie-details) {
     max-height: calc(1.18em * 3);
   }
 }
+/* On tie pages, do not reserve extra height under the title on mobile/tablet */
+@media (max-width: 900px) {
+  .tie-page .tie-info h2 .title-text, .tie1-page .tie-info h2 .title-text {
+    display: inline !important;
+    -webkit-box-orient: initial !important;
+    line-clamp: initial !important;
+    -webkit-line-clamp: initial !important;
+    overflow: visible !important;
+    line-height: 1.18 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+}
 @media (max-width: 600px) {
   .tie-info h2 .title-text {
     line-height: 1.16;
     min-height: calc(1.16em * 3);
     max-height: calc(1.16em * 3);
+  }
+}
+/* Phones: remove reserved height on tie pages as well */
+@media (max-width: 600px) {
+  .tie-page .tie-info h2 .title-text, .tie1-page .tie-info h2 .title-text {
+    line-height: 1.16 !important;
+    min-height: 0 !important;
+    max-height: none !important;
   }
 }
 
@@ -514,6 +540,41 @@ body:has(.tie-details) {
     margin-top: 0; /* rely only on internal padding-top for top spacing */
   }
   .carousel-container { padding: 0; }
+}
+
+/* Mobile/tablet: align price left edge with title left edge on tie pages */
+@media (max-width: 1023px) {
+  /* Title uses 12px horizontal padding on tie pages; mirror the same on price */
+  .tie-page .tie-price, .tie1-page .tie-price {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  .tie-page .tie-price .currency, .tie1-page .tie-price .currency,
+  .tie-page .tie-price .amount, .tie1-page .tie-price .amount {
+    display: inline-block;
+    margin-left: 0;
+  }
+}
+
+/* Tie pages (mobile/tablet): stack title and price tightly in same container */
+@media (max-width: 1023px) {
+  .tie-page .tie-header, .tie1-page .tie-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 1px; /* ultra-tight on tablet */
+  }
+  .tie-page .tie-info h2, .tie1-page .tie-info h2 {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important; /* remove any bottom padding */
+  }
+  .tie-page .tie-price, .tie1-page .tie-price {
+    margin-top: 0 !important; /* rely on grid gap above */
+    padding-top: 0 !important;
+    line-height: 1.1;
+  }
+}
+@media (max-width: 767px) {
+  .tie-page .tie-header, .tie1-page .tie-header { row-gap: 0; }
 }
 
 /* Back to Collection button styling */
@@ -817,7 +878,8 @@ body:has(.tie-details) {
 
   /* Make tie detail titles more compact on phones (aim for 1–2 lines) */
   .tie-details h2 { font-size: 0.9rem; letter-spacing: 0.03em; line-height: 1.15; padding: 10px 12px; text-wrap: balance; }
-  .tie-price { margin-top: 2px; }
+  /* Phone: pull price even closer to title on tie pages only */
+  .tie-page .tie-price, .tie1-page .tie-price { margin-top: 1px !important; }
 }
 
 /* Mobile/tablet: move numeric pill to lower-right; keep tighter right, restore bottom gap */
@@ -895,15 +957,43 @@ body:has(.tie-details) {
 }
 
 /* ---------------- FOOTER ---------------- */
-footer {
-  text-align: center;
-  padding: 15px 0;
+/* Legacy footer base (kept for backwards compatibility) */
+footer { position: relative; width: 100%; }
+
+/* New site footer bar: brand blue background, white logo/text */
+footer.site-footer {
   background: var(--brand-blue);
-  color: white;
-  margin-top: 40px;
-  width: 100vw;
-  left: 0;
-  position: relative;
+  color: #ffffff;
+  padding: 16px 12px;
+}
+footer.site-footer a { color: #ffffff; text-decoration: none; }
+footer.site-footer a:hover { text-decoration: underline; }
+
+footer.site-footer .footer-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+footer.site-footer .footer-left { display: flex; align-items: center; gap: 10px; }
+footer.site-footer .footer-logo { display: inline-flex; align-items: center; }
+footer.site-footer .footer-logo img {
+  height: 34px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1); /* make dark SVG appear white */
+}
+footer.site-footer .footer-center { text-align: center; flex: 1; }
+footer.site-footer .footer-center p { margin: 0; font-weight: 600; letter-spacing: 0.01em; }
+footer.site-footer .footer-right { text-align: right; }
+
+/* Mobile/tablet: stack items and center */
+@media (max-width: 900px) {
+  footer.site-footer .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 8px; }
+  footer.site-footer .footer-left, footer.site-footer .footer-right { width: 100%; justify-content: center; }
+  footer.site-footer .footer-right { display: none; }
 }
 
 /* ---------------- RESPONSIVE DESIGN ---------------- */
@@ -1160,7 +1250,7 @@ footer {
   padding: 10px 16px !important; /* slightly tighter vertical padding */
 }
 @media (max-width: 1023px) {
-  .tie-page .tie-details h2, .tie1-page .tie-details h2 { width: 100%; margin: 0 !important; }
+  .tie-page .tie-details h2, .tie1-page .tie-details h2 { width: 100%; margin: 0 !important; padding: 8px 12px 2px !important; }
 }
 .tie-page .carousel-container, .tie1-page .carousel-container { margin: 0 !important; }
 .tie-page .carousel-slide, .tie1-page .carousel-slide { padding: 0 !important; }
@@ -1168,6 +1258,16 @@ footer {
 .tie-page .tie-details p, .tie1-page .tie-details p { margin: 12px 0 12px 0 !important; padding: 0 !important; }
 @media (max-width: 767px) {
   .tie-page .tie-details p, .tie1-page .tie-details p { margin: 10px 0 12px 0 !important; }
+}
+/* Only remove slide padding on mobile/tablet so desktop top/bottom borders remain visible */
+@media (max-width: 1023px) {
+  .tie-page .carousel-slide, .tie1-page .carousel-slide { padding: 0 !important; }
+}
+/* Minimize space above the Back to Collection link */
+/* Reassert desktop slide padding so image top/bottom borders are never clipped */
+@media (min-width: 1024px) {
+  .tie-page .carousel-slide, .tie1-page .carousel-slide { padding-top: 10px !important; padding-bottom: 14px !important; }
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img { border: 1px solid #e6e9ef !important; }
 }
 
 /* Inline Back + WhatsApp row on tie pages for tablet/phone */
@@ -1220,14 +1320,27 @@ footer {
   }
   /* Lower the floating WhatsApp on small screens */
   .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp {
-    bottom: 16px;
+    /* Raise the button so it sits higher on the page (closer to the title area);
+       include safe-area inset for iOS bottom bar */
+    bottom: calc(112px + env(safe-area-inset-bottom));
     right: 12px;
   }
 }
-/* Tablets only: show inline, hide floating to avoid duplication */
+/* Tablets only: show floating, hide inline to avoid duplication */
 @media (min-width: 768px) and (max-width: 1199px) {
-  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp { display: none !important; }
-  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline { display: inline-flex !important; }
+  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp { display: flex !important; }
+  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline { display: none !important; }
+}
+/* Phone-specific tweaks: raise floating WhatsApp higher to align near title/price */
+@media (max-width: 600px) {
+  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp {
+    bottom: calc(192px + env(safe-area-inset-bottom));
+  }
+}
+@media (min-width: 601px) and (max-width: 767px) {
+  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp {
+    bottom: calc(168px + env(safe-area-inset-bottom));
+  }
 }
 /* Desktop: hide inline, keep floating */
 @media (min-width: 1200px) {

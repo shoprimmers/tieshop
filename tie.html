@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Silk Tie - Rimmer's Collection</title>
-  <link rel="stylesheet" href="css/style.css?v=20250914-4">
+  <link rel="stylesheet" href="css/style.css?v=20250915-4">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="tie-page tie-page-body">
@@ -231,8 +231,18 @@
       if (nextBtn) nextBtn.addEventListener('click', function(){ changeSlide(1); });
     })();
   </script>
-  <footer>
-    <p>&copy; 2025 Rimmer’s Luxury Ties · <a href="accessibility.html">Accessibility</a></p>
+  <footer class="site-footer" role="contentinfo" aria-label="Site footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <a href="index.html" class="footer-logo" aria-label="Rimmer's Home">
+          <img src="images/logo.svg" alt="Rimmer's Logo" />
+        </a>
+      </div>
+      <div class="footer-center">
+        <p>Website designed by Daniel Rimmer · <a href="accessibility.html">Accessibility</a></p>
+      </div>
+      <div class="footer-right"></div>
+    </div>
   </footer>
 </body>
 </html>
