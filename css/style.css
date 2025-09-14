@@ -586,6 +586,15 @@ body:has(.tie-details) {
     right: 15px;
     padding-left: 1px;
   }
+
+  /* Make tie detail titles more compact on phones (aim for 1–2 lines) */
+  .tie-details h2 {
+    font-size: 0.9rem;
+    letter-spacing: 0.03em; /* tighter than desktop */
+    line-height: 1.15;      /* compact lines */
+    padding: 10px 12px;     /* slightly tighter padding */
+    text-wrap: balance;     /* prefer balanced wrapping when supported */
+  }
 }
 
 /* Large tie images */
