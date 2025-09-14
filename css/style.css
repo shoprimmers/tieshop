@@ -820,13 +820,13 @@ body:has(.tie-details) {
   .tie-price { margin-top: 2px; }
 }
 
-/* Mobile/tablet: move numeric pill to lower-right inside the border and lift it slightly */
+/* Mobile/tablet: move numeric pill to lower-right; keep tighter right, restore bottom gap */
 @media (max-width: 1023px) {
-  .carousel-numeric { right: 14px; left: auto; transform: none; bottom: 22px; }
+  .carousel-numeric { left: auto; transform: none; bottom: 19px; right: 9px; }
 }
-/* Phones: move numeric pill a bit further left for nicer spacing from right border */
+/* Phones: same spacing for consistency */
 @media (max-width: 767px) {
-  .carousel-numeric { right: 24px; }
+  .carousel-numeric { bottom: 19px; right: 9px; }
 }
 
 /* Final mobile/tablet centering overrides: ensure equal 14px gap on both sides */
@@ -1392,4 +1392,58 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     width: 100%;
     max-width: 270px; /* ~25% smaller maximum for desktop fullscreen */
   }
+  /* Wide promo card spans two columns and aligns with the grid gaps */
+  .gallery .promo-card {
+    grid-column: span 2;
+    width: 100%;
+    max-width: none;
+    justify-self: stretch; /* fill grid area */
+    align-self: stretch;
+    background: #ffffff;
+    box-shadow: none;
+    overflow: hidden; /* crop image cleanly */
+    aspect-ratio: 2 / 1; /* roughly two cards wide by one tall */
+  }
+  .gallery .promo-card .promo-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* fill area like a poster */
+    object-position: 50% 50%; /* default center focus */
+  }
+}
+
+/* Phones: 2-column grid — make promo span both (two slots) */
+@media (max-width: 600px) {
+  .gallery .promo-card {
+    grid-column: 1 / -1; /* spans both columns */
+    width: 100%;
+    aspect-ratio: 2 / 1.8; /* taller on phones to match card height */
+    overflow: hidden;
+  }
+  .gallery .promo-card .promo-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; display: block; /* show more blazer/tie, less face */
+  }
+}
+/* Small tablets: 3-column grid — make promo span 2 of 3 */
+@media (min-width: 601px) and (max-width: 900px) {
+  .gallery .promo-card {
+    grid-column: span 2;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+  }
+  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+}
+/* Large tablets (flex layout): approximate two-card width using flex-basis */
+@media (min-width: 901px) and (max-width: 1199px) {
+  .gallery .promo-card {
+    display: block;
+    flex: 0 0 calc((250px * 2) + 12px); /* 2 cards + one gap (gap is 12px in this range) */
+    width: calc((250px * 2) + 12px);
+    max-width: calc((250px * 2) + 12px);
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+  }
+  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 }
