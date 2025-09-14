@@ -410,16 +410,84 @@ body:has(.tie-details) {
   background-color: white !important;
 }
 
-.tie-details h2 {
-  text-align: center;
-  margin: 0 auto;
-  padding: 15px 20px;
-  background: var(--brand-blue);
-  color: white;
-  max-width: fit-content;
-  border-radius: 0;
-  font-weight: 600;
-  box-sizing: border-box;
+/* Tie page info block mirrors index: brand label above title, brand blue text, no divider */
+.tie-info { background: white; color: var(--brand-blue); padding: 0; }
+@media (max-width: 1023px) {
+  /* Match the centered 93% column on small screens */
+  .tie-info { width: 93%; margin: 0 auto; padding-left: 0; padding-right: 0; }
+}
+.tie-info h2 {
+  background: transparent;
+  color: var(--brand-blue);
+  text-align: left;
+  margin: 0;
+  padding: 8px 0 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.18;
+  font-size: 1rem; /* match price size */
+}
+.tie-info h2::before {
+  content: 'Rimmer’s';
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.003em;
+  color: #9aa3b2; /* light gray like index */
+  font-size: 0.82em;
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+@media (min-width: 1024px) {
+  .tie-info h2 { padding-top: 0; }
+  .tie-info h2::before { margin-bottom: 2px; line-height: 1; }
+}
+.tie-info .title-text { display: inline; }
+.tie-price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--brand-blue);
+  margin-top: 4px; /* tighter to the title */
+  /* Align currency symbol with title start */
+  padding-left: 0;
+  text-indent: 0; /* avoid any optical indent from previous styles */
+  font-variant-numeric: lining-nums; /* consistent numeral metrics */
+}
+@media (min-width: 1024px) {
+  .tie-details .tie-price { padding-left: 6px !important; padding-right: 0 !important; margin-left: 0 !important; }
+}
+
+/* Ensure new tie-info heading is not stretched full-width by older rules */
+@media (max-width: 1023px) {
+  .tie-details .tie-info h2 { width: auto !important; max-width: none !important; margin: 0 !important; }
+}
+/* Ensure desktop h2 has no side padding so price aligns perfectly */
+@media (min-width: 1024px) {
+  .tie-details .tie-info h2 { padding-left: 0 !important; padding-right: 0 !important; }
+}
+
+/* Match index: clamp title to exactly three lines on small screens */
+@media (max-width: 900px) {
+  .tie-info h2 .title-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    line-height: 1.18;
+    min-height: calc(1.18em * 3);
+    max-height: calc(1.18em * 3);
+  }
+}
+@media (max-width: 600px) {
+  .tie-info h2 .title-text {
+    line-height: 1.16;
+    min-height: calc(1.16em * 3);
+    max-height: calc(1.16em * 3);
+  }
 }
 
 /* Ensure no gaps on mobile and tablet */
@@ -428,14 +496,14 @@ body:has(.tie-details) {
     margin: 0;
     padding: 0;
   }
-  .tie-details h2 {
-    width: 100vw;
-    margin: 0;
-    max-width: none;
-  }
+  /* Center the image area and add space below the white bar */
   .tie-carousel {
-    margin: 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0; /* fill full width */
+    margin-top: 0; /* rely only on internal padding-top for top spacing */
   }
+  .carousel-container { padding: 0; }
 }
 
 /* Back to Collection button styling */
@@ -480,6 +548,8 @@ body:has(.tie-details) {
   width: 100%;
   overflow: hidden;
   background: white;
+  border: none; /* border will hug the image itself */
+  box-sizing: border-box;
 }
 
 .carousel-track {
@@ -507,6 +577,9 @@ body:has(.tie-details) {
   display: block;
   object-fit: contain;
   border-radius: 0;
+  border: 1px solid #e6e9ef; /* thin gray border around the image itself */
+  /* Ensure border is visible on top/bottom and image is centered */
+  margin: 10px auto;
 }
 
 .carousel-nav {
@@ -545,12 +618,32 @@ body:has(.tie-details) {
   padding-left: 2px;
 }
 
-.carousel-indicators {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 0 6px;
+/* Hide dots on tie pages; use numeric indicator instead */
+.carousel-indicators { display: none !important; }
+.tie-page .carousel-nav { display: none !important; }
+
+/* Numeric pager styled as rounded pill like sample site */
+.carousel-numeric {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.92);
+  color: var(--brand-blue);
+  border: 1px solid #e6e9ef;
+  border-radius: 999px; /* pill */
+  padding: 6px 12px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+@media (min-width: 1024px) {
+  .carousel-numeric { display: none; }
+  .tie-page .carousel-nav { display: flex !important; }
+  .carousel-nav.prev { left: 12px; }
+  .carousel-nav.next { right: 12px; }
 }
 
 .carousel-dot {
@@ -574,29 +667,74 @@ body:has(.tie-details) {
   background: #bbb;
 }
 
+/* Desktop: image column ends at screen center; info on the right */
+@media (min-width: 1024px) {
+  .tie-details {
+    display: grid;
+    grid-template-columns: minmax(0, 50vw) 1fr; /* image column right edge at center */
+    gap: 24px;
+    align-items: start;
+    width: 100vw;
+    max-width: none;
+    margin: 0 auto;
+    padding: 16px 0; /* no side padding so center alignment is exact */
+    box-sizing: border-box;
+  }
+  .tie-carousel { grid-column: 1; justify-self: end; }
+  .tie-info { grid-column: 2; padding: 0; align-self: start; }
+}
+
 /* Responsive carousel sizing */
 @media (min-width: 1024px) {
   .tie-carousel {
     max-width: 100%;
-    margin: 0 auto;
+    margin: 24px auto 0; /* more space under the white bar on desktop */
   }
   .carousel-slide {
     height: 85vh;
     max-height: none;
   }
-  .carousel-nav.prev {
-    left: calc(50% - 300px);
-  }
-  .carousel-nav.next {
-    right: calc(50% - 300px);
-  }
+  /* Ensure top and bottom image borders are not clipped */
+  .tie-page .carousel-slide, .tie1-page .carousel-slide { padding-top: 10px !important; padding-bottom: 14px !important; }
+  /* Place arrows near the image border edges */
+  .carousel-nav.prev { left: 12px; }
+  .carousel-nav.next { right: 12px; }
+  /* Shrink image slightly inside its area on desktop */
+  .carousel-slide img { max-width: 85%; margin: 18px auto 18px; border: 1px solid #e6e9ef; }
+}
+
+/* Desktop: shrink image slightly inside its border */
+@media (min-width: 1024px) {
+  .carousel-container { padding: 6px; }
+}
+/* Remove desktop padding since border is on image now */
+@media (min-width: 1024px) {
+  .carousel-container { padding: 0; }
+}
+
+/* Desktop: align tie-info with image column visually */
+@media (min-width: 1024px) {
+  .tie-info { max-width: 600px; margin-top: 42px; }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+  /* Center the carousel and keep it visually aligned with tie-info */
   .tie-carousel {
-    max-width: 100%;
-    margin: 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0; /* rely only on padding-top */
+    padding-top: 19px; /* top gap */
+    padding-left: 19px; /* equal side gap */
+    padding-right: 19px; /* equal side gap */
+    box-sizing: border-box;
   }
+  /* Use image margins instead of container padding for precise border alignment */
+  .carousel-container { padding: 0; }
+  /* Prevent image border from overflowing container width */
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img { box-sizing: border-box; }
+  /* Image uses full content width inside padded carousel */
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img { width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
   .carousel-slide {
     height: 75vh;
     max-height: none;
@@ -619,10 +757,18 @@ body:has(.tie-details) {
 
 @media (max-width: 767px) {
   .tie-carousel {
-    max-width: 100%;
-    margin: 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0; /* rely only on padding-top */
     border-radius: 0;
+    padding-top: 19px; /* top gap */
+    padding-left: 19px; /* equal side gap */
+    padding-right: 19px; /* equal side gap */
+    box-sizing: border-box;
   }
+  /* Ensure the image is centered within the container */
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img { display: block; margin-left: auto; margin-right: auto; }
   .carousel-slide {
     height: 70vh;
     max-height: none;
@@ -646,14 +792,47 @@ body:has(.tie-details) {
     padding-left: 1px;
   }
 
-  /* Make tie detail titles more compact on phones (aim for 1–2 lines) */
-  .tie-details h2 {
-    font-size: 0.9rem;
-    letter-spacing: 0.03em; /* tighter than desktop */
-    line-height: 1.15;      /* compact lines */
-    padding: 10px 12px;     /* slightly tighter padding */
-    text-wrap: balance;     /* prefer balanced wrapping when supported */
+  /* Use container padding and full-width image for precise equal gaps */
+  .carousel-container { padding: 0; }
+  /* Prevent image border from overflowing container width */
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img { box-sizing: border-box; }
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    object-fit: contain !important;
   }
+
+  /* Make tie detail titles more compact on phones (aim for 1–2 lines) */
+  .tie-details h2 { font-size: 0.9rem; letter-spacing: 0.03em; line-height: 1.15; padding: 10px 12px; text-wrap: balance; }
+  .tie-price { margin-top: 2px; }
+}
+
+/* Mobile/tablet: move numeric pill to lower-right inside the border and lift it slightly */
+@media (max-width: 1023px) {
+  .carousel-numeric { right: 14px; left: auto; transform: none; bottom: 22px; }
+}
+/* Phones: move numeric pill a bit further left for nicer spacing from right border */
+@media (max-width: 767px) {
+  .carousel-numeric { right: 24px; }
+}
+
+/* Final mobile/tablet centering overrides: ensure equal 14px gap on both sides */
+@media (max-width: 1023px) {
+  .tie-page .carousel-container, .tie1-page .carousel-container { padding-left: 0 !important; padding-right: 0 !important; }
+  /* Override previous image margin tweaks: rely on carousel padding for equal gaps */
+  .tie-page .carousel-slide img, .tie1-page .carousel-slide img {
+    box-sizing: border-box !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important; /* ensure only 19px padding creates top gap */
+  }
+  /* Anchor image to the top of the slide so vertical centering doesn't add extra top space */
+  .tie-page .carousel-slide, .tie1-page .carousel-slide { align-items: flex-start !important; }
 }
 
 /* Large tie images */
@@ -955,26 +1134,12 @@ footer {
 .whatsapp-overlay { display: none; }
 @media (max-width: 767px) {
   /* Ensure the carousel can host absolutely positioned children */
-  .tie-page .carousel-container { position: relative; }
-  .tie-page .whatsapp-overlay {
-    display: inline-flex;
-    position: absolute;
-    right: 12px;
-    bottom: 12px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #25D366;
-    color: #fff;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
-    z-index: 11; /* above nav arrows (which are ~10) */
-  }
-  .tie-page .whatsapp-overlay i { font-size: 1.3em; color: #fff; }
-  /* Avoid duplicate inline WhatsApp on phones */
-  .tie-page .back-actions .whatsapp-inline { display: none !important; }
+  .tie-page .carousel-container, .tie1-page .carousel-container { position: relative; }
+  /* Remove over-image WA bubble; use inline button next to Back link */
+  .tie-page .whatsapp-overlay, .tie1-page .whatsapp-overlay { display: none !important; }
+  .tie-page .whatsapp-overlay i, .tie1-page .whatsapp-overlay i { font-size: 1.3em; color: #fff; }
+  /* Phones: show floating only; hide inline to avoid duplication */
+  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline { display: none !important; }
 }
 
 /* ---------- Tie page tight spacing overrides ---------- */
@@ -987,10 +1152,8 @@ footer {
 @media (max-width: 1023px) {
   .tie-page .tie-details h2, .tie1-page .tie-details h2 { width: 100%; margin: 0 !important; }
 }
-.tie-page .tie-carousel, .tie1-page .tie-carousel { margin: 0 !important; }
 .tie-page .carousel-container, .tie1-page .carousel-container { margin: 0 !important; }
 .tie-page .carousel-slide, .tie1-page .carousel-slide { padding: 0 !important; }
-.tie-page .carousel-slide img, .tie1-page .carousel-slide img { margin: 0 !important; }
 /* Minimize space above the Back to Collection link */
 .tie-page .tie-details p, .tie1-page .tie-details p { margin: 12px 0 12px 0 !important; padding: 0 !important; }
 @media (max-width: 767px) {
@@ -1045,7 +1208,16 @@ footer {
     display: inline-flex;
     margin-right: 8px; /* a little inset from the right edge */
   }
+  /* Lower the floating WhatsApp on small screens */
+  .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp {
+    bottom: 16px;
+    right: 12px;
+  }
+}
+/* Tablets only: show inline, hide floating to avoid duplication */
+@media (min-width: 768px) and (max-width: 1199px) {
   .tie-page .floating-whatsapp, .tie1-page .floating-whatsapp { display: none !important; }
+  .tie-page .back-actions .whatsapp-inline, .tie1-page .back-actions .whatsapp-inline { display: inline-flex !important; }
 }
 /* Desktop: hide inline, keep floating */
 @media (min-width: 1200px) {

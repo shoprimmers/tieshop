@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Silk Tie - Rimmer's Collection</title>
-  <link rel="stylesheet" href="css/style.css?v=20250914-3">
+  <link rel="stylesheet" href="css/style.css?v=20250914-4">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="tie-page tie-page-body">
@@ -74,24 +74,31 @@
   <main id="main">
   <h1 class="sr-only">Tie details</h1>
   <div class="tie-details">
-    <h2 id="tie-title">Loading...</h2>
-
     <div class="tie-carousel" role="region" aria-roledescription="carousel" aria-label="Tie image gallery">
       <div class="carousel-container">
         <div class="carousel-track" id="carousel-track">
           <!-- Slides injected by JS -->
         </div>
+        <!-- Desktop-only navigation arrows (hidden on mobile/tablet via CSS) -->
+        <button class="carousel-nav prev" type="button" aria-label="Previous image" title="Previous">
+          <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button class="carousel-nav next" type="button" aria-label="Next image" title="Next">
+          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
         <!-- Smartphone-only WhatsApp overlay (positioned bottom-left over the image) -->
         <a href="https://wa.me/972535455468" target="_blank" rel="noopener" class="whatsapp-overlay" aria-label="Chat on WhatsApp">
           <i class="fab fa-whatsapp"></i>
         </a>
-        <button class="carousel-nav prev" onclick="changeSlide(-1)" aria-label="Previous image" aria-controls="carousel-track">‹</button>
-        <button class="carousel-nav next" onclick="changeSlide(1)" aria-label="Next image" aria-controls="carousel-track">›</button>
+  <div id="carousel-numeric" class="carousel-numeric" aria-live="polite" aria-atomic="true">1/1</div>
       </div>
-      <div class="carousel-indicators" id="carousel-indicators" role="tablist" aria-label="Select image">
-          <!-- Dots injected by JS -->
-      </div>
-        <p id="carousel-status" class="sr-only" aria-live="polite"></p>
+      <p id="carousel-status" class="sr-only" aria-live="polite"></p>
+    </div>
+
+    <!-- Info block below the images: brand label (via CSS), title, and price -->
+    <div class="tie-info">
+      <h2 id="tie-title"><span class="title-text">Loading...</span></h2>
+      <div id="tie-price" class="tie-price">₪350,00</div>
     </div>
 
     <p class="back-actions">
@@ -110,11 +117,18 @@
 
     function renderTie(tie) {
       const titleEl = document.getElementById('tie-title');
+      const priceEl = document.getElementById('tie-price');
       const track = document.getElementById('carousel-track');
-      const indicators = document.getElementById('carousel-indicators');
-      titleEl.textContent = tie.title;
+      const numeric = document.getElementById('carousel-numeric');
+      // Title and price
+      if (titleEl) {
+        const span = titleEl.querySelector('.title-text');
+        if (span) span.textContent = tie.title; else titleEl.textContent = tie.title;
+      }
+      if (priceEl) priceEl.textContent = (tie.price || '₪350,00');
+
+      // Slides
       track.innerHTML = '';
-      indicators.innerHTML = '';
       tie.images.forEach((img, idx) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
@@ -129,19 +143,13 @@
         image.alt = img.alt || tie.title + ' - Image ' + (idx + 1);
         slide.appendChild(image);
         track.appendChild(slide);
-        const dot = document.createElement('button');
-          dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
-          dot.setAttribute('role', 'tab');
-          dot.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
-          dot.setAttribute('aria-controls', 'carousel-track');
-          dot.setAttribute('title', `Show image ${idx + 1}`);
-          dot.onclick = () => currentSlide(idx + 1);
-        indicators.appendChild(dot);
       });
       // Reset carousel state
       currentSlideIndex = 0;
       slides = document.querySelectorAll('.carousel-slide');
-      dots = document.querySelectorAll('.carousel-dot');
+      if (numeric) {
+        numeric.textContent = `1/${slides.length || 1}`;
+      }
       updateCarousel();
     }
 
@@ -159,27 +167,21 @@
       });
 
     // Carousel logic (same as other pages)
-    let currentSlideIndex = 0;
-    let slides = [];
-    let dots = [];
+  let currentSlideIndex = 0;
+  let slides = [];
     const track = document.getElementById('carousel-track');
 
     function updateCarousel() {
       track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
-        const status = document.getElementById('carousel-status');
-        dots.forEach((dot, index) => {
-          const isActive = index === currentSlideIndex;
-          dot.classList.toggle('active', isActive);
-          dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
-          if (slides[index]) {
-            slides[index].setAttribute('aria-hidden', isActive ? 'false' : 'true');
-          }
-        });
-        if (status) {
-          const total = slides.length;
-          const pos = currentSlideIndex + 1;
-          status.textContent = `Image ${pos} of ${total}`;
-        }
+      const status = document.getElementById('carousel-status');
+      const numeric = document.getElementById('carousel-numeric');
+      if (slides[currentSlideIndex]) {
+        slides.forEach((s, idx) => s.setAttribute('aria-hidden', idx === currentSlideIndex ? 'false' : 'true'));
+      }
+      const total = slides.length;
+      const pos = currentSlideIndex + 1;
+  if (status) status.textContent = `Image ${pos} of ${total}`;
+  if (numeric) numeric.textContent = `${pos}/${total}`;
     }
 
     function changeSlide(direction) {
@@ -210,6 +212,14 @@
       if (e.key === 'ArrowLeft') changeSlide(-1);
       else if (e.key === 'ArrowRight') changeSlide(1);
     });
+
+    // Click navigation (desktop arrows)
+    (function(){
+      var prevBtn = document.querySelector('.carousel-nav.prev');
+      var nextBtn = document.querySelector('.carousel-nav.next');
+      if (prevBtn) prevBtn.addEventListener('click', function(){ changeSlide(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', function(){ changeSlide(1); });
+    })();
   </script>
   <footer>
     <p>&copy; 2025 Rimmer’s Luxury Ties · <a href="accessibility.html">Accessibility</a></p>
