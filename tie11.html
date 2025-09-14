@@ -1,123 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-</head>
-<body class="tie-page">
-  <!-- Floating WhatsApp for desktop; hidden on tablet/phone by CSS -->
-  <a href="https://wa.me/972535455468" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="refresh" content="0; url=tie.html?id=11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting…</title>
+  <script>(function(){var t='tie.html?id=11';try{location.replace(t)}catch(e){location.href=t}})();</script>
+  <link rel="canonical" href="tie.html?id=11" />
 </head>
 <body>
-  <header>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 24px;">
-        <div class="header-flex">
-          <div class="header-left">
-            <a href="contact.html" style="background: none; color: #fff; text-decoration: underline; font-weight: bold; font-size: 1.1em; border: none; padding: 0; border-radius: 0;">Contact</a>
-          </div>
-          <div class="header-center">
-            <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
-          </div>
-          <div class="header-right">
-            <!-- WhatsApp button removed from header -->
-          </div>
-        </div>
-  <style>
-    .header-flex {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      width: 100%;
-    }
-    .header-left {
-      flex: 1;
-      text-align: left;
-    }
-    .header-center {
-      flex: 1;
-      text-align: center;
-    }
-    .header-right {
-      flex: 1;
-      text-align: right;
-    }
-    @media (max-width: 600px) {
-      .header-flex {
-        flex-direction: row;
-      }
-      .header-left {
-        order: 1;
-        text-align: left;
-      }
-      .header-center {
-        order: 2;
-        text-align: center;
-      }
-      .header-right {
-        order: 3;
-        text-align: right;
-      }
-    }
-  </style>
-  </header>
-  
-  <script>
-    // Mobile hamburger toggle for tie pages
-    (function() {
-      var toggle = document.querySelector('.menu-toggle');
-      var menu = document.getElementById('mobile-menu');
-      if (!toggle || !menu) return;
-
-      function closeMenu() {
-        menu.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        try { toggle.blur(); } catch (e) {}
-      }
-      function openMenu() {
-        menu.classList.add('open');
-        toggle.classList.add('open');
-        toggle.setAttribute('aria-expanded', 'true');
-      }
-      function toggleMenu() {
-        if (menu.classList.contains('open')) closeMenu(); else openMenu();
-      }
-      toggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        toggleMenu();
-      });
-      document.addEventListener('click', function(e) {
-        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-          closeMenu();
-        }
-      });
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeMenu();
-      });
-    })();
-  </script>
-  
-  <div class="tie-details">
-    <h2>R11 - Navy Blue Tie with Light Blue Flowers - Satin Silk</h2>
-    
-    <div class="tie-carousel">
-      <div class="carousel-container">
-        <div class="carousel-track" id="carousel-track">
-          <div class="carousel-slide">
-            <img src="images/navyblue-flowers.jpg" alt="Navy Blue Tie with Light Blue Flowers - Front View">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/blue-flowers-back.webp" alt="Navy Blue Tie with Light Blue Flowers - Back View">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/blue-flowers-tongue.webp" alt="Navy Blue Tie with Light Blue Flowers - Detail View">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/blue-flowers-body.webp" alt="Navy Blue Tie with Light Blue Flowers - Full Body">
-          </div>
-        </div>
-        
+  <p>Redirecting to the updated tie page… If you are not redirected automatically, <a href="tie.html?id=11">click here</a>.</p>
+</body>
+</html>
         <button class="carousel-nav prev" onclick="changeSlide(-1)">‹</button>
         <button class="carousel-nav next" onclick="changeSlide(1)">›</button>
       </div>
