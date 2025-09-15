@@ -111,15 +111,6 @@ h2 { text-align: center; color: #fff; }
 .preheader__text { font-family: var(--font-display); font-weight: 600; text-transform: none; font-size: 0.85rem; letter-spacing: 0.01em; }
 .preheader__hebrew { font-family: "Noto Rashi Hebrew", serif; font-optical-sizing: auto; font-weight: 600; direction: rtl; color: #ffffff; font-size: 0.95rem; letter-spacing: 0.01em; white-space: nowrap; margin-left: auto; }
 .preheader--visible { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-/* Language switcher in preheader */
-.lang-switch { position: relative; }
-.lang-switch button { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.6); border-radius: 999px; padding: 4px 10px; font-family: var(--font-sans); font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
-.lang-switch button .chev { display:inline-block; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #fff; }
-.lang-switch button[aria-expanded="true"] .chev { transform: rotate(180deg); }
-.lang-switch ul { position: absolute; top: calc(100% + 6px); right: 0; background: #0b2a66; color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; list-style: none; padding: 6px 0; margin: 0; min-width: 140px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); z-index: 2002; }
-.lang-switch li { padding: 6px 10px; cursor: pointer; white-space: nowrap; }
-.lang-switch li[aria-checked="true"] { background: rgba(255,255,255,0.15); }
-.lang-switch ul[hidden] { display: none !important; }
  .header-flex {
    display: flex;
    align-items: center;
@@ -153,12 +144,51 @@ header {
   box-sizing: border-box; /* ensure declared height includes padding */
 }
 
+/* Hero image overlay for fullscreen header */
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('../images/navy-blue-sea.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0; /* hidden by default (shrunk); visible in fullscreen */
+  transform: scale(1);
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+  pointer-events: none;
+}
+/* Subtle darkening gradient for legibility over the photo */
+header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.55) 100%);
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  pointer-events: none;
+}
+/* Ensure header content sits above overlays */
+header .header-flex,
+header .scroll-hint {
+  position: relative;
+  z-index: 2;
+}
+
 /* Fullscreen-to-shrunk header states */
 header.fullscreen {
   height: 100vh;           /* full screen height */
   padding-top: 0;
   padding-bottom: 0;
 }
+
+/* Show hero image + gradient only in fullscreen; fade out on shrink */
+header.fullscreen::before { opacity: 1; transform: scale(1.02); }
+header.fullscreen::after { opacity: 1; }
+header.shrunk::before { opacity: 0; transform: scale(1); }
+header.shrunk::after { opacity: 0; }
 
 header.shrunk {
   height: var(--header-shrunk-height); /* classic thin bar (variable-controlled) */
@@ -167,6 +197,14 @@ header.shrunk {
   background: #ffffff; /* solid white, no gradient */
   color: var(--brand-blue); /* text/icon color on white */
   border-bottom: 1px solid #e6e9ef; /* very thin, light grey underline when thin */
+}
+
+/* Responsive focal point adjustments for the hero image */
+@media (max-width: 900px) {
+  header::before { background-position: center 35%; }
+}
+@media (max-width: 600px) {
+  header::before { background-position: center 25%; }
 }
 
 /* Preheader removed */
@@ -296,24 +334,6 @@ header.fullscreen .rashi-phrase { display: block; }
   gap: 20px;
   background: #ffffff; /* white background for the collection area */
   position: relative; /* allow absolutely-positioned anchor without affecting flex flow */
-}
-
-/* ---------------- RTL SUPPORT ---------------- */
-[dir='rtl'] body { direction: rtl; }
-[dir='rtl'] .header-flex { flex-direction: row-reverse; }
-[dir='rtl'] .header-left { text-align: right; }
-[dir='rtl'] .header-right { text-align: left; }
-[dir='rtl'] .preheader__inner { flex-direction: row-reverse; }
-[dir='rtl'] .lang-switch ul { right: auto; left: 0; }
-[dir='rtl'] .tie-info h2 { text-align: right; }
-@media (min-width: 1024px) {
-  /* Swap columns: image on the left, info on the right for LTR; reversed for RTL */
-  [dir='rtl'] .tie-details { grid-template-columns: 1fr minmax(0, 50vw); }
-  [dir='rtl'] .tie-carousel { grid-column: 2; justify-self: start; }
-  [dir='rtl'] .tie-info { grid-column: 1; }
-  /* Align title and price inset on the right side in RTL */
-  [dir='rtl'] .tie-details .tie-info h2 { padding-right: 14px !important; padding-left: 0 !important; }
-  [dir='rtl'] .tie-details .tie-price { padding-right: 14px !important; padding-left: 0 !important; text-align: right; }
 }
 
 .tie-card {
