@@ -1033,8 +1033,11 @@ footer.site-footer .footer-right { text-align: right; }
     gap: 0; /* no separation between cards */
     justify-content: stretch;
     align-items: stretch;
+    width: 100%;
+    box-sizing: border-box; /* include border in width to avoid horizontal overflow */
     border-right: 1px solid #e6e9ef; /* close the grid on the far edge */
     border-bottom: 1px solid #e6e9ef; /* close the grid along the bottom */
+    overflow-x: hidden; /* guard against sub-pixel overflow on iOS */
   }
 
   .tie-card {
@@ -1106,8 +1109,11 @@ footer.site-footer .footer-right { text-align: right; }
     gap: 0;
     justify-content: stretch;
     align-items: stretch;
+    width: 100%;
+    box-sizing: border-box; /* include border in width to avoid horizontal overflow */
     border-right: 1px solid #e6e9ef;
     border-bottom: 1px solid #e6e9ef;
+    overflow-x: hidden; /* guard against sub-pixel overflow on iOS */
   }
 
   .tie-card {
