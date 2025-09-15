@@ -90,24 +90,25 @@ h2 { text-align: center; color: #fff; }
 }
 
 /* ---------------- HEADER ---------------- */
+/* Thin preheader bar: appears only when header is shrunk and page is scrolled to very top.
+   Use fixed positioning so it doesn't reserve space above the fullscreen header. */
 .preheader {
   background: var(--brand-blue);
   color: #ffffff;
   width: 100%;
+  position: fixed; /* was sticky; fixed prevents initial white gap */
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: transform 240ms ease, opacity 180ms ease;
+  pointer-events: none; /* don't intercept clicks when hidden */
 }
-.preheader__inner {
-  margin: 0; /* full-bleed bar */
-  width: 100%;
-  padding: 6px 16px; /* thin bar padding */
-  box-sizing: border-box;
-}
-.preheader__text {
-  font-family: var(--font-display);
-  font-weight: 700; /* same feel as titles */
-  text-transform: none; /* do not uppercase */
-  font-size: 0.9rem;
-  letter-spacing: 0.01em;
-}
+.preheader__inner { margin: 0; width: 100%; padding: 4px 16px; box-sizing: border-box; display: flex; align-items: center; }
+.preheader__text { font-family: var(--font-display); font-weight: 600; text-transform: none; font-size: 0.85rem; letter-spacing: 0.01em; }
+.preheader--visible { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
  .header-flex {
    display: flex;
    align-items: center;
@@ -116,9 +117,7 @@ h2 { text-align: center; color: #fff; }
    width: 100%;
    height: 100%;
  }
-.preheader { display: none; }
-.preheader__inner { display: none; }
-.preheader__text { display: none; }
+/* Preheader visibility is controlled via JS with .preheader--visible */
  .logo {
    width: 150px;
    height: auto;
@@ -962,7 +961,8 @@ body:has(.tie-details) {
 #collection-start { scroll-margin-top: calc(var(--header-shrunk-height) + 12px); }
 #tie-collection {
   margin-top: 0;          /* avoid any unintended offset */
-  padding-top: 12px;      /* small breathing room under the bar to avoid hover overlap */
+  /* Maintain separation under the header; add preheader height when it's visible */
+  padding-top: calc(12px + var(--preheader-height, 0px));
   border-top: 0; /* no top divider; rely on header's thin underline only */
 }
 /* Removed extra top divider under header */
@@ -1015,6 +1015,24 @@ footer.site-footer .footer-contact { display: flex; flex-direction: column; gap:
 footer.site-footer .footer-contact a { color: #ffffff; font-weight: 700; letter-spacing: 0.2px; }
 footer.site-footer .footer-contact .footer-phone { font-size: 1.05rem; }
 footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 0.95; }
+
+/* New footer layout for index.html using footer-main + footer-credit */
+.site-footer .footer-main { background: var(--brand-blue); padding: 36px 16px; }
+.site-footer .footer-main .footer-left { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 18px 28px; align-items: start; }
+.site-footer .footer-main .footer-logo img { height: 56px; width: auto; display: block; filter: brightness(0) invert(1); }
+.site-footer .footer-main .footer-contact { display: grid; gap: 8px; align-content: start; }
+.site-footer .footer-main .footer-contact a { color: #ffffff; font-weight: 700; letter-spacing: 0.2px; text-decoration: none; }
+.site-footer .footer-main .footer-contact a:hover { text-decoration: underline; }
+.site-footer .footer-main .footer-contact .footer-phone { font-size: 1.12rem; }
+.site-footer .footer-main .footer-contact .footer-email { font-size: 1rem; opacity: 0.95; }
+.site-footer .footer-credit { background: #0b2e5f; padding: 12px 16px; text-align: center; color: #ffffff; }
+.site-footer .footer-credit p { margin: 0; font-weight: 500; letter-spacing: 0.01em; }
+
+@media (max-width: 900px) {
+  .site-footer .footer-main .footer-left { grid-template-columns: 1fr; gap: 12px; }
+  .site-footer .footer-main .footer-logo { justify-self: start; }
+  .site-footer .footer-main .footer-contact { justify-self: start; text-align: left; }
+}
 
 /* Mobile/tablet: stack items and center */
 @media (max-width: 900px) {

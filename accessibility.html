@@ -11,10 +11,16 @@
     section { margin: 20px 0; }
     a { color: var(--brand-blue); }
   </style>
-</head>
-<body>
+  </head>
+  <body>
   <a href="#main" class="skip-link">Skip to content</a>
-  <header class="shrunk" role="banner">
+  <!-- Thin preheader bar shown only when header is shrunk and page is at top -->
+  <div class="preheader" id="preheader" aria-hidden="true">
+    <div class="preheader__inner">
+      <span class="preheader__text">Clothing Royalty Since 5785</span>
+    </div>
+  </div>
+  <header class="shrunk" id="site-header" role="banner">
     <div class="header-flex">
       <div class="header-left"></div>
       <div class="header-center">
@@ -55,8 +61,66 @@
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Rimmer’s Luxury Ties</p>
+  <footer class="site-footer" role="contentinfo" aria-label="Site footer">
+    <div class="footer-main">
+      <div class="footer-left">
+        <a href="index.html" class="footer-logo" aria-label="Rimmer's Home">
+          <img src="images/logo.svg" alt="Rimmer's Logo" />
+        </a>
+        <div class="footer-contact" aria-label="Contact information">
+          <a class="footer-phone" href="tel:+972533191655" aria-label="Call us at plus nine seven two five three three one nine one six five five">CALL US +972 53 319 1655</a>
+          <a class="footer-email" href="mailto:shop.rimmers@gmail.com" aria-label="Email shop dot rimmers at gmail dot com">Email: shop.rimmers@gmail.com</a>
+          <a class="footer-accessibility" href="accessibility.html" aria-current="page">Accessibility</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-credit"><p>Website designed by Daniel Rimmer</p></div>
   </footer>
+
+  <script>
+    // Control preheader visibility: show only when header is shrunk and at very top,
+    // and offset the header by the preheader height to avoid overlap
+    (function(){
+      var pre = document.getElementById('preheader');
+      var header = document.getElementById('site-header');
+      if(!pre || !header) return;
+
+      function applyPreheaderVisibility(){
+        var isShrunk = header.classList.contains('shrunk');
+        var atTop = (window.scrollY || window.pageYOffset || 0) === 0;
+        var show = isShrunk && atTop;
+        if(show){
+          pre.classList.add('preheader--visible');
+          pre.setAttribute('aria-hidden','false');
+          try {
+            var h = pre.getBoundingClientRect().height || 0;
+            header.style.top = h ? (h + 'px') : '0px';
+            document.documentElement.classList.add('preheader-visible');
+            document.documentElement.style.setProperty('--preheader-height', h + 'px');
+          } catch(e) { /* no-op */ }
+        } else {
+          pre.classList.remove('preheader--visible');
+          pre.setAttribute('aria-hidden','true');
+          header.style.top = '';
+          document.documentElement.classList.remove('preheader-visible');
+          document.documentElement.style.removeProperty('--preheader-height');
+        }
+      }
+
+      function onHeaderShrunk(){ applyPreheaderVisibility(); }
+
+      window.addEventListener('load', applyPreheaderVisibility);
+      document.addEventListener('DOMContentLoaded', applyPreheaderVisibility);
+      window.addEventListener('scroll', function(){ applyPreheaderVisibility(); }, {passive:true});
+      window.addEventListener('resize', function(){ applyPreheaderVisibility(); }, {passive:true});
+
+      try {
+        var originalAdd = header.classList.add.bind(header.classList);
+        header.classList.add = function(){ originalAdd.apply(header.classList, arguments); onHeaderShrunk(); };
+        var originalRemove = header.classList.remove.bind(header.classList);
+        header.classList.remove = function(){ originalRemove.apply(header.classList, arguments); onHeaderShrunk(); };
+      } catch(e) { /* no-op */ }
+    })();
+  </script>
 </body>
 </html>
