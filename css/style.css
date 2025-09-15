@@ -266,6 +266,25 @@ header h1 {
   letter-spacing: 0.02em;
   font-size: clamp(18px, 2.6vw, 36px);
 }
+
+/* Tagline under logo in the white bar (shrunk header only, top-of-page) */
+.header-tagline {
+  display: none;
+  font-family: var(--font-display);
+  font-size: 0.85rem; /* match preheader font size */
+  line-height: 1.2;
+  color: var(--brand-blue);
+  letter-spacing: 0.01em;
+}
+header.fullscreen .header-tagline { display: none !important; }
+.header-tagline.visible { display: block; }
+
+/* When tagline is visible, allow a bit more header height to fit it neatly */
+header.shrunk.with-tagline { height: calc(var(--header-shrunk-height) + 18px); }
+
+@media (max-width: 900px) {
+  header.shrunk.with-tagline { height: calc(var(--header-shrunk-height) + 20px); }
+}
 header.shrunk .rashi-phrase { display: none; }
 header.fullscreen .rashi-phrase { display: block; }
 
@@ -1062,15 +1081,35 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
   padding-left: max(16px, env(safe-area-inset-left));
   text-align: center;
   color: #ffffff;
+  position: relative;
+  overflow: hidden; /* clip any subpixel bleed of the hairline divider */
 }
 .site-footer .footer-credit .footer-credit-inner {
   max-width: 1140px;
   margin: 0 auto;
   width: 100%;
-  /* Hairline light grey divider aligned with logo/container */
-  border-top: 0.33px solid #d9dee7; /* thinner hairline */
+  /* Use a pseudo-element for the divider to avoid edge touching due to subpixel rounding */
+  position: relative;
   padding-top: 20px; /* extra breathing room below the line */
   text-align: left; /* align text to left side under the line */
+}
+.site-footer .footer-credit .footer-credit-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Default: span full content width on desktop */
+  right: 0;
+  height: 0;
+  border-top: 0.33px solid #d9dee7; /* hairline light grey divider */
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  /* On mobile/tablet, deliberately shorten the line on the right, safe-area aware */
+  .site-footer .footer-credit .footer-credit-inner::before {
+    right: calc(max(16px, env(safe-area-inset-right)) + 10px); /* add 3px more (total +10px) gap on the right */
+  }
 }
 .site-footer .footer-credit p {
   margin: 0;

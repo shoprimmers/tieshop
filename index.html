@@ -125,7 +125,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Rashi+Hebrew:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20250915-5">
+  <link rel="stylesheet" href="css/style.css?v=20250915-7">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -136,7 +136,7 @@
   <!-- Thin preheader bar that appears only when the header is shrunk and the page is scrolled to the very top -->
   <div class="preheader" id="preheader" aria-hidden="true">
     <div class="preheader__inner">
-      <span class="preheader__text">Clothing Royalty Since 5785</span>
+  <span class="preheader__text">Handmade Silk Ties From Como, Italy.</span>
     </div>
   </div>
 
@@ -148,6 +148,7 @@
       <div class="header-center">
         <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
         <div class="rashi-phrase" dir="rtl" aria-label="מלבישים מלכות מאז תשפ״ה">מלבישים מלכות מאז תשפ״ה</div>
+        <div class="header-tagline" id="header-tagline" aria-hidden="true">Handmade in Italy.</div>
   <div class="scroll-hint">Scroll down to see our catalog<br><span class="arrow"></span></div>
       </div>
       <div class="header-right">
@@ -516,6 +517,53 @@
   <h2><span class="title-text">Dark Blue With Squares</span></h2>
       </a>
     </div>
+    
+    <div class="tie-card">
+  <a href="tie.html?id=21">
+        <img src="images/royalblue-orangepatterns-face.jpg" alt="R21 - Royal Blue Orange Patterns">
+        <img src="images/royalblue-orangepatterns-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+  <h2><span class="title-text">R21 - Royal Blue Orange Patterns</span></h2>
+      </a>
+    </div>
+
+    <div class="tie-card">
+  <a href="tie.html?id=22">
+        <img src="images/royalblue-yellowpattern-face.jpg" alt="R22 - Royal Blue Yellow Patterns">
+        <img src="images/royalblue-yellowpattern-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+  <h2><span class="title-text">R22 - Royal Blue Yellow Patterns</span></h2>
+      </a>
+    </div>
+
+    <div class="tie-card">
+  <a href="tie.html?id=23">
+        <img src="images/yellow-purplepatterns-face.jpg" alt="R23 - Yellow Purple Patterns">
+        <img src="images/yellow-purplepatterns-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+  <h2><span class="title-text">R23 - Yellow Purple Patterns</span></h2>
+      </a>
+    </div>
+
+    <div class="tie-card">
+  <a href="tie.html?id=24">
+        <img src="images/green-tinypolkadots-face.jpg" alt="R24 - Green Tiny Polka Dots">
+        <img src="images/green-tinypolkadots-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+  <h2><span class="title-text">R24 - Green Tiny Polka Dots</span></h2>
+      </a>
+    </div>
+    
+    <div class="tie-card">
+  <a href="tie.html?id=25">
+        <img src="images/brown-tinypolkadots-face.webp" alt="R25 - Brown Tiny Polka Dots">
+  <h2><span class="title-text">R25 - Brown Tiny Polka Dots</span></h2>
+      </a>
+    </div>
+
+    <div class="tie-card">
+  <a href="tie.html?id=26">
+        <img src="images/darkblue-blue-stripes-face.jpg" alt="R26 - Dark Blue With Blue Stripes">
+        <!-- No closeup available -->
+  <h2><span class="title-text">R26 - Dark Blue With Blue Stripes</span></h2>
+      </a>
+    </div>
     <!-- Add more ties here -->
     </div>
   </main>
@@ -649,6 +697,47 @@
         header.classList.add = function(){ originalAdd.apply(header.classList, arguments); onHeaderShrunk(); };
         var originalRemove = header.classList.remove.bind(header.classList);
         header.classList.remove = function(){ originalRemove.apply(header.classList, arguments); onHeaderShrunk(); };
+      } catch(e) { /* no-op */ }
+    })();
+
+    // Control header tagline visibility: show only when header is shrunk and at very top
+    (function(){
+      var header = document.getElementById('site-header');
+      var tagline = document.getElementById('header-tagline');
+      if(!header || !tagline) return;
+
+      function applyTaglineVisibility(){
+        var isShrunk = header.classList.contains('shrunk');
+        var atTop = (window.scrollY || window.pageYOffset || 0) === 0;
+        var show = isShrunk && atTop;
+        if(show){
+          tagline.classList.add('visible');
+          tagline.setAttribute('aria-hidden','false');
+          header.classList.add('with-tagline');
+        } else {
+          tagline.classList.remove('visible');
+          tagline.setAttribute('aria-hidden','true');
+          header.classList.remove('with-tagline');
+        }
+      }
+
+      // Initial state and scroll/resize reactions
+      window.addEventListener('load', applyTaglineVisibility);
+      document.addEventListener('DOMContentLoaded', applyTaglineVisibility);
+      window.addEventListener('scroll', function(){ applyTaglineVisibility(); }, {passive:true});
+      window.addEventListener('resize', function(){ applyTaglineVisibility(); }, {passive:true});
+
+      // Observe header class changes without clobbering classList wrappers
+      try {
+        var mo = new MutationObserver(function(muts){
+          for (var i=0; i<muts.length; i++) {
+            if (muts[i].type === 'attributes' && muts[i].attributeName === 'class') {
+              applyTaglineVisibility();
+              break;
+            }
+          }
+        });
+        mo.observe(header, { attributes: true, attributeFilter: ['class'] });
       } catch(e) { /* no-op */ }
     })();
   </script>

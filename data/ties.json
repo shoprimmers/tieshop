@@ -194,6 +194,62 @@
         {"src": "images/verydarkblue-small-squares-back.jpg", "alt": "Dark Blue With Squares - Back View"},
         {"src": "images/verydarkblue-small-squares-body.jpg", "alt": "Dark Blue With Squares - Full Body"}
       ]
+    },
+    "21": {
+      "title": "R21 - Royal Blue Orange Patterns",
+      "images": [
+        {"src": "images/royalblue-orangepatterns-face.jpg", "alt": "R21 - Royal Blue Orange Patterns - Front View"},
+        {"src": "images/royalblue-orangepatterns-closeup.jpg", "alt": "R21 - Royal Blue Orange Patterns - Close-up Detail"},
+        {"src": "images/royalblue-orangepatterns-back.jpg", "alt": "R21 - Royal Blue Orange Patterns - Back View"},
+        {"src": "images/royalblue-orangepatterns-tongue.jpg", "alt": "R21 - Royal Blue Orange Patterns - Tongue Detail"},
+        {"src": "images/royalblue-orangepatterns-body.jgp.webp", "alt": "R21 - Royal Blue Orange Patterns - Full Body"}
+      ]
+    },
+    "22": {
+      "title": "R22 - Royal Blue Yellow Patterns",
+      "images": [
+        {"src": "images/royalblue-yellowpattern-face.jpg", "alt": "R22 - Royal Blue Yellow Patterns - Front View"},
+        {"src": "images/royalblue-yellowpattern-closeup.jpg", "alt": "R22 - Royal Blue Yellow Patterns - Close-up Detail"},
+        {"src": "images/royalblue-yellowpattern-back.jpg", "alt": "R22 - Royal Blue Yellow Patterns - Back View"},
+        {"src": "images/royalblue-yellowpattern-tongue.jpg", "alt": "R22 - Royal Blue Yellow Patterns - Tongue Detail"},
+        {"src": "images/royalblue-yellowpattern-body.jpg", "alt": "R22 - Royal Blue Yellow Patterns - Full Body"}
+      ]
+    },
+    "23": {
+      "title": "R23 - Yellow Purple Patterns",
+      "images": [
+        {"src": "images/yellow-purplepatterns-face.jpg", "alt": "R23 - Yellow Purple Patterns - Front View"},
+        {"src": "images/yellow-purplepatterns-closeup.jpg", "alt": "R23 - Yellow Purple Patterns - Close-up Detail"},
+        {"src": "images/yellow-purplepatterns-back.jpg", "alt": "R23 - Yellow Purple Patterns - Back View"},
+        {"src": "images/yellow-purplepatterns-tongue.jpg", "alt": "R23 - Yellow Purple Patterns - Tongue Detail"},
+        {"src": "images/yellow-purplepatterns-body.jpg", "alt": "R23 - Yellow Purple Patterns - Full Body"}
+      ]
+    },
+    "24": {
+      "title": "R24 - Green Tiny Polka Dots",
+      "images": [
+        {"src": "images/green-tinypolkadots-face.jpg", "alt": "R24 - Green Tiny Polka Dots - Front View"},
+        {"src": "images/green-tinypolkadots-closeup.jpg", "alt": "R24 - Green Tiny Polka Dots - Close-up Detail"},
+        {"src": "images/green-tinypolkadots-back.jpg", "alt": "R24 - Green Tiny Polka Dots - Back View"},
+        {"src": "images/green-tinypolkadots-body.webp", "alt": "R24 - Green Tiny Polka Dots - Full Body"}
+      ]
+    },
+    "25": {
+      "title": "R25 - Brown Tiny Polka Dots",
+      "images": [
+        {"src": "images/brown-tinypolkadots-face.webp", "alt": "R25 - Brown Tiny Polka Dots - Front View"},
+        {"src": "images/brown-tinypolkadots-closeup.jpg", "alt": "R25 - Brown Tiny Polka Dots - Close-up Detail"},
+        {"src": "images/brown-tinypolkadots-back.webp", "alt": "R25 - Brown Tiny Polka Dots - Back View"}
+      ]
+    },
+    "26": {
+      "title": "R26 - Dark Blue With Blue Stripes",
+      "images": [
+        {"src": "images/darkblue-blue-stripes-face.jpg", "alt": "R26 - Dark Blue With Blue Stripes - Front View"},
+        {"src": "images/darkblue-blue-stripes-back.jpg", "alt": "R26 - Dark Blue With Blue Stripes - Back View"},
+        {"src": "images/darkblue-blue-stripes-tongue.webp", "alt": "R26 - Dark Blue With Blue Stripes - Tongue Detail"},
+        {"src": "images/darkblue-blue-stripes-body.webp", "alt": "R26 - Dark Blue With Blue Stripes - Full Body"}
+      ]
     }
   }
 }
