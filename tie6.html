@@ -7,6 +7,7 @@
   <meta http-equiv="refresh" content="0; url=tie.html?id=6" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirecting…</title>
+    <link rel="stylesheet" href="css/style.css?v=20250915-6">
   <script>(function(){var t='tie.html?id=6';try{location.replace(t)}catch(e){location.href=t}})();</script>
   <link rel="canonical" href="tie.html?id=6" />
 </head>
@@ -121,35 +122,42 @@
       updateCarousel();
     }
 
-    // Touch/swipe support for mobile
+    // Touch/swipe support for mobile (iOS-friendly across browsers)
     let startX = 0;
+    let lastX = 0;
     let isDragging = false;
+    let hasMoved = false;
+    const SWIPE_THRESHOLD = 40;
+    const LOCK_THRESHOLD = 8;
 
     track.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
+      lastX = startX;
       isDragging = true;
-    });
+      hasMoved = false;
+    }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
       if (!isDragging) return;
-      e.preventDefault();
-    });
+      const x = e.touches[0].clientX;
+      const deltaX = x - startX;
+      lastX = x;
+      if (Math.abs(deltaX) > LOCK_THRESHOLD) {
+        hasMoved = true;
+        e.preventDefault();
+      }
+    }, { passive: false });
 
     track.addEventListener('touchend', (e) => {
       if (!isDragging) return;
       isDragging = false;
-      
-      const endX = e.changedTouches[0].clientX;
+      const endX = e.changedTouches && e.changedTouches.length ? e.changedTouches[0].clientX : lastX;
       const diffX = startX - endX;
-      
-      if (Math.abs(diffX) > 50) { // Minimum swipe distance
-        if (diffX > 0) {
-          changeSlide(1); // Swipe left - next slide
-        } else {
-          changeSlide(-1); // Swipe right - previous slide
-        }
+      if (hasMoved && Math.abs(diffX) > SWIPE_THRESHOLD) {
+        if (diffX > 0) changeSlide(1); else changeSlide(-1);
       }
-    });
+      hasMoved = false;
+    }, { passive: true });
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {

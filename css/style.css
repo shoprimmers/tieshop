@@ -632,6 +632,13 @@ body:has(.tie-details) {
   background: white;
 }
 
+/* Allow horizontal touch gestures inside the carousel even when the page is locked to pan-y */
+.tie-carousel,
+.tie-carousel .carousel-container,
+.tie-carousel .carousel-track {
+  touch-action: pan-x !important; /* enable horizontal gestures within carousel */
+}
+
 .carousel-slide {
   min-width: 100%;
   display: flex;
