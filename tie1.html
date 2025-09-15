@@ -85,6 +85,7 @@
       </div>
     </div>
     <nav id="mobile-menu" class="mobile-menu" role="menu">
+      <a href="index.html" role="menuitem">Home</a>
       <a href="contact.html" role="menuitem">Contact</a>
     </nav>
   </header>
@@ -235,6 +236,7 @@
       }
       hasMoved = false;
     }, { passive: true });
+    track.addEventListener('touchcancel', () => { isDragging = false; hasMoved = false; }, { passive: true });
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {

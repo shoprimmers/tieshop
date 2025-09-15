@@ -31,6 +31,7 @@
       </div>
     </div>
     <nav id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Main menu">
+      <a href="index.html">Home</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
@@ -231,7 +232,7 @@
         hasMoved = true;
         e.preventDefault(); // requires non-passive listener; Safari allows if target declares touch-action: pan-x
       }
-    }, { passive: false });
+  }, { passive: false });
 
     track.addEventListener('touchend', (e) => {
       if (!isDragging) return; 
@@ -242,7 +243,10 @@
         changeSlide(diffX > 0 ? 1 : -1);
       }
       hasMoved = false;
-    }, { passive: true });
+  }, { passive: true });
+
+  // Ensure we clear dragging if a touch is cancelled by the browser
+  track.addEventListener('touchcancel', () => { isDragging = false; hasMoved = false; }, { passive: true });
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {

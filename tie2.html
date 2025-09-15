@@ -47,6 +47,7 @@
       </div>
     </div>
     <nav id="mobile-menu" class="mobile-menu" role="menu">
+      <a href="index.html" role="menuitem">Home</a>
       <a href="contact.html" role="menuitem">Contact</a>
     </nav>
   </header>
@@ -174,7 +175,8 @@
       lastX = startX;
       isDragging = true;
       hasMoved = false;
-    }, { passive: true });
+  }, { passive: true });
+  track.addEventListener('touchcancel', () => { isDragging = false; hasMoved = false; }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
       if (!isDragging) return;

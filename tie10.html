@@ -52,7 +52,8 @@
       lastX = startX;
       isDragging = true;
       hasMoved = false;
-    }, { passive: true });
+  }, { passive: true });
+  track.addEventListener('touchcancel', () => { isDragging = false; hasMoved = false; }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
       if (!isDragging) return;

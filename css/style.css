@@ -635,8 +635,21 @@ body:has(.tie-details) {
 /* Allow horizontal touch gestures inside the carousel even when the page is locked to pan-y */
 .tie-carousel,
 .tie-carousel .carousel-container,
-.tie-carousel .carousel-track {
+.tie-carousel .carousel-track,
+.tie-carousel .carousel-slide,
+.tie-carousel .carousel-slide img {
   touch-action: pan-x !important; /* enable horizontal gestures within carousel */
+}
+
+/* Do not let overlays intercept swipe gestures */
+.carousel-numeric { pointer-events: none; }
+
+/* Prevent image drag/selection that can interrupt swipes on iOS Safari */
+.tie-carousel .carousel-slide img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  user-select: none;
 }
 
 .carousel-slide {
@@ -1432,6 +1445,7 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
   box-shadow: 0 10px 20px rgba(0,0,0,0.08);
   display: none;
   z-index: 1200;
+  border-radius: 0; /* squared corners */
 }
 .mobile-menu.open { display: block; }
 .mobile-menu a {
@@ -1489,7 +1503,7 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     right: 12px;
     width: max-content;
     min-width: 220px;
-    border-radius: 12px;
+    border-radius: 0; /* squared corners on desktop too */
     margin-top: 8px;
     border: 1px solid #e6e9ef;
   }
@@ -1500,7 +1514,7 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
   .mobile-menu {
     left: 0;
     right: 0;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0; /* fully squared on mobile/tablet */
   }
   .preheader__inner { padding-left: 12px; padding-right: 12px; }
 }
