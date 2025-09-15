@@ -186,8 +186,10 @@
     let isAnimating = false;
 
     function setTransformByIndex(index) {
-      // Use percentage to avoid needing explicit widths
-      track.style.transform = `translateX(-${index * 100}%)`;
+      // Move by per-slide percentage of the track (100% / slidesCount)
+      const total = slides.length || 1;
+      const step = 100 / total;
+      track.style.transform = `translateX(-${index * step}%)`;
     }
 
     function updateA11y(index) {
@@ -256,21 +258,26 @@
       if (!dragging) return;
       const x = e.clientX;
       deltaX = x - startX;
-      const trackWidth = track.clientWidth || 1;
-      let percent = (deltaX / trackWidth) * 100; // positive when dragging right
+      const container = track.parentElement || track;
+      const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
+      const total = Math.max(slides.length, 1);
+      // Percent relative to the track (per-slide unit = 100/total)
+      let percent = (deltaX / containerWidth) * (100 / total); // positive when dragging right
       // Apply resistance at edges
       if ((currentSlideIndex === 0 && percent > 0) || (currentSlideIndex === slides.length - 1 && percent < 0)) {
         percent *= EDGE_RESISTANCE;
       }
-      track.style.transform = `translateX(calc(${-currentSlideIndex * 100}% + ${percent}%))`;
+      const step = 100 / total;
+      track.style.transform = `translateX(calc(${-currentSlideIndex * step}% + ${percent}%))`;
     }
 
     function onPointerUpOrCancel() {
       if (!dragging) return;
       dragging = false;
       track.style.willChange = 'auto';
-      const trackWidth = track.clientWidth || 1;
-      const traveled = Math.abs(deltaX) / trackWidth;
+      const container = track.parentElement || track;
+      const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
+      const traveled = Math.abs(deltaX) / containerWidth;
       track.style.transition = 'transform 300ms ease';
       if (traveled > SWIPE_THRESHOLD) {
         const dir = deltaX < 0 ? 1 : -1; // left drag moves to next (dir=1)
@@ -283,8 +290,16 @@
       deltaX = 0;
     }
 
-    // Attach Pointer Events if available
-    if (window.PointerEvent) {
+    // Detect any iOS device (Safari or Chrome on iOS) to force touch fallback
+    function isIOSDevice() {
+      var ua = navigator.userAgent || '';
+      var iOS = /iPad|iPhone|iPod/.test(ua);
+      var iPadOSDesktopMode = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      return !!(iOS || iPadOSDesktopMode);
+    }
+
+    // Attach Pointer Events if available and NOT on iOS; otherwise use touch fallback
+    if (window.PointerEvent && !isIOSDevice()) {
       track.addEventListener('pointerdown', onPointerDown);
       track.addEventListener('pointermove', onPointerMove);
       track.addEventListener('pointerup', onPointerUpOrCancel);
@@ -316,19 +331,24 @@
           e.preventDefault();
           locked = true;
         }
-        const trackWidth = track.clientWidth || 1;
-        let percent = (dx / trackWidth) * 100;
+        const container = track.parentElement || track;
+        const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
+        const total = Math.max(slides.length, 1);
+        let percent = (dx / containerWidth) * (100 / total);
         if ((currentSlideIndex === 0 && percent > 0) || (currentSlideIndex === slides.length - 1 && percent < 0)) {
           percent *= EDGE_RESISTANCE;
         }
-        track.style.transform = `translateX(calc(${-currentSlideIndex * 100}% + ${percent}%))`;
+        const step = 100 / total;
+        track.style.transform = `translateX(calc(${-currentSlideIndex * step}% + ${percent}%))`;
       }, { passive: false });
       track.addEventListener('touchend', (e) => {
         if (!dragging) return;
         dragging = false;
         track.style.willChange = 'auto';
         const endX = (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : lastX);
-        const traveled = Math.abs(endX - touchStartX) / (track.clientWidth || 1);
+        const container = track.parentElement || track;
+        const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
+        const traveled = Math.abs(endX - touchStartX) / containerWidth;
         track.style.transition = 'transform 300ms ease';
         if (traveled > 0.18) {
           const dir = (endX - touchStartX) < 0 ? 1 : -1;
