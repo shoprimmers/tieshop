@@ -13,6 +13,8 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+/* Prevent horizontal scrolling on mobile/tablet due to any wide element */
+html, body { overflow-x: hidden; overscroll-behavior-x: none; touch-action: pan-y; }
 
 /* Screen-reader-only utility */
 .sr-only {
@@ -915,8 +917,8 @@ body:has(.tie-details) {
   border: none;
   border-radius: 0;
   box-shadow: none;
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
+  max-width: 100%;
   height: auto;
   box-sizing: border-box;
 }
@@ -1151,7 +1153,7 @@ footer.site-footer .footer-right { text-align: right; }
 
   .large {
     width: 100%;
-    max-width: 100vw;
+    max-width: 100%;
     height: auto;
     box-sizing: border-box;
   }
@@ -1457,6 +1459,17 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     padding-left: 16px;
     padding-right: 16px; /* slightly smaller inner padding */
     gap: 12px; /* bring pictures closer together on desktop */
+  }
+  /* Ensure desktop tie titles reserve exactly two lines for visual consistency */
+  .tie-card h2 .title-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-height: 1.15; /* match .tie-card h2 line-height */
+    min-height: calc(1.15em * 2);
+    max-height: calc(1.15em * 2);
   }
   .mobile-menu {
     left: auto;
