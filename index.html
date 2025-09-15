@@ -136,7 +136,7 @@
   <!-- Thin preheader bar that appears only when the header is shrunk and the page is scrolled to the very top -->
   <div class="preheader" id="preheader" aria-hidden="true">
     <div class="preheader__inner">
-  <span class="preheader__text">Handmade Silk Ties From Como, Italy.</span>
+  <span class="preheader__text">Handmade in Italy.</span>
     </div>
   </div>
 
@@ -148,7 +148,6 @@
       <div class="header-center">
         <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
         <div class="rashi-phrase" dir="rtl" aria-label="מלבישים מלכות מאז תשפ״ה">מלבישים מלכות מאז תשפ״ה</div>
-        <div class="header-tagline" id="header-tagline" aria-hidden="true">Handmade in Italy.</div>
   <div class="scroll-hint">Scroll down to see our catalog<br><span class="arrow"></span></div>
       </div>
       <div class="header-right">
@@ -697,47 +696,6 @@
         header.classList.add = function(){ originalAdd.apply(header.classList, arguments); onHeaderShrunk(); };
         var originalRemove = header.classList.remove.bind(header.classList);
         header.classList.remove = function(){ originalRemove.apply(header.classList, arguments); onHeaderShrunk(); };
-      } catch(e) { /* no-op */ }
-    })();
-
-    // Control header tagline visibility: show only when header is shrunk and at very top
-    (function(){
-      var header = document.getElementById('site-header');
-      var tagline = document.getElementById('header-tagline');
-      if(!header || !tagline) return;
-
-      function applyTaglineVisibility(){
-        var isShrunk = header.classList.contains('shrunk');
-        var atTop = (window.scrollY || window.pageYOffset || 0) === 0;
-        var show = isShrunk && atTop;
-        if(show){
-          tagline.classList.add('visible');
-          tagline.setAttribute('aria-hidden','false');
-          header.classList.add('with-tagline');
-        } else {
-          tagline.classList.remove('visible');
-          tagline.setAttribute('aria-hidden','true');
-          header.classList.remove('with-tagline');
-        }
-      }
-
-      // Initial state and scroll/resize reactions
-      window.addEventListener('load', applyTaglineVisibility);
-      document.addEventListener('DOMContentLoaded', applyTaglineVisibility);
-      window.addEventListener('scroll', function(){ applyTaglineVisibility(); }, {passive:true});
-      window.addEventListener('resize', function(){ applyTaglineVisibility(); }, {passive:true});
-
-      // Observe header class changes without clobbering classList wrappers
-      try {
-        var mo = new MutationObserver(function(muts){
-          for (var i=0; i<muts.length; i++) {
-            if (muts[i].type === 'attributes' && muts[i].attributeName === 'class') {
-              applyTaglineVisibility();
-              break;
-            }
-          }
-        });
-        mo.observe(header, { attributes: true, attributeFilter: ['class'] });
       } catch(e) { /* no-op */ }
     })();
   </script>

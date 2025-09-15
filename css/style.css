@@ -266,15 +266,25 @@ header h1 {
   letter-spacing: 0.02em;
   font-size: clamp(18px, 2.6vw, 36px);
 }
+header.shrunk .rashi-phrase { display: none; }
+header.fullscreen .rashi-phrase { display: block; }
 
-/* Tagline under logo in the white bar (shrunk header only, top-of-page) */
+@media (max-width: 900px) {
+  .rashi-phrase { font-size: clamp(16px, 3.6vw, 28px); margin-top: 0; margin-bottom: 18px; }
+}
+@media (max-width: 600px) {
+  .rashi-phrase { font-size: clamp(15px, 4.2vw, 24px); }
+}
+
+/* Tagline under the logo in the white bar (shrunk header only, at very top) */
 .header-tagline {
   display: none;
   font-family: var(--font-display);
-  font-size: 0.85rem; /* match preheader font size */
+  font-size: 0.85rem; /* match preheader font-size */
   line-height: 1.2;
   color: var(--brand-blue);
   letter-spacing: 0.01em;
+  margin-top: 6px;
 }
 header.fullscreen .header-tagline { display: none !important; }
 .header-tagline.visible { display: block; }
@@ -284,15 +294,6 @@ header.shrunk.with-tagline { height: calc(var(--header-shrunk-height) + 18px); }
 
 @media (max-width: 900px) {
   header.shrunk.with-tagline { height: calc(var(--header-shrunk-height) + 20px); }
-}
-header.shrunk .rashi-phrase { display: none; }
-header.fullscreen .rashi-phrase { display: block; }
-
-@media (max-width: 900px) {
-  .rashi-phrase { font-size: clamp(16px, 3.6vw, 28px); margin-top: 0; margin-bottom: 18px; }
-}
-@media (max-width: 600px) {
-  .rashi-phrase { font-size: clamp(15px, 4.2vw, 24px); }
 }
 
 /* Catalog bar removed */
