@@ -127,6 +127,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Rashi+Hebrew:wght@100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=20250915-7">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/i18n.js" defer></script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -136,7 +137,14 @@
   <!-- Thin preheader bar that appears only when the header is shrunk and the page is scrolled to the very top -->
   <div class="preheader" id="preheader" aria-hidden="true">
     <div class="preheader__inner">
-  <span class="preheader__text">Italian Artisanship in Every Stitch</span>
+  <span class="preheader__text" data-en="Italian Artisanship in Every Stitch" data-he="אומנות איטלקית בכל תפר">Italian Artisanship in Every Stitch</span>
+  <div class="lang-switch" id="lang-switch">
+    <button id="lang-toggle" aria-haspopup="true" aria-expanded="false"><span class="label">English</span><span class="chev" aria-hidden="true"></span></button>
+    <ul id="lang-menu" role="menu" hidden>
+      <li role="menuitemradio" data-lang="en" aria-checked="true">English</li>
+      <li role="menuitemradio" data-lang="he" aria-checked="false">עברית</li>
+    </ul>
+  </div>
     </div>
   </div>
 

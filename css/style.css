@@ -111,6 +111,15 @@ h2 { text-align: center; color: #fff; }
 .preheader__text { font-family: var(--font-display); font-weight: 600; text-transform: none; font-size: 0.85rem; letter-spacing: 0.01em; }
 .preheader__hebrew { font-family: "Noto Rashi Hebrew", serif; font-optical-sizing: auto; font-weight: 600; direction: rtl; color: #ffffff; font-size: 0.95rem; letter-spacing: 0.01em; white-space: nowrap; margin-left: auto; }
 .preheader--visible { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+/* Language switcher in preheader */
+.lang-switch { position: relative; }
+.lang-switch button { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.6); border-radius: 999px; padding: 4px 10px; font-family: var(--font-sans); font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.lang-switch button .chev { display:inline-block; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #fff; }
+.lang-switch button[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.lang-switch ul { position: absolute; top: calc(100% + 6px); right: 0; background: #0b2a66; color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; list-style: none; padding: 6px 0; margin: 0; min-width: 140px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); z-index: 2002; }
+.lang-switch li { padding: 6px 10px; cursor: pointer; white-space: nowrap; }
+.lang-switch li[aria-checked="true"] { background: rgba(255,255,255,0.15); }
+.lang-switch ul[hidden] { display: none !important; }
  .header-flex {
    display: flex;
    align-items: center;
@@ -276,26 +285,6 @@ header.fullscreen .rashi-phrase { display: block; }
   .rashi-phrase { font-size: clamp(15px, 4.2vw, 24px); }
 }
 
-/* Tagline under the logo in the white bar (shrunk header only, at very top) */
-.header-tagline {
-  display: none;
-  font-family: var(--font-display);
-  font-size: 0.85rem; /* match preheader font-size */
-  line-height: 1.2;
-  color: var(--brand-blue);
-  letter-spacing: 0.01em;
-  margin-top: 6px;
-}
-header.fullscreen .header-tagline { display: none !important; }
-.header-tagline.visible { display: block; }
-
-/* When tagline is visible, allow a bit more header height to fit it neatly */
-header.shrunk.with-tagline { height: calc(var(--header-shrunk-height) + 18px); }
-
-@media (max-width: 900px) {
-  header.shrunk.with-tagline { height: calc(var(--header-shrunk-height) + 20px); }
-}
-
 /* Catalog bar removed */
 
 /* ---------------- GALLERY ---------------- */
@@ -307,6 +296,24 @@ header.shrunk.with-tagline { height: calc(var(--header-shrunk-height) + 18px); }
   gap: 20px;
   background: #ffffff; /* white background for the collection area */
   position: relative; /* allow absolutely-positioned anchor without affecting flex flow */
+}
+
+/* ---------------- RTL SUPPORT ---------------- */
+[dir='rtl'] body { direction: rtl; }
+[dir='rtl'] .header-flex { flex-direction: row-reverse; }
+[dir='rtl'] .header-left { text-align: right; }
+[dir='rtl'] .header-right { text-align: left; }
+[dir='rtl'] .preheader__inner { flex-direction: row-reverse; }
+[dir='rtl'] .lang-switch ul { right: auto; left: 0; }
+[dir='rtl'] .tie-info h2 { text-align: right; }
+@media (min-width: 1024px) {
+  /* Swap columns: image on the left, info on the right for LTR; reversed for RTL */
+  [dir='rtl'] .tie-details { grid-template-columns: 1fr minmax(0, 50vw); }
+  [dir='rtl'] .tie-carousel { grid-column: 2; justify-self: start; }
+  [dir='rtl'] .tie-info { grid-column: 1; }
+  /* Align title and price inset on the right side in RTL */
+  [dir='rtl'] .tie-details .tie-info h2 { padding-right: 14px !important; padding-left: 0 !important; }
+  [dir='rtl'] .tie-details .tie-price { padding-right: 14px !important; padding-left: 0 !important; text-align: right; }
 }
 
 .tie-card {
