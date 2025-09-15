@@ -139,13 +139,25 @@
     const dots = document.querySelectorAll('.carousel-dot');
     const track = document.getElementById('carousel-track');
     let isAnimating = false;
+    // Detect iOS Safari specifically (exclude Chrome/Firefox/Edge on iOS)
+    function isIOSSafari(){
+      var ua = navigator.userAgent || '';
+      var iPadOSDesktop = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var isiOS = /iPad|iPhone|iPod/.test(ua) || iPadOSDesktop;
+      var nonSafari = /CriOS|FxiOS|EdgiOS/.test(ua);
+      return !!(isiOS && !nonSafari);
+    }
 
   function getContainerWidth(){ const container=track.parentElement||track; return (container&&container.clientWidth)?container.clientWidth:1; }
   function setTransformByIndex(index){ const w=getContainerWidth(); const px=-(index*w); track.style.transform=`translateX(${px}px)`; }
     function updateDots() { dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlideIndex)); }
     function updateCarousel() { setTransformByIndex(currentSlideIndex); updateDots(); }
-    function gotoSlide(index){ if(isAnimating) return; const total=slides.length; if(!total) return; if(index>=total) index=0; if(index<0) index=total-1; isAnimating=true; track.style.transition='transform 300ms ease'; currentSlideIndex=index; setTransformByIndex(currentSlideIndex); updateDots(); }
-    track.addEventListener('transitionend', (ev)=>{ if(ev.propertyName==='transform') isAnimating=false; });
+  function gotoSlide(index){ if(isAnimating) return; const total=slides.length; if(!total) return; if(index>=total) index=0; if(index<0) index=total-1; isAnimating=true; track.style.transition='transform 300ms ease'; currentSlideIndex=index; setTransformByIndex(currentSlideIndex); updateDots(); if(isIOSSafari()) scheduleUnlockFallback(); }
+  // iOS Safari: add fallback unlock and vendor event
+  let unlockTimer=null; function clearUnlockTimer(){ if(unlockTimer){ clearTimeout(unlockTimer); unlockTimer=null; } }
+  function scheduleUnlockFallback(){ clearUnlockTimer(); unlockTimer=setTimeout(function(){ isAnimating=false; }, 450); }
+  track.addEventListener('transitionend', (ev)=>{ if(ev.propertyName==='transform'){ isAnimating=false; clearUnlockTimer(); } });
+  track.addEventListener('webkitTransitionEnd', (ev)=>{ if(ev.propertyName==='transform'){ isAnimating=false; clearUnlockTimer(); } });
     function changeSlide(direction){ gotoSlide(currentSlideIndex + direction); }
     function currentSlide(index){ gotoSlide(index - 1); }
 

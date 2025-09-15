@@ -184,6 +184,14 @@
     const statusEl = document.getElementById('carousel-status');
     const numericEl = document.getElementById('carousel-numeric');
     let isAnimating = false;
+    // Detect iOS Safari specifically (exclude Chrome/Firefox/Edge on iOS)
+    function isIOSSafari(){
+      var ua = navigator.userAgent || '';
+      var iPadOSDesktop = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var isiOS = /iPad|iPhone|iPod/.test(ua) || iPadOSDesktop;
+      var nonSafari = /CriOS|FxiOS|EdgiOS/.test(ua);
+      return !!(isiOS && !nonSafari);
+    }
 
     function getContainerWidth() {
       const container = track.parentElement || track;
@@ -222,12 +230,23 @@
       track.style.transition = 'transform 300ms ease';
       currentSlideIndex = index;
       setTransformByIndex(currentSlideIndex);
+      // On iOS Safari, set a safety timer in case transitionend doesn't fire
+      if (isIOSSafari()) scheduleUnlockFallback();
     }
 
+    // Ensure animations always unlock on iOS Safari (transitionend can be flaky)
+    let unlockTimer = null;
+    function clearUnlockTimer(){ if(unlockTimer){ clearTimeout(unlockTimer); unlockTimer=null; } }
+    function scheduleUnlockFallback(){ clearUnlockTimer(); unlockTimer = setTimeout(function(){ isAnimating=false; updateA11y(currentSlideIndex); }, 450); }
     track.addEventListener('transitionend', function(ev) {
       if (ev.propertyName !== 'transform') return;
-      isAnimating = false;
+      isAnimating = false; clearUnlockTimer();
       // ensure a11y state sync after animation
+      updateA11y(currentSlideIndex);
+    });
+    track.addEventListener('webkitTransitionEnd', function(ev){
+      if (ev.propertyName !== 'transform') return;
+      isAnimating = false; clearUnlockTimer();
       updateA11y(currentSlideIndex);
     });
 
