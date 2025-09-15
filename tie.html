@@ -185,10 +185,15 @@
     const numericEl = document.getElementById('carousel-numeric');
     let isAnimating = false;
 
+    function getContainerWidth() {
+      const container = track.parentElement || track;
+      return (container && container.clientWidth) ? container.clientWidth : 1;
+    }
+
     function setTransformByIndex(index) {
-      // Each slide is 100% of the container; track is 100% wide.
-      // Translate by -index * 100% (percentage is relative to track width).
-      track.style.transform = `translateX(-${index * 100}%)`;
+      const w = getContainerWidth();
+      const px = -(index * w);
+      track.style.transform = `translateX(${px}px)`;
     }
 
     function updateA11y(index) {
@@ -257,24 +262,22 @@
       if (!dragging) return;
       const x = e.clientX;
       deltaX = x - startX;
-      const container = track.parentElement || track;
-      const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
-      // Percent relative to track width (track is 100% of container). One slide = 100%.
-      let percent = (deltaX / containerWidth) * 100; // positive when dragging right
+      const w = getContainerWidth();
+      let dx = deltaX; // positive when dragging right
       // Apply resistance at edges
-      if ((currentSlideIndex === 0 && percent > 0) || (currentSlideIndex === slides.length - 1 && percent < 0)) {
-        percent *= EDGE_RESISTANCE;
+      if ((currentSlideIndex === 0 && dx > 0) || (currentSlideIndex === slides.length - 1 && dx < 0)) {
+        dx *= EDGE_RESISTANCE;
       }
-      track.style.transform = `translateX(calc(${-currentSlideIndex * 100}% + ${percent}%))`;
+      const base = -(currentSlideIndex * w);
+      track.style.transform = `translateX(${base + dx}px)`;
     }
 
     function onPointerUpOrCancel() {
       if (!dragging) return;
       dragging = false;
       track.style.willChange = 'auto';
-      const container = track.parentElement || track;
-      const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
-      const traveled = Math.abs(deltaX) / containerWidth;
+      const w = getContainerWidth();
+      const traveled = Math.abs(deltaX) / w;
       track.style.transition = 'transform 300ms ease';
       if (traveled > SWIPE_THRESHOLD) {
         const dir = deltaX < 0 ? 1 : -1; // left drag moves to next (dir=1)
@@ -330,22 +333,21 @@
           e.preventDefault();
           locked = true;
         }
-        const container = track.parentElement || track;
-        const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
-        let percent = (dx / containerWidth) * 100;
-        if ((currentSlideIndex === 0 && percent > 0) || (currentSlideIndex === slides.length - 1 && percent < 0)) {
-          percent *= EDGE_RESISTANCE;
+        const w = getContainerWidth();
+        let dragX = dx;
+        if ((currentSlideIndex === 0 && dragX > 0) || (currentSlideIndex === slides.length - 1 && dragX < 0)) {
+          dragX *= EDGE_RESISTANCE;
         }
-        track.style.transform = `translateX(calc(${-currentSlideIndex * 100}% + ${percent}%))`;
+        const base = -(currentSlideIndex * w);
+        track.style.transform = `translateX(${base + dragX}px)`;
       }, { passive: false });
       track.addEventListener('touchend', (e) => {
         if (!dragging) return;
         dragging = false;
         track.style.willChange = 'auto';
         const endX = (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : lastX);
-        const container = track.parentElement || track;
-        const containerWidth = (container && container.clientWidth) ? container.clientWidth : 1;
-        const traveled = Math.abs(endX - touchStartX) / containerWidth;
+        const w = getContainerWidth();
+        const traveled = Math.abs(endX - touchStartX) / w;
         track.style.transition = 'transform 300ms ease';
         if (traveled > 0.18) {
           const dir = (endX - touchStartX) < 0 ? 1 : -1;
@@ -375,6 +377,12 @@
       if (prevBtn) prevBtn.addEventListener('click', function(){ changeSlide(-1); });
       if (nextBtn) nextBtn.addEventListener('click', function(){ changeSlide(1); });
     })();
+
+    // Re-sync transform after resize/orientation changes (pixel-based transforms)
+    function debounce(fn, delay){ let t; return function(){ const ctx=this, args=arguments; clearTimeout(t); t=setTimeout(function(){ fn.apply(ctx,args); }, delay); } }
+    function syncTransformToSize(){ const prev=track.style.transition; track.style.transition='none'; setTransformByIndex(currentSlideIndex); void track.offsetWidth; track.style.transition=prev; }
+    window.addEventListener('resize', debounce(syncTransformToSize, 120));
+    window.addEventListener('orientationchange', debounce(syncTransformToSize, 120));
   </script>
   <footer class="site-footer" role="contentinfo" aria-label="Site footer">
     <div class="footer-inner">

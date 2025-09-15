@@ -140,7 +140,8 @@
     const track = document.getElementById('carousel-track');
     let isAnimating = false;
 
-  function setTransformByIndex(index) { track.style.transform = `translateX(-${index * 100}%)`; }
+  function getContainerWidth(){ const container=track.parentElement||track; return (container&&container.clientWidth)?container.clientWidth:1; }
+  function setTransformByIndex(index){ const w=getContainerWidth(); const px=-(index*w); track.style.transform=`translateX(${px}px)`; }
     function updateDots() { dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlideIndex)); }
     function updateCarousel() { setTransformByIndex(currentSlideIndex); updateDots(); }
     function gotoSlide(index){ if(isAnimating) return; const total=slides.length; if(!total) return; if(index>=total) index=0; if(index<0) index=total-1; isAnimating=true; track.style.transition='transform 300ms ease'; currentSlideIndex=index; setTransformByIndex(currentSlideIndex); updateDots(); }
@@ -151,8 +152,8 @@
     // Pointer events with touch fallback
     let pointerId=null, startX=0, deltaX=0, dragging=false; const SWIPE_THRESHOLD=0.18; const EDGE_RESISTANCE=0.35;
     function onPointerDown(e){ if(isAnimating) return; dragging=true; deltaX=0; pointerId=e.pointerId; startX=e.clientX; track.style.transition='none'; track.setPointerCapture && track.setPointerCapture(pointerId); track.style.willChange='transform'; }
-  function onPointerMove(e){ if(!dragging) return; const x=e.clientX; deltaX=x-startX; const container=track.parentElement||track; const w=(container&&container.clientWidth)?container.clientWidth:1; let pct=(deltaX/w)*100; if((currentSlideIndex===0 && pct>0)||(currentSlideIndex===slides.length-1 && pct<0)) pct*=EDGE_RESISTANCE; track.style.transform=`translateX(calc(${-currentSlideIndex*100}% + ${pct}%))`; }
-  function onPointerUpOrCancel(){ if(!dragging) return; dragging=false; track.style.willChange='auto'; const container=track.parentElement||track; const w=(container&&container.clientWidth)?container.clientWidth:1; const traveled=Math.abs(deltaX)/w; track.style.transition='transform 300ms ease'; if(traveled>SWIPE_THRESHOLD){ const dir=deltaX<0?1:-1; gotoSlide(currentSlideIndex+dir);} else { setTransformByIndex(currentSlideIndex);} pointerId=null; deltaX=0; }
+  function onPointerMove(e){ if(!dragging) return; const x=e.clientX; deltaX=x-startX; const w=getContainerWidth(); let dx=deltaX; if((currentSlideIndex===0 && dx>0)||(currentSlideIndex===slides.length-1 && dx<0)) dx*=EDGE_RESISTANCE; const base=-(currentSlideIndex*w); track.style.transform=`translateX(${base+dx}px)`; }
+  function onPointerUpOrCancel(){ if(!dragging) return; dragging=false; track.style.willChange='auto'; const w=getContainerWidth(); const traveled=Math.abs(deltaX)/w; track.style.transition='transform 300ms ease'; if(traveled>SWIPE_THRESHOLD){ const dir=deltaX<0?1:-1; gotoSlide(currentSlideIndex+dir);} else { setTransformByIndex(currentSlideIndex);} pointerId=null; deltaX=0; }
   // Detect any iOS device (Safari or Chrome on iOS) to force touch fallback
   function isIOSDevice(){ var ua=navigator.userAgent||''; var iOS=/iPad|iPhone|iPod/.test(ua); var iPadOSDesktopMode=(navigator.platform==='MacIntel' && navigator.maxTouchPoints>1); return !!(iOS||iPadOSDesktopMode); }
   // Disable swipe on desktop; use arrows only
@@ -161,13 +162,19 @@
     else {
       let touchStartX=0,lastX=0,locked=false; const LOCK_THRESHOLD=8; 
       track.addEventListener('touchstart',(e)=>{ if(isAnimating) return; const t=e.touches[0]; touchStartX=t.clientX; lastX=touchStartX; dragging=true; locked=false; track.style.transition='none'; track.style.willChange='transform'; },{passive:true});
-  track.addEventListener('touchmove',(e)=>{ if(!dragging) return; const t=e.touches[0]; const x=t.clientX; const dx=x-touchStartX; lastX=x; if(!locked && Math.abs(dx)>LOCK_THRESHOLD && e.cancelable){ e.preventDefault(); locked=true; } const container=track.parentElement||track; const w=(container&&container.clientWidth)?container.clientWidth:1; let pct=(dx/w)*100; if((currentSlideIndex===0 && pct>0)||(currentSlideIndex===slides.length-1 && pct<0)) pct*=EDGE_RESISTANCE; track.style.transform=`translateX(calc(${-currentSlideIndex*100}% + ${pct}%))`; },{passive:false});
-  track.addEventListener('touchend',(e)=>{ if(!dragging) return; dragging=false; track.style.willChange='auto'; const endX=(e.changedTouches&&e.changedTouches[0]?e.changedTouches[0].clientX:lastX); const container=track.parentElement||track; const w=(container&&container.clientWidth)?container.clientWidth:1; const traveled=Math.abs(endX-touchStartX)/w; track.style.transition='transform 300ms ease'; if(traveled>0.18){ const dir=(endX-touchStartX)<0?1:-1; gotoSlide(currentSlideIndex+dir);} else { setTransformByIndex(currentSlideIndex);} },{passive:true});
+  track.addEventListener('touchmove',(e)=>{ if(!dragging) return; const t=e.touches[0]; const x=t.clientX; const dx=x-touchStartX; lastX=x; if(!locked && Math.abs(dx)>LOCK_THRESHOLD && e.cancelable){ e.preventDefault(); locked=true; } const w=getContainerWidth(); let dragX=dx; if((currentSlideIndex===0 && dragX>0)||(currentSlideIndex===slides.length-1 && dragX<0)) dragX*=EDGE_RESISTANCE; const base=-(currentSlideIndex*w); track.style.transform=`translateX(${base+dragX}px)`; },{passive:false});
+  track.addEventListener('touchend',(e)=>{ if(!dragging) return; dragging=false; track.style.willChange='auto'; const endX=(e.changedTouches&&e.changedTouches[0]?e.changedTouches[0].clientX:lastX); const w=getContainerWidth(); const traveled=Math.abs(endX-touchStartX)/w; track.style.transition='transform 300ms ease'; if(traveled>0.18){ const dir=(endX-touchStartX)<0?1:-1; gotoSlide(currentSlideIndex+dir);} else { setTransformByIndex(currentSlideIndex);} },{passive:true});
       track.addEventListener('touchcancel',()=>{ dragging=false; track.style.willChange='auto'; track.style.transition='transform 300ms ease'; setTransformByIndex(currentSlideIndex); },{passive:true});
     }
 
     // Keyboard navigation
     document.addEventListener('keydown',(e)=>{ if(e.key==='ArrowLeft') changeSlide(-1); else if(e.key==='ArrowRight') changeSlide(1); });
+    
+    // Re-sync transform after resize/orientation changes (pixel-based transforms)
+    function debounce(fn, delay){ let t; return function(){ const ctx=this, args=arguments; clearTimeout(t); t=setTimeout(function(){ fn.apply(ctx,args); }, delay); } }
+    function syncTransformToSize(){ const prev=track.style.transition; track.style.transition='none'; setTransformByIndex(currentSlideIndex); void track.offsetWidth; track.style.transition=prev; }
+    window.addEventListener('resize', debounce(syncTransformToSize, 120));
+    window.addEventListener('orientationchange', debounce(syncTransformToSize, 120));
   </script>
 </body>
 </html>
