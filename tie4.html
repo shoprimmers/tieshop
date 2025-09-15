@@ -133,84 +133,37 @@
   </div>
 
   <script>
-    // Image Carousel functionality
+    // Image Carousel functionality (pointer events + live dragging)
     let currentSlideIndex = 0;
     const slides = document.querySelectorAll('.carousel-slide');
     const dots = document.querySelectorAll('.carousel-dot');
     const track = document.getElementById('carousel-track');
+    let isAnimating = false;
 
-    function updateCarousel() {
-      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
-      
-      // Update active dot
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlideIndex);
-      });
+    function setTransformByIndex(index) { track.style.transform = `translateX(-${index * 100}%)`; }
+    function updateDots() { dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlideIndex)); }
+    function updateCarousel() { setTransformByIndex(currentSlideIndex); updateDots(); }
+    function gotoSlide(index){ if(isAnimating) return; const total=slides.length; if(!total) return; if(index>=total) index=0; if(index<0) index=total-1; isAnimating=true; track.style.transition='transform 300ms ease'; currentSlideIndex=index; setTransformByIndex(currentSlideIndex); updateDots(); }
+    track.addEventListener('transitionend', (ev)=>{ if(ev.propertyName==='transform') isAnimating=false; });
+    function changeSlide(direction){ gotoSlide(currentSlideIndex + direction); }
+    function currentSlide(index){ gotoSlide(index - 1); }
+
+    // Pointer events with touch fallback
+    let pointerId=null, startX=0, deltaX=0, dragging=false; const SWIPE_THRESHOLD=0.18; const EDGE_RESISTANCE=0.35;
+    function onPointerDown(e){ if(isAnimating) return; dragging=true; deltaX=0; pointerId=e.pointerId; startX=e.clientX; track.style.transition='none'; track.setPointerCapture && track.setPointerCapture(pointerId); track.style.willChange='transform'; }
+    function onPointerMove(e){ if(!dragging) return; const x=e.clientX; deltaX=x-startX; const w=track.clientWidth||1; let pct=(deltaX/w)*100; if((currentSlideIndex===0 && pct>0)||(currentSlideIndex===slides.length-1 && pct<0)) pct*=EDGE_RESISTANCE; track.style.transform=`translateX(calc(${-currentSlideIndex*100}% + ${pct}%))`; }
+    function onPointerUpOrCancel(){ if(!dragging) return; dragging=false; track.style.willChange='auto'; const w=track.clientWidth||1; const traveled=Math.abs(deltaX)/w; track.style.transition='transform 300ms ease'; if(traveled>SWIPE_THRESHOLD){ const dir=deltaX<0?1:-1; gotoSlide(currentSlideIndex+dir);} else { setTransformByIndex(currentSlideIndex);} pointerId=null; deltaX=0; }
+    if(window.PointerEvent){ track.addEventListener('pointerdown', onPointerDown); track.addEventListener('pointermove', onPointerMove); track.addEventListener('pointerup', onPointerUpOrCancel); track.addEventListener('pointercancel', onPointerUpOrCancel); }
+    else {
+      let touchStartX=0,lastX=0,locked=false; const LOCK_THRESHOLD=8; 
+      track.addEventListener('touchstart',(e)=>{ if(isAnimating) return; const t=e.touches[0]; touchStartX=t.clientX; lastX=touchStartX; dragging=true; locked=false; track.style.transition='none'; track.style.willChange='transform'; },{passive:true});
+      track.addEventListener('touchmove',(e)=>{ if(!dragging) return; const t=e.touches[0]; const x=t.clientX; const dx=x-touchStartX; lastX=x; if(!locked && Math.abs(dx)>LOCK_THRESHOLD && e.cancelable){ e.preventDefault(); locked=true; } const w=track.clientWidth||1; let pct=(dx/w)*100; if((currentSlideIndex===0 && pct>0)||(currentSlideIndex===slides.length-1 && pct<0)) pct*=EDGE_RESISTANCE; track.style.transform=`translateX(calc(${-currentSlideIndex*100}% + ${pct}%))`; },{passive:false});
+      track.addEventListener('touchend',(e)=>{ if(!dragging) return; dragging=false; track.style.willChange='auto'; const endX=(e.changedTouches&&e.changedTouches[0]?e.changedTouches[0].clientX:lastX); const traveled=Math.abs(endX-touchStartX)/(track.clientWidth||1); track.style.transition='transform 300ms ease'; if(traveled>0.18){ const dir=(endX-touchStartX)<0?1:-1; gotoSlide(currentSlideIndex+dir);} else { setTransformByIndex(currentSlideIndex);} },{passive:true});
+      track.addEventListener('touchcancel',()=>{ dragging=false; track.style.willChange='auto'; track.style.transition='transform 300ms ease'; setTransformByIndex(currentSlideIndex); },{passive:true});
     }
-
-    function changeSlide(direction) {
-      currentSlideIndex += direction;
-      
-      if (currentSlideIndex >= slides.length) {
-        currentSlideIndex = 0;
-      } else if (currentSlideIndex < 0) {
-        currentSlideIndex = slides.length - 1;
-      }
-      
-      updateCarousel();
-    }
-
-    function currentSlide(index) {
-      currentSlideIndex = index - 1;
-      updateCarousel();
-    }
-
-    // Touch/swipe support for mobile (iOS-friendly across browsers)
-    let startX = 0;
-    let lastX = 0;
-    let isDragging = false;
-    let hasMoved = false;
-    const SWIPE_THRESHOLD = 40;
-    const LOCK_THRESHOLD = 8;
-
-    track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      lastX = startX;
-      isDragging = true;
-      hasMoved = false;
-  }, { passive: true });
-  track.addEventListener('touchcancel', () => { isDragging = false; hasMoved = false; }, { passive: true });
-
-    track.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      const x = e.touches[0].clientX;
-      const deltaX = x - startX;
-      lastX = x;
-      if (Math.abs(deltaX) > LOCK_THRESHOLD) {
-        hasMoved = true;
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    track.addEventListener('touchend', (e) => {
-      if (!isDragging) return;
-      isDragging = false;
-      const endX = e.changedTouches && e.changedTouches.length ? e.changedTouches[0].clientX : lastX;
-      const diffX = startX - endX;
-      if (hasMoved && Math.abs(diffX) > SWIPE_THRESHOLD) {
-        if (diffX > 0) changeSlide(1); else changeSlide(-1);
-      }
-      hasMoved = false;
-    }, { passive: true });
 
     // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        changeSlide(-1);
-      } else if (e.key === 'ArrowRight') {
-        changeSlide(1);
-      }
-    });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='ArrowLeft') changeSlide(-1); else if(e.key==='ArrowRight') changeSlide(1); });
   </script>
 </body>
 </html>

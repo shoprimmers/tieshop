@@ -987,7 +987,7 @@ footer { position: relative; width: 100%; }
 footer.site-footer {
   background: var(--brand-blue);
   color: #ffffff;
-  padding: 16px 12px;
+  padding: 28px 16px; /* thicker bar */
 }
 footer.site-footer a { color: #ffffff; text-decoration: none; }
 footer.site-footer a:hover { text-decoration: underline; }
@@ -998,7 +998,7 @@ footer.site-footer .footer-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
 }
 footer.site-footer .footer-left { display: flex; align-items: center; gap: 10px; }
 footer.site-footer .footer-logo { display: inline-flex; align-items: center; }
@@ -1011,12 +1011,17 @@ footer.site-footer .footer-logo img {
 footer.site-footer .footer-center { text-align: center; flex: 1; }
 footer.site-footer .footer-center p { margin: 0; font-weight: 600; letter-spacing: 0.01em; }
 footer.site-footer .footer-right { text-align: right; }
+footer.site-footer .footer-contact { display: flex; flex-direction: column; gap: 6px; }
+footer.site-footer .footer-contact a { color: #ffffff; font-weight: 700; letter-spacing: 0.2px; }
+footer.site-footer .footer-contact .footer-phone { font-size: 1.05rem; }
+footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 0.95; }
 
 /* Mobile/tablet: stack items and center */
 @media (max-width: 900px) {
-  footer.site-footer .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 8px; }
+  footer.site-footer .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 14px; }
   footer.site-footer .footer-left, footer.site-footer .footer-right { width: 100%; justify-content: center; }
-  footer.site-footer .footer-right { display: none; }
+  footer.site-footer .footer-right { display: block; }
+  footer.site-footer .footer-contact { text-align: center; }
 }
 
 /* ---------------- RESPONSIVE DESIGN ---------------- */

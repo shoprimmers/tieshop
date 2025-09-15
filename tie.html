@@ -177,76 +177,173 @@
         console.error(err);
       });
 
-    // Carousel logic (same as other pages)
-  let currentSlideIndex = 0;
-  let slides = [];
+    // Carousel logic (robust iOS-friendly with pointer events + live dragging)
+    let currentSlideIndex = 0;
+    let slides = [];
     const track = document.getElementById('carousel-track');
+    const statusEl = document.getElementById('carousel-status');
+    const numericEl = document.getElementById('carousel-numeric');
+    let isAnimating = false;
 
-    function updateCarousel() {
-      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
-      const status = document.getElementById('carousel-status');
-      const numeric = document.getElementById('carousel-numeric');
-      if (slides[currentSlideIndex]) {
-        slides.forEach((s, idx) => s.setAttribute('aria-hidden', idx === currentSlideIndex ? 'false' : 'true'));
-      }
-      const total = slides.length;
-      const pos = currentSlideIndex + 1;
-  if (status) status.textContent = `Image ${pos} of ${total}`;
-  if (numeric) numeric.textContent = `${pos}/${total}`;
+    function setTransformByIndex(index) {
+      // Use percentage to avoid needing explicit widths
+      track.style.transform = `translateX(-${index * 100}%)`;
     }
 
+    function updateA11y(index) {
+      if (slides[index]) {
+        slides.forEach((s, idx) => s.setAttribute('aria-hidden', idx === index ? 'false' : 'true'));
+      }
+      const total = slides.length || 1;
+      const pos = index + 1;
+      if (statusEl) statusEl.textContent = `Image ${pos} of ${total}`;
+      if (numericEl) numericEl.textContent = `${pos}/${total}`;
+    }
+
+    function updateCarousel() {
+      setTransformByIndex(currentSlideIndex);
+      updateA11y(currentSlideIndex);
+    }
+
+    function gotoSlide(index) {
+      if (isAnimating) return;
+      const total = slides.length;
+      if (!total) return;
+      // wrap-around
+      if (index >= total) index = 0;
+      if (index < 0) index = total - 1;
+      isAnimating = true;
+      track.style.transition = 'transform 300ms ease';
+      currentSlideIndex = index;
+      setTransformByIndex(currentSlideIndex);
+    }
+
+    track.addEventListener('transitionend', function(ev) {
+      if (ev.propertyName !== 'transform') return;
+      isAnimating = false;
+      // ensure a11y state sync after animation
+      updateA11y(currentSlideIndex);
+    });
+
     function changeSlide(direction) {
-      currentSlideIndex += direction;
-      if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
-      else if (currentSlideIndex < 0) currentSlideIndex = slides.length - 1;
-      updateCarousel();
+      gotoSlide(currentSlideIndex + direction);
     }
 
     function currentSlide(index) {
-      currentSlideIndex = index - 1;
-      updateCarousel();
+      gotoSlide(index - 1);
     }
 
-    // Touch/swipe support (iOS-friendly)
+    // Pointer Events with touch fallback for reliable swiping on iOS/Chrome
+    let pointerId = null;
     let startX = 0;
-    let lastX = 0;
-    let isDragging = false;
-    let hasMoved = false;
-    const SWIPE_THRESHOLD = 40; // px
-    const LOCK_THRESHOLD = 8;   // px before we lock gesture as horizontal
+    let deltaX = 0;
+    let dragging = false;
+    const SWIPE_THRESHOLD = 0.18; // as fraction of slide width (~18%)
+    const EDGE_RESISTANCE = 0.35; // resistance factor near edges
 
-    track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      lastX = startX;
-      isDragging = true;
-      hasMoved = false;
-    }, { passive: true });
+    function onPointerDown(e) {
+      if (isAnimating) return;
+      dragging = true;
+      deltaX = 0;
+      pointerId = e.pointerId;
+      startX = e.clientX;
+      track.style.transition = 'none';
+      track.setPointerCapture && track.setPointerCapture(pointerId);
+      track.style.willChange = 'transform';
+    }
 
-    track.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      const x = e.touches[0].clientX;
-      const deltaX = x - startX;
-      lastX = x;
-      // Once movement is clearly horizontal, prevent page gestures
-      if (Math.abs(deltaX) > LOCK_THRESHOLD) {
-        hasMoved = true;
-        e.preventDefault(); // requires non-passive listener; Safari allows if target declares touch-action: pan-x
+    function onPointerMove(e) {
+      if (!dragging) return;
+      const x = e.clientX;
+      deltaX = x - startX;
+      const trackWidth = track.clientWidth || 1;
+      let percent = (deltaX / trackWidth) * 100; // positive when dragging right
+      // Apply resistance at edges
+      if ((currentSlideIndex === 0 && percent > 0) || (currentSlideIndex === slides.length - 1 && percent < 0)) {
+        percent *= EDGE_RESISTANCE;
       }
-  }, { passive: false });
+      track.style.transform = `translateX(calc(${-currentSlideIndex * 100}% + ${percent}%))`;
+    }
 
-    track.addEventListener('touchend', (e) => {
-      if (!isDragging) return; 
-      isDragging = false;
-      const endX = e.changedTouches && e.changedTouches.length ? e.changedTouches[0].clientX : lastX;
-      const diffX = startX - endX;
-      if (hasMoved && Math.abs(diffX) > SWIPE_THRESHOLD) {
-        changeSlide(diffX > 0 ? 1 : -1);
+    function onPointerUpOrCancel() {
+      if (!dragging) return;
+      dragging = false;
+      track.style.willChange = 'auto';
+      const trackWidth = track.clientWidth || 1;
+      const traveled = Math.abs(deltaX) / trackWidth;
+      track.style.transition = 'transform 300ms ease';
+      if (traveled > SWIPE_THRESHOLD) {
+        const dir = deltaX < 0 ? 1 : -1; // left drag moves to next (dir=1)
+        gotoSlide(currentSlideIndex + dir);
+      } else {
+        // snap back
+        setTransformByIndex(currentSlideIndex);
       }
-      hasMoved = false;
-  }, { passive: true });
+      pointerId = null;
+      deltaX = 0;
+    }
 
-  // Ensure we clear dragging if a touch is cancelled by the browser
-  track.addEventListener('touchcancel', () => { isDragging = false; hasMoved = false; }, { passive: true });
+    // Attach Pointer Events if available
+    if (window.PointerEvent) {
+      track.addEventListener('pointerdown', onPointerDown);
+      track.addEventListener('pointermove', onPointerMove);
+      track.addEventListener('pointerup', onPointerUpOrCancel);
+      track.addEventListener('pointercancel', onPointerUpOrCancel);
+    } else {
+      // Fallback to touch events with non-passive move
+      let touchStartX = 0;
+      let lastX = 0;
+      let locked = false;
+      const LOCK_THRESHOLD = 8; // px to lock horizontal
+      track.addEventListener('touchstart', (e) => {
+        if (isAnimating) return;
+        const t = e.touches[0];
+        touchStartX = t.clientX;
+        lastX = touchStartX;
+        dragging = true;
+        locked = false;
+        track.style.transition = 'none';
+        track.style.willChange = 'transform';
+      }, { passive: true });
+      track.addEventListener('touchmove', (e) => {
+        if (!dragging) return;
+        const t = e.touches[0];
+        const x = t.clientX;
+        const dx = x - touchStartX;
+        lastX = x;
+        if (!locked && Math.abs(dx) > LOCK_THRESHOLD && e.cancelable) {
+          // prevent page scroll once horizontal intent is clear
+          e.preventDefault();
+          locked = true;
+        }
+        const trackWidth = track.clientWidth || 1;
+        let percent = (dx / trackWidth) * 100;
+        if ((currentSlideIndex === 0 && percent > 0) || (currentSlideIndex === slides.length - 1 && percent < 0)) {
+          percent *= EDGE_RESISTANCE;
+        }
+        track.style.transform = `translateX(calc(${-currentSlideIndex * 100}% + ${percent}%))`;
+      }, { passive: false });
+      track.addEventListener('touchend', (e) => {
+        if (!dragging) return;
+        dragging = false;
+        track.style.willChange = 'auto';
+        const endX = (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : lastX);
+        const traveled = Math.abs(endX - touchStartX) / (track.clientWidth || 1);
+        track.style.transition = 'transform 300ms ease';
+        if (traveled > 0.18) {
+          const dir = (endX - touchStartX) < 0 ? 1 : -1;
+          gotoSlide(currentSlideIndex + dir);
+        } else {
+          setTransformByIndex(currentSlideIndex);
+        }
+      }, { passive: true });
+      track.addEventListener('touchcancel', () => {
+        dragging = false;
+        track.style.willChange = 'auto';
+        track.style.transition = 'transform 300ms ease';
+        setTransformByIndex(currentSlideIndex);
+      }, { passive: true });
+    }
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
@@ -272,7 +369,12 @@
       <div class="footer-center">
         <p>Website designed by Daniel Rimmer · <a href="accessibility.html">Accessibility</a></p>
       </div>
-      <div class="footer-right"></div>
+      <div class="footer-right">
+        <div class="footer-contact" aria-label="Contact information">
+          <a class="footer-phone" href="tel:+9723191655" aria-label="Call us at plus nine seven two three one nine one six five five">CALL US +972 319 1655</a>
+          <a class="footer-email" href="mailto:shop.rimmers@gmail.com" aria-label="Email shop dot rimmers at gmail dot com">Email: shop.rimmers@gmail.com</a>
+        </div>
+      </div>
     </div>
   </footer>
 </body>
