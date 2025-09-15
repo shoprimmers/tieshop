@@ -249,6 +249,31 @@ header h1 {
   letter-spacing: 1px;
 }
 
+/* Rashi Hebrew phrase under the logo (fullscreen only) */
+.rashi-phrase {
+  font-family: "Noto Rashi Hebrew", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  direction: rtl;
+  text-align: center;
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  font-size: clamp(18px, 2.6vw, 36px);
+}
+header.shrunk .rashi-phrase { display: none; }
+header.fullscreen .rashi-phrase { display: block; }
+
+@media (max-width: 900px) {
+  .rashi-phrase { font-size: clamp(16px, 3.6vw, 28px); margin-top: 0; margin-bottom: 18px; }
+}
+@media (max-width: 600px) {
+  .rashi-phrase { font-size: clamp(15px, 4.2vw, 24px); }
+}
+
 /* Catalog bar removed */
 
 /* ---------------- GALLERY ---------------- */
@@ -1052,9 +1077,12 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
     transform: translateX(-50%);
     height: 100%;
     display: flex;
+    flex-direction: column; /* stack logo, phrase, etc. vertically */
     align-items: center;
     justify-content: center;
-    width: auto;
+    width: 100%; /* allow phrase to center and wrap nicely */
+    text-align: center;
+    gap: 22px; /* space between logo and phrase on tablet */
   }
   header .header-left, header .header-right { position: relative; z-index: 3; }
 
@@ -1127,6 +1155,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
 }
 
 @media (max-width: 600px) {
+  header .header-center { gap: 28px; } /* a bit more space on phones */
   /* Use small/ dynamic viewport units on mobile for better fullscreen fit */
   header.fullscreen { height: 100svh; height: 100dvh; }
   header {
