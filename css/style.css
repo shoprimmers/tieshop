@@ -203,18 +203,18 @@ header.shrunk {
 @media (max-width: 900px) {
   header::before { background-position: center 35%; }
 }
-@media (max-width: 600px) {
-  header::before { background-position: center 25%; }
-}
-
-/* Preheader removed */
-header.fullscreen .scroll-hint { display: inline-flex; }
-
-header.fullscreen .header-flex,
-header.shrunk .header-flex {
-  height: 100%;
-}
-
+    @media (min-width: 901px) {
+      .floating-whatsapp {
+        width: 39px;
+        height: 39px;
+        right: 20px; /* keep position visually balanced */
+        bottom: 20px;
+        font-size: 1.2em;
+      }
+      .floating-whatsapp i {
+        font-size: 1.2em;
+      }
+    }
 /* The header shrink naturally reveals the collection; no extra top padding animation needed */
 
 /* Show Contact link only when shrunk; hide in fullscreen */
@@ -1394,6 +1394,16 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
 .floating-whatsapp i {
   color: #fff;
   font-size: 2em;
+}
+@media (min-width: 901px) {
+  .floating-whatsapp {
+    width: 45px; /* 25% smaller than 60px */
+    height: 45px; /* 25% smaller than 60px */
+    right: 20px;
+    bottom: 20px;
+    font-size: 1.5em; /* 25% smaller than 2em */
+  }
+  .floating-whatsapp i { font-size: 1.5em; }
 }
 @media (max-width: 600px) {
   .floating-whatsapp {
