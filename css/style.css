@@ -1087,7 +1087,7 @@ footer.site-footer .footer-center p { margin: 0; font-weight: 600; letter-spacin
 footer.site-footer .footer-right { text-align: right; }
 footer.site-footer .footer-contact { display: flex; flex-direction: column; gap: 6px; }
 footer.site-footer .footer-contact a { color: #ffffff; font-weight: 400; letter-spacing: 0.2px; }
-footer.site-footer .footer-contact .footer-phone { font-size: 1.05rem; }
+footer.site-footer .footer-contact .footer-phone { font-size: 0.98rem; }
 footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 0.95; }
 
 /* New footer layout for index.html using footer-main + footer-credit */
@@ -1097,7 +1097,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
 .site-footer .footer-main .footer-contact { display: grid; gap: 10px; align-content: start; justify-items: start; text-align: left; }
 .site-footer .footer-main .footer-contact a { color: #ffffff; font-weight: 400; letter-spacing: 0.2px; text-decoration: none; display: block; }
 .site-footer .footer-main .footer-contact a:hover { text-decoration: underline; }
-.site-footer .footer-main .footer-contact .footer-phone { font-size: 1.12rem; }
+.site-footer .footer-main .footer-contact .footer-phone { font-size: 1rem; }
 .site-footer .footer-main .footer-contact .footer-email { font-size: 1rem; opacity: 0.95; }
 .site-footer .footer-main .footer-contact .footer-accessibility { border: none; padding: 0; border-radius: 0; font-weight: 400; letter-spacing: 0.2px; }
 .site-footer .footer-credit {
