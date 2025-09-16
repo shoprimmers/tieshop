@@ -127,6 +127,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Rashi+Hebrew:wght@100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=20250915-7">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    // Add a .is-safari class to <html> for CSS targeting (excludes Chrome/CriOS/Edg/Chromium)
+    (function(){
+      try {
+        var ua = navigator.userAgent || navigator.vendor || '';
+        var isSafari = /Safari/i.test(ua) && !(/Chrome|Chromium|CriOS|Edg|FxiOS|OPiOS|DuckDuckGo/i.test(ua));
+        if (isSafari) { document.documentElement.classList.add('is-safari'); }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -213,8 +223,8 @@
     var firstCard = document.querySelector('#tie-collection .tie-card');
   var wa = document.querySelector('.floating-whatsapp');
       // Detect Safari (exclude Chrome/Chromium/Edge variants)
-      var ua = navigator.userAgent || navigator.vendor || "";
-      var isSafari = /Safari/i.test(ua) && !(/Chrome|Chromium|CriOS|Edg/i.test(ua));
+  var ua = navigator.userAgent || navigator.vendor || "";
+  var isSafari = /Safari/i.test(ua) && !(/Chrome|Chromium|CriOS|Edg|FxiOS|OPiOS|DuckDuckGo/i.test(ua));
       var didCollapse = false;
       function collapse() {
         if (didCollapse) return;
@@ -286,9 +296,18 @@
           collapse();
         }
       }
-      // Start shrunk if user already interacted in this session
+      // Start shrunk on Safari across devices; otherwise restore per-session behavior
       try {
-        if (sessionStorage.getItem('headerShrunk') === '1') {
+        if (isSafari) {
+          header.classList.add('shrunk');
+          header.classList.remove('fullscreen');
+          if (target) target.classList.add('revealed');
+          if (wa) wa.classList.remove('hidden');
+          try { sessionStorage.setItem('headerShrunk', '1'); } catch (e) {}
+          // Ensure Contact link is legible on the white shrunk header
+          var contactLink = header.querySelector('.header-left a');
+          if (contactLink) contactLink.style.color = 'var(--brand-blue)';
+        } else if (sessionStorage.getItem('headerShrunk') === '1') {
           header.classList.add('shrunk');
           header.classList.remove('fullscreen');
           if (target) target.classList.add('revealed');
@@ -302,10 +321,19 @@
           if (wa) wa.classList.add('hidden');
         }
       } catch (e) {
-        if (logo) logo.addEventListener('click', onLogoClick, true);
-        if (hint) hint.addEventListener('click', onLogoClick, true);
-        window.addEventListener('scroll', onFirstScroll, { passive: true, capture: true });
-        if (wa) wa.classList.add('hidden');
+        if (isSafari) {
+          header.classList.add('shrunk');
+          header.classList.remove('fullscreen');
+          if (target) target.classList.add('revealed');
+          if (wa) wa.classList.remove('hidden');
+          var contactLink2 = header.querySelector('.header-left a');
+          if (contactLink2) contactLink2.style.color = 'var(--brand-blue)';
+        } else {
+          if (logo) logo.addEventListener('click', onLogoClick, true);
+          if (hint) hint.addEventListener('click', onLogoClick, true);
+          window.addEventListener('scroll', onFirstScroll, { passive: true, capture: true });
+          if (wa) wa.classList.add('hidden');
+        }
       }
     })();
 

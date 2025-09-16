@@ -184,6 +184,20 @@ header.fullscreen {
   padding-bottom: 0;
 }
 
+/* Disable fullscreen hero for Safari only (iOS and desktop) */
+html.is-safari header.fullscreen {
+  height: var(--header-shrunk-height) !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  background: #ffffff !important;
+  color: var(--brand-blue) !important;
+}
+html.is-safari header.fullscreen::before,
+html.is-safari header.fullscreen::after {
+  opacity: 0 !important;
+}
+html.is-safari header.fullscreen .scroll-hint { display: none !important; }
+
 /* Show hero image + gradient only in fullscreen; fade out on shrink */
 header.fullscreen::before { opacity: 1; transform: scale(1.02); }
 header.fullscreen::after { opacity: 1; }
@@ -221,6 +235,9 @@ header.shrunk {
 header .header-left a {
   transition: opacity 0.3s ease;
 }
+/* Contact link color adapts to header state */
+header.fullscreen .header-left a { color: #ffffff !important; }
+header.shrunk .header-left a { color: var(--brand-blue) !important; }
 header.fullscreen .header-left a {
   opacity: 0;
   visibility: hidden;
