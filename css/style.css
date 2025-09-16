@@ -522,6 +522,20 @@ body:has(.tie-details) {
   .tie-info h2::before { margin-bottom: 2px; line-height: 1; }
 }
 .tie-info .title-text { display: inline; }
+.tie-sku {
+  font-family: var(--font-sans);
+  color: #6b7789; /* subtle grey for meta */
+  font-size: 0.92rem;
+  line-height: 1.2;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.tie-sku .sku-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-right: 6px;
+}
+.tie-sku .sku-value { font-weight: 600; color: var(--brand-blue); }
 .tie-price {
   font-family: var(--font-display);
   font-weight: 700;
@@ -539,6 +553,12 @@ body:has(.tie-details) {
     position: relative;
     margin-left: 0 !important;
     padding-left: 14px !important; /* same inset as title */
+    padding-right: 0 !important;
+  }
+  /* Align SKU with the same inset as title and price */
+  .tie-details .tie-sku {
+    margin-left: 0 !important;
+    padding-left: 14px !important;
     padding-right: 0 !important;
   }
   /* Give the title the same inset so brand, title, and price share one line */
@@ -624,6 +644,11 @@ body:has(.tie-details) {
     padding-left: 12px !important;
     padding-right: 12px !important;
   }
+  /* Align SKU with title/price on mobile/tablet */
+  .tie-page .tie-sku, .tie1-page .tie-sku {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
   .tie-page .tie-price .currency, .tie1-page .tie-price .currency,
   .tie-page .tie-price .amount, .tie1-page .tie-price .amount {
     display: inline-block;
@@ -641,6 +666,12 @@ body:has(.tie-details) {
   .tie-page .tie-info h2, .tie1-page .tie-info h2 {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important; /* remove any bottom padding */
+  }
+  /* Keep SKU tightly grouped between title and price */
+  .tie-page .tie-sku, .tie1-page .tie-sku {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.1;
   }
   .tie-page .tie-price, .tie1-page .tie-price {
     margin-top: 0 !important; /* rely on grid gap above */
