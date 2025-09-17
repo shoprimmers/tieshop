@@ -148,12 +148,14 @@ h2 { text-align: center; color: #fff; }
   background: var(--brand-blue);
   color: #ffffff;
   font-size: 0.9rem; /* match the .lang-toggle (English button) font size */
-  padding: 0; /* no panel padding; spacing comes from .lang-option */
+  padding: 1px; /* small padding as requested */
+  box-sizing: border-box; /* keep total width equal to button */
   border: none;
   box-shadow: 0 10px 24px rgba(0,0,0,0.25);
   border-radius: 0;
-  width: max-content; /* fit to content width */
-  min-width: 0;
+  /* Make panel exactly the same width as the switcher (label + arrow) */
+  width: 100%;
+  min-width: 100%;
   white-space: nowrap;
   z-index: 1200;
   overflow: hidden;
@@ -175,7 +177,10 @@ h2 { text-align: center; color: #fff; }
 .lang-option {
   display: block;
   width: 100%;
-  padding: 2px 2px; /* slightly tighter so menu width hugs text */
+  padding: 0; /* button and panel share same height profile */
+  line-height: 1; /* match label baseline height */
+  height: 1.2em; /* tight, similar to label + arrow composition */
+  display: flex; align-items: center; /* vertically center text */
   text-align: left;
   background: transparent;
   border: none;
@@ -183,6 +188,18 @@ h2 { text-align: center; color: #fff; }
   font-weight: 600;
   color: #ffffff; /* white text */
   cursor: pointer;
+}
+/* Hebrew option: right-to-left direction and right alignment */
+.lang-option[data-lang="he"] {
+  direction: rtl;
+  text-align: right;
+  justify-content: flex-end;
+}
+/* English option: left default (LTR) */
+.lang-option[data-lang="en"] {
+  direction: ltr;
+  text-align: left;
+  justify-content: flex-start;
 }
 .lang-menu .lang-option[aria-checked="true"] { display: none; }
 .lang-option[aria-checked="true"] { background: rgba(255,255,255,0.14); }
