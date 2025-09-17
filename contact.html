@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | Rimmer's Shop</title>
-  <link rel="stylesheet" href="css/style.css?v=20250917-1">
+  <link rel="stylesheet" href="css/style.css?v=20250917-2">
   <style>
     body {
       background: #000000;
@@ -73,8 +73,8 @@
   <a href="https://wa.me/972535455468" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
-  <!-- Thin preheader bar shown only when header is shrunk and page is at top -->
-  <div class="preheader" id="preheader" aria-hidden="true">
+  <!-- Thin preheader bar: always visible, header offsets below it -->
+  <div class="preheader preheader--visible" id="preheader" aria-hidden="false">
     <div class="preheader__inner">
   <span class="preheader__text">Italian Artisanship in Every Stitch</span>
   <div class="preheader__lang">
@@ -221,48 +221,20 @@
   </footer>
 
   <script>
-    // Control preheader visibility: show only when header is shrunk and at very top,
-    // and offset the header by the preheader height to avoid overlap
+    // Always-visible preheader: set CSS var so sticky header sits below it
     (function(){
       var pre = document.getElementById('preheader');
-      var header = document.getElementById('site-header');
-      if(!pre || !header) return;
-
-      function applyPreheaderVisibility(){
-        var isShrunk = header.classList.contains('shrunk');
-        var atTop = (window.scrollY || window.pageYOffset || 0) === 0;
-        var show = isShrunk && atTop;
-        if(show){
-          pre.classList.add('preheader--visible');
+      if(!pre) return;
+      function setOffset(){
+        try {
+          var h = pre.getBoundingClientRect().height || 0;
+          document.documentElement.style.setProperty('--preheader-height', h + 'px');
           pre.setAttribute('aria-hidden','false');
-          try {
-            var h = pre.getBoundingClientRect().height || 0;
-            header.style.top = h ? (h + 'px') : '0px';
-            document.documentElement.classList.add('preheader-visible');
-            document.documentElement.style.setProperty('--preheader-height', h + 'px');
-          } catch(e) { /* no-op */ }
-        } else {
-          pre.classList.remove('preheader--visible');
-          pre.setAttribute('aria-hidden','true');
-          header.style.top = '';
-          document.documentElement.classList.remove('preheader-visible');
-          document.documentElement.style.removeProperty('--preheader-height');
-        }
+        } catch(e) {}
       }
-
-      function onHeaderShrunk(){ applyPreheaderVisibility(); }
-
-      window.addEventListener('load', applyPreheaderVisibility);
-      document.addEventListener('DOMContentLoaded', applyPreheaderVisibility);
-      window.addEventListener('scroll', function(){ applyPreheaderVisibility(); }, {passive:true});
-      window.addEventListener('resize', function(){ applyPreheaderVisibility(); }, {passive:true});
-
-      try {
-        var originalAdd = header.classList.add.bind(header.classList);
-        header.classList.add = function(){ originalAdd.apply(header.classList, arguments); onHeaderShrunk(); };
-        var originalRemove = header.classList.remove.bind(header.classList);
-        header.classList.remove = function(){ originalRemove.apply(header.classList, arguments); onHeaderShrunk(); };
-      } catch(e) { /* no-op */ }
+      window.addEventListener('load', setOffset, {passive:true});
+      window.addEventListener('resize', setOffset, {passive:true});
+      setOffset();
     })();
   </script>
 </body>

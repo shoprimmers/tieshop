@@ -7,6 +7,8 @@
   --brand-blue: #002147; /* E. Marinella-inspired navy (update if exact hex is provided) */
   --font-display: 'Roboto Slab', serif; /* squared, less-detailed serif */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* computed in-page: actual preheader height in pixels */
+  /* --preheader-height is set by inline scripts on each page */
 }
 
 html {
@@ -60,6 +62,8 @@ body {
   color: #ffffff;
   margin: 0;
   padding: 0;
+  /* Reserve space at the top for fixed preheader + fixed header */
+  padding-top: calc(var(--preheader-height, 0px) + var(--header-shrunk-height, 56px));
 }
 h1, h2, h3 {
   font-family: var(--font-display);
@@ -230,13 +234,17 @@ header {
   color: white; /* text/icon color on blue */
   text-align: center;
   padding: 13px;
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: var(--preheader-height, 0px);
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
   transition: height 1.2s ease-in-out, padding 1.2s ease-in-out, background-position 1.2s ease-in-out, box-shadow 0.3s ease;
   will-change: height, padding, background-position;
   box-sizing: border-box; /* ensure declared height includes padding */
 }
+/* Header already honors --preheader-height via top; no extra rule needed */
 
 /* Hero image overlay for fullscreen header */
 header::before {
@@ -276,6 +284,10 @@ header.fullscreen {
   height: 100vh;           /* full screen height */
   padding-top: 0;
   padding-bottom: 0;
+}
+/* While fullscreen, don't add extra body padding for shrunk height; only account for preheader */
+body:has(header.fullscreen) {
+  padding-top: var(--preheader-height, 0px) !important;
 }
 
 /* Disable fullscreen hero for Safari only (iOS and desktop) */
@@ -437,6 +449,71 @@ header.fullscreen .rashi-phrase { display: block; }
 /* Catalog bar removed */
 
 /* ---------------- GALLERY ---------------- */
+.collection-header {
+  /* Fully white container, no colored surround */
+  background: #ffffff;
+  display: block;
+  box-sizing: border-box;
+  /* Align with gallery width on desktop using the same variables we already compute */
+  max-width: 1200px; /* safety cap */
+  margin: 12px auto 8px auto; /* small breathing space under header */
+  padding: 0; /* no colored surround */
+  border: none; /* no border */
+  /* Expose the title font size as a variable so spacing can reference it */
+  --collection-title-fs: clamp(18px, 2.4vw, 28px);
+}
+/* Inner white content box so the blue shows as padding around it */
+.collection-header__inner {
+  background: #ffffff;
+  box-sizing: border-box;
+  padding: 0; /* no inner padding color */
+  border: none; /* remove outline */
+}
+/* Add side breathing room for title/paragraph on smaller screens */
+@media (max-width: 900px) {
+  .collection-header__inner { padding-left: 14px; padding-right: 14px; }
+}
+@media (max-width: 600px) {
+  .collection-header__inner { padding-left: 16px; padding-right: 16px; }
+}
+.collection-title {
+  /* One line above the title */
+  margin: 1em 0 0 0;
+  color: var(--brand-blue);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--collection-title-fs);
+  text-align: center;
+}
+.collection-lead {
+  margin: 10px auto 0 auto;
+  /* One title-sized line below the paragraph */
+  margin-bottom: var(--collection-title-fs);
+  color: var(--brand-blue);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(14px, 1.7vw, 16px);
+  line-height: 1.5;
+  text-align: left; /* text starts on the left side */
+  max-width: 70ch; /* keep a comfortable line length */
+}
+/* Desktop alignment with the image column edges (reuse variables from preheader alignment) */
+@media (min-width: 901px) {
+  .collection-header { position: relative; }
+  /* If we have saved offsets from the homepage calc, use them to align
+     the title container left/right with the images grid below */
+  :root {
+    /* these may be set dynamically elsewhere; keep defaults safe */
+    --preheader-inner-left: auto;
+    --preheader-inner-width: auto;
+  }
+  body:not(.no-align) .collection-header {
+    /* Align plain white container with gallery width and position */
+    width: var(--preheader-inner-width, auto);
+    margin-left: var(--preheader-inner-left, auto);
+    margin-right: 0;
+  }
+}
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -1177,8 +1254,8 @@ body:has(.tie-details) {
 #collection-start { scroll-margin-top: calc(var(--header-shrunk-height) + 12px); }
 #tie-collection {
   margin-top: 0;          /* avoid any unintended offset */
-  /* Maintain separation under the header; add preheader height when it's visible */
-  padding-top: calc(12px + var(--preheader-height, 0px));
+  /* Maintain small separation under the header only (header is fixed) */
+  padding-top: 12px;
   border-top: 0; /* no top divider; rely on header's thin underline only */
 }
 /* Removed extra top divider under header */
