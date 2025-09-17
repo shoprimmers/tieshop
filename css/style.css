@@ -39,7 +39,7 @@ a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
 }
 
 /* Skip link: hidden by default, visible when focused */
-.skip-link {
+.lang-menu {
   position: absolute;
   top: -100px;
   left: 8px;
@@ -48,8 +48,9 @@ a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
   padding: 10px 14px;
   border-radius: 6px;
   font-weight: 700;
-  text-decoration: none;
-  z-index: 3000;
+  width: auto; /* auto width */
+  min-width: calc(100% + 8px); /* just a little wider than the button */
+  white-space: nowrap;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 .skip-link:focus, .skip-link:focus-visible {
@@ -110,6 +111,78 @@ h2 { text-align: center; color: #fff; }
 .preheader__inner { margin: 0; width: 100%; padding: 4px 16px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .preheader__text { font-family: var(--font-display); font-weight: 600; text-transform: none; font-size: 0.85rem; letter-spacing: 0.01em; }
 .preheader__hebrew { font-family: "Noto Rashi Hebrew", serif; font-optical-sizing: auto; font-weight: 600; direction: rtl; color: #ffffff; font-size: 0.95rem; letter-spacing: 0.01em; white-space: nowrap; margin-left: auto; }
+.preheader__lang { margin-left: auto; }
+/* Language switcher: square button, label + chevron aligned on baseline */
+.lang-switcher { display: inline-flex; align-items: center; position: relative; }
+.lang-toggle {
+  display: inline-flex;
+  align-items: baseline; /* align arrow baseline with text */
+  gap: 6px; /* tighter spacing */
+  background: transparent; /* no surround */
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem; /* keep text legible */
+  padding: 0; /* no surround */
+  border: none; /* no surround */
+  border-radius: 0; /* ensure square if any UA default */
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative; /* anchor for the dropdown below */
+}
+.lang-toggle .label { line-height: 1; display: inline-block; }
+.lang-toggle .arrow {
+  position: relative;
+  top: -1px; /* nudge up so bottom aligns with label baseline */
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg); /* chevron like the scroll hint */
+}
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; /* open directly below the label */
+  background: var(--brand-blue);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  border-radius: 0;
+  width: max-content; /* fit to content width */
+  min-width: 0;
+  white-space: nowrap;
+  z-index: 1200;
+  overflow: hidden;
+  /* Curtain animation */
+  max-height: 0;
+  opacity: 0;
+  transform: scaleY(0.96);
+  transform-origin: top;
+  transition: max-height 220ms ease, opacity 180ms ease, transform 220ms ease;
+  will-change: max-height, opacity, transform;
+}
+.lang-menu.open {
+  max-height: 200px; /* enough for two options */
+  opacity: 1;
+  transform: scaleY(1);
+}
+.lang-option {
+  display: block;
+  width: 100%;
+  padding: 6px 8px; /* slightly tighter so menu width hugs text */
+  text-align: left;
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: #ffffff; /* white text */
+  cursor: pointer;
+}
+.lang-option[aria-checked="true"] { background: rgba(255,255,255,0.14); }
+.lang-option:hover { background: rgba(255,255,255,0.10); }
 .preheader--visible { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
  .header-flex {
    display: flex;
@@ -1736,6 +1809,13 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     gap: 12px; /* tighter spacing between items */
     align-items: start;
     justify-items: center; /* center fixed-width cards if narrower than column */
+  }
+  /* Align preheader left/right items to the first row of ties (first and fourth images) */
+  .preheader__inner {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: var(--preheader-inner-left, auto);
+    width: var(--preheader-inner-width, auto);
   }
   .gallery .tie-card {
     width: 100%;

@@ -125,7 +125,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Rashi+Hebrew:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20250915-7">
+  <link rel="stylesheet" href="css/style.css?v=20250917-1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     // Add a .is-safari class to <html> for CSS targeting (excludes Chrome/CriOS/Edg/Chromium)
@@ -147,6 +147,18 @@
   <div class="preheader" id="preheader" aria-hidden="true">
     <div class="preheader__inner">
   <span class="preheader__text">Italian Artisanship in Every Stitch</span>
+  <div class="preheader__lang">
+    <div class="lang-switcher">
+      <button class="lang-toggle" type="button" aria-label="Language" aria-expanded="false" aria-controls="lang-menu">
+        <span class="label">English</span>
+        <span class="arrow" aria-hidden="true"></span>
+      </button>
+      <div id="lang-menu" class="lang-menu" role="menu" aria-label="Language options">
+        <button class="lang-option" role="menuitemradio" aria-checked="true" data-lang="en">English</button>
+        <button class="lang-option" role="menuitemradio" aria-checked="false" data-lang="he">עברית</button>
+      </div>
+    </div>
+  </div>
     </div>
   </div>
 
@@ -211,6 +223,52 @@
   </header>
 
   <script>
+  // Desktop: align preheader left/right to first row of ties (1st and 4th cards)
+  (function(){
+    function alignPreheaderToTies(){
+      var desktop = window.matchMedia('(min-width: 1200px)').matches;
+      var root = document.documentElement;
+      if (!desktop) {
+        root.style.removeProperty('--preheader-inner-left');
+        root.style.removeProperty('--preheader-inner-width');
+        return;
+      }
+      var cards = document.querySelectorAll('#tie-collection .tie-card');
+      if (!cards || cards.length < 4) return;
+      var first = cards[0];
+      var fourth = cards[3];
+      if (!first || !fourth) return;
+      var firstImg = first.querySelector('img');
+      var fourthImg = fourth.querySelector('img');
+      if (!firstImg || !fourthImg) return;
+      var r1 = firstImg.getBoundingClientRect();
+      var r4 = fourthImg.getBoundingClientRect();
+      // Compute left offset and width so preheader__inner stretches exactly between image edges
+      var leftDoc = Math.round(window.scrollX + r1.left);
+      var rightDoc = Math.round(window.scrollX + r4.right);
+      var containerLeft = leftDoc;
+      var containerWidth = Math.max(0, rightDoc - leftDoc);
+      root.style.setProperty('--preheader-inner-left', containerLeft + 'px');
+      root.style.setProperty('--preheader-inner-width', containerWidth + 'px');
+      try {
+        localStorage.setItem('preheaderAlign', JSON.stringify({ left: containerLeft, width: containerWidth, vw: window.innerWidth, dpr: window.devicePixelRatio || 1 }));
+      } catch(e){}
+    }
+    var tidy;
+    window.addEventListener('resize', function(){ clearTimeout(tidy); tidy = setTimeout(alignPreheaderToTies, 100); }, {passive:true});
+    window.addEventListener('load', alignPreheaderToTies);
+    // Re-run after header collapse animation (layout shifts)
+    var header = document.getElementById('site-header');
+    if (header) {
+      header.addEventListener('transitionend', function(e){
+        if (e.propertyName === 'height' || e.propertyName === 'padding') alignPreheaderToTies();
+      });
+    }
+    // Run when fonts are ready (affects title wrapping and card sizing)
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+      document.fonts.ready.then(function(){ alignPreheaderToTies(); });
+    }
+  })();
   // Collapse fullscreen header on logo click or user scroll, and reveal ties together with the bar (no auto-scroll)
     (function() {
       var header = document.getElementById('site-header');
@@ -370,6 +428,61 @@
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeMenu();
       });
+    })();
+
+    // Language dropdown: open/close and apply language
+    (function(){
+      var toggle = document.querySelector('.lang-toggle');
+      var menu = document.getElementById('lang-menu');
+      if (!toggle || !menu) return;
+
+      function setLang(lang){
+        var html = document.documentElement;
+        if (lang === 'he') {
+          html.setAttribute('lang', 'he');
+          html.setAttribute('dir', 'rtl');
+          toggle.querySelector('.label').textContent = 'עברית';
+          menu.querySelectorAll('.lang-option').forEach(function(opt){ opt.setAttribute('aria-checked', opt.dataset.lang === 'he' ? 'true' : 'false'); });
+        } else {
+          html.setAttribute('lang', 'en');
+          html.setAttribute('dir', 'ltr');
+          toggle.querySelector('.label').textContent = 'English';
+          menu.querySelectorAll('.lang-option').forEach(function(opt){ opt.setAttribute('aria-checked', opt.dataset.lang === 'en' ? 'true' : 'false'); });
+        }
+        try { localStorage.setItem('siteLang', lang); } catch(e){}
+      }
+
+      function openMenu(){
+        menu.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+      function closeMenu(){
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+      function toggleMenu(e){
+        e && e.stopPropagation();
+        if (menu.classList.contains('open')) closeMenu(); else openMenu();
+      }
+
+      toggle.addEventListener('click', toggleMenu);
+      document.addEventListener('click', function(e){
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeMenu(); });
+      menu.addEventListener('click', function(e){
+        var btn = e.target.closest('.lang-option');
+        if (!btn) return;
+        var lang = btn.dataset.lang;
+        setLang(lang);
+        closeMenu();
+      });
+
+      // Initialize from storage
+      try {
+        var saved = localStorage.getItem('siteLang');
+        if (saved === 'he' || saved === 'en') setLang(saved);
+      } catch(e){}
     })();
   </script>
 

@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Silk Tie - Rimmer's Collection</title>
-  <link rel="stylesheet" href="css/style.css?v=20250915-7">
+  <link rel="stylesheet" href="css/style.css?v=20250917-1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
 <body class="tie-page tie-page-body">
@@ -18,6 +18,18 @@
   <div class="preheader" id="preheader" aria-hidden="true">
     <div class="preheader__inner">
   <span class="preheader__text">Italian Artisanship in Every Stitch</span>
+  <div class="preheader__lang">
+    <div class="lang-switcher">
+      <button class="lang-toggle" type="button" aria-label="Language" aria-expanded="false" aria-controls="lang-menu">
+        <span class="label">English</span>
+        <span class="arrow" aria-hidden="true"></span>
+      </button>
+      <div id="lang-menu" class="lang-menu" role="menu" aria-label="Language options">
+        <button class="lang-option" role="menuitemradio" aria-checked="true" data-lang="en">English</button>
+        <button class="lang-option" role="menuitemradio" aria-checked="false" data-lang="he">עברית</button>
+      </div>
+    </div>
+  </div>
     </div>
   </div>
 
@@ -76,6 +88,103 @@
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeMenu();
       });
+    })();
+
+    // Control preheader visibility and offset header below it (same as index)
+    (function(){
+      var pre = document.getElementById('preheader');
+      var header = document.getElementById('site-header');
+      if(!pre || !header) return;
+      function applyPreheaderVisibility(){
+        var isShrunk = header.classList.contains('shrunk');
+        var atTop = (window.scrollY || window.pageYOffset || 0) === 0;
+        var show = isShrunk && atTop;
+        if(show){
+          pre.classList.add('preheader--visible');
+          pre.setAttribute('aria-hidden','false');
+          try {
+            var h = pre.getBoundingClientRect().height || 0;
+            header.style.top = h ? (h + 'px') : '0px';
+            document.documentElement.classList.add('preheader-visible');
+            document.documentElement.style.setProperty('--preheader-height', h + 'px');
+          } catch(e) { /* no-op */ }
+        } else {
+          pre.classList.remove('preheader--visible');
+          pre.setAttribute('aria-hidden','true');
+          header.style.top = '';
+          document.documentElement.classList.remove('preheader-visible');
+          document.documentElement.style.removeProperty('--preheader-height');
+        }
+      }
+      window.addEventListener('load', applyPreheaderVisibility);
+      document.addEventListener('DOMContentLoaded', applyPreheaderVisibility);
+      window.addEventListener('scroll', function(){ applyPreheaderVisibility(); }, {passive:true});
+      window.addEventListener('resize', function(){ applyPreheaderVisibility(); }, {passive:true});
+    })();
+
+    // Language dropdown behavior (same as index)
+    (function(){
+      var toggle = document.querySelector('.lang-toggle');
+      var menu = document.getElementById('lang-menu');
+      if (!toggle || !menu) return;
+      function setLang(lang){
+        var html = document.documentElement;
+        if (lang === 'he') {
+          html.setAttribute('lang', 'he');
+          html.setAttribute('dir', 'rtl');
+          toggle.querySelector('.label').textContent = 'עברית';
+          menu.querySelectorAll('.lang-option').forEach(function(opt){ opt.setAttribute('aria-checked', opt.dataset.lang === 'he' ? 'true' : 'false'); });
+        } else {
+          html.setAttribute('lang', 'en');
+          html.setAttribute('dir', 'ltr');
+          toggle.querySelector('.label').textContent = 'English';
+          menu.querySelectorAll('.lang-option').forEach(function(opt){ opt.setAttribute('aria-checked', opt.dataset.lang === 'en' ? 'true' : 'false'); });
+        }
+        try { localStorage.setItem('siteLang', lang); } catch(e){}
+      }
+      function openMenu(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+      function closeMenu(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+      toggle.addEventListener('click', function(e){ e.stopPropagation(); if (menu.classList.contains('open')) closeMenu(); else openMenu(); });
+      document.addEventListener('click', function(e){ if (!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu(); });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeMenu(); });
+      menu.addEventListener('click', function(e){ var btn = e.target.closest('.lang-option'); if (!btn) return; setLang(btn.dataset.lang); closeMenu(); });
+      try { var saved = localStorage.getItem('siteLang'); if (saved === 'he' || saved === 'en') setLang(saved); } catch(e){}
+    })();
+
+    // Align preheader to the tie carousel image edges on desktop
+    (function(){
+      function alignPreheaderToCarousel(){
+        var desktop = window.matchMedia('(min-width: 1200px)').matches;
+        var root = document.documentElement;
+        if (!desktop) { root.style.removeProperty('--preheader-inner-left'); root.style.removeProperty('--preheader-inner-width'); return; }
+        // Try using the exact distances saved by the index page for consistency across the site
+        try {
+          var saved = localStorage.getItem('preheaderAlign');
+          if (saved) {
+            var obj = JSON.parse(saved);
+            if (obj && typeof obj.left === 'number' && typeof obj.width === 'number') {
+              root.style.setProperty('--preheader-inner-left', obj.left + 'px');
+              root.style.setProperty('--preheader-inner-width', obj.width + 'px');
+              return;
+            }
+          }
+        } catch(e){}
+        // Fallback: align to first carousel image edges
+        var firstImg = document.querySelector('.tie-carousel .carousel-slide img');
+        if (!firstImg) return;
+        var r = firstImg.getBoundingClientRect();
+        var leftDoc = Math.round(window.scrollX + r.left);
+        var rightDoc = Math.round(window.scrollX + r.right);
+        var containerLeft = leftDoc;
+        var containerWidth = Math.max(0, rightDoc - leftDoc);
+        root.style.setProperty('--preheader-inner-left', containerLeft + 'px');
+        root.style.setProperty('--preheader-inner-width', containerWidth + 'px');
+      }
+      var tid; window.addEventListener('resize', function(){ clearTimeout(tid); tid = setTimeout(alignPreheaderToCarousel, 120); }, {passive:true});
+      window.addEventListener('load', alignPreheaderToCarousel);
+      document.addEventListener('DOMContentLoaded', function(){ setTimeout(alignPreheaderToCarousel, 300); });
+      // Expose so we can call after images render
+      window.__alignPreheaderToCarousel = alignPreheaderToCarousel;
     })();
   </script>
 
@@ -174,6 +283,7 @@
         numeric.textContent = `1/${slides.length || 1}`;
       }
       updateCarousel();
+      try { if (window.__alignPreheaderToCarousel) { setTimeout(window.__alignPreheaderToCarousel, 50); } } catch(e){}
     }
 
     fetch('data/ties.json')
