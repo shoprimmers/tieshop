@@ -6,58 +6,80 @@
   <title>Contact | Rimmer's Shop</title>
   <link rel="stylesheet" href="css/style.css?v=20250917-2">
   <style>
+    /* Contact page adopts the site's white theme and inherits global top padding
+       reserved for the fixed preheader + header (don't override body padding). */
     body {
-      background: #000000;
-      color: #fff;
-      font-family: "Playfair Display", serif;
+      background: #ffffff;
+      color: var(--brand-blue);
+      font-family: var(--font-sans);
       margin: 0;
-      padding: 0;
+      /* No padding override here — let global CSS provide padding-top for bars */
     }
     .contact-title {
       font-size: 2em;
       margin: 0;
-      color: #fff;
+      color: var(--brand-blue);
       letter-spacing: 1px;
     }
     .contact-container {
-      max-width: 400px;
+      max-width: 460px;
       margin: 40px auto;
-      background: rgba(34, 34, 34, 0.95);
+      background: #ffffff;
+      border: 1px solid #e6e9ef;
       border-radius: 10px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-      padding: 32px 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      padding: 28px 22px;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 18px;
     }
     .contact-info {
       display: flex;
       align-items: center;
       gap: 14px;
-      font-size: 1.15em;
-      color: #fff;
+      font-size: 1.05em;
+      color: var(--brand-blue);
     }
     .contact-info i {
-      font-size: 1.3em;
-      color: #4fc3f7;
+      font-size: 1.2em;
+      color: var(--brand-blue);
     }
     .contact-label {
-      font-weight: bold;
-      color: #4fc3f7;
+      font-weight: 700;
+      color: var(--brand-blue);
       min-width: 90px;
     }
     .contact-name {
       text-align: center;
-      font-size: 1.2em;
+      font-size: 1.15em;
       margin-bottom: 10px;
-      color: #4fc3f7;
+      color: var(--brand-blue);
       font-weight: bold;
       letter-spacing: 1px;
     }
+    .contact-container a {
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .contact-container a:hover { text-decoration: underline; }
+
+    .back-actions {
+      text-align: center;
+      margin: 10px 0 26px;
+    }
+    .back-actions .back-link-inline {
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-actions .back-link-inline:hover { text-decoration: underline; }
+    /* Avoid duplicate WhatsApp buttons on contact page (keep floating on desktop) */
+    .contact-page .back-actions .whatsapp-inline { display: none; }
     @media (max-width: 600px) {
       .contact-container {
-        max-width: 95vw;
-        padding: 18px 6vw;
+        max-width: 93vw;
+        padding: 18px 5vw;
       }
       .contact-header .logo {
         width: 90px;
@@ -67,7 +89,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
 </head>
-<body class="tie-page">
+<body class="contact-page">
   <a href="#main" class="skip-link">Skip to content</a>
   <!-- Floating WhatsApp for desktop; hidden on tablet/phone by CSS -->
   <a href="https://wa.me/972535455468" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">
@@ -165,6 +187,7 @@
           }
         } catch(e){}
       }
+
       window.addEventListener('load', applySavedAlign);
       window.addEventListener('resize', function(){ if (!window.__alignTimer) window.__alignTimer=setTimeout(function(){ window.__alignTimer=null; applySavedAlign(); }, 120); }, {passive:true});
     })();
@@ -193,9 +216,9 @@
 
   <main id="main">
     <div class="contact-container">
-  <div class="contact-info"><i class="fas fa-phone"></i><span class="contact-label">Phone:</span> <a href="tel:0533191655" style="color:#fff;text-decoration:none;">053 319 1655</a></div>
-  <div class="contact-info"><i class="fab fa-whatsapp"></i><span class="contact-label">WhatsApp:</span> <a href="https://wa.me/972535455468" rel="noopener" style="color:#fff;text-decoration:none;">053 545 5468</a></div>
-  <div class="contact-info"><i class="fas fa-envelope"></i><span class="contact-label">Email:</span> <a href="mailto:shop.rimmers@gmail.com" style="color:#fff;text-decoration:none;">shop.rimmers@gmail.com</a></div>
+  <div class="contact-info"><i class="fas fa-phone"></i><span class="contact-label">Phone:</span> <a href="tel:0533191655">053 319 1655</a></div>
+  <div class="contact-info"><i class="fab fa-whatsapp"></i><span class="contact-label">WhatsApp:</span> <a href="https://wa.me/972535455468" rel="noopener">053 545 5468</a></div>
+  <div class="contact-info"><i class="fas fa-envelope"></i><span class="contact-label">Email:</span> <a href="mailto:shop.rimmers@gmail.com">shop.rimmers@gmail.com</a></div>
     </div>
     <p class="back-actions">
       <a href="index.html" class="back-link-inline">← Back to Collection</a>

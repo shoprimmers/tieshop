@@ -583,6 +583,31 @@ header.fullscreen ~ main#tie-collection .tie-card {
   background: transparent;
 }
 
+/* Make the promo image fill the entire tile, including the brand/title/price area */
+.tie-card.promo { position: relative; overflow: hidden; }
+/* Reserve only the image area; meta height comes from the hidden heading (like other cards) */
+.tie-card.promo::before {
+  content: "";
+  display: block;
+  padding-top: 133.333%;
+}
+.tie-card.promo .promo-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0% 74%; /* shift as far left as possible */
+  transform: scale(1.20); /* additional ~10% zoom to emphasize tie */
+  transform-origin: 0% 60%;
+  z-index: 0; /* image sits behind hidden heading, which is transparent */
+}
+/* Keep heading in flow to reserve real meta height, but make it invisible */
+.tie-card.promo h2 { visibility: hidden; opacity: 0; margin: 0; padding: 0; pointer-events: none; }
+/* Disable hover swap for promo so the single image never fades out */
+.tie-card.promo:hover img.primary,
+.tie-card.promo:hover .promo-fill { opacity: 1 !important; }
+
 /* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
@@ -1919,58 +1944,44 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     width: 100%;
     max-width: 270px; /* ~25% smaller maximum for desktop fullscreen */
   }
-  /* Wide promo card spans two columns and aligns with the grid gaps */
+  /* Promo behaves like a single tie tile (one column) */
   .gallery .promo-card {
-    grid-column: span 2;
+    grid-column: auto;
     width: 100%;
-    max-width: none;
-    justify-self: stretch; /* fill grid area */
-    align-self: stretch;
+    max-width: 270px; /* match tie card width */
+    justify-self: center;
+    align-self: start;
     background: #ffffff;
     box-shadow: none;
     overflow: hidden; /* crop image cleanly */
-    aspect-ratio: 2 / 1; /* roughly two cards wide by one tall */
   }
   .gallery .promo-card .promo-img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* fill area like a poster */
-    object-position: 50% 50%; /* default center focus */
+    object-fit: cover;
+    object-position: 50% 68%; /* focus on the tie */
   }
 }
 
 /* Phones: 2-column grid — make promo span both (two slots) */
 @media (max-width: 600px) {
-  .gallery .promo-card {
-    grid-column: 1 / -1; /* spans both columns */
-    width: 100%;
-    aspect-ratio: 2 / 1.8; /* taller on phones to match card height */
-    overflow: hidden;
-  }
-  .gallery .promo-card .promo-img {
-    width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; display: block; /* show more blazer/tie, less face */
-  }
+  .gallery .promo-card { grid-column: auto; width: 100%; overflow: hidden; }
+  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 68%; display: block; }
 }
 /* Small tablets: 3-column grid — make promo span 2 of 3 */
 @media (min-width: 601px) and (max-width: 900px) {
-  .gallery .promo-card {
-    grid-column: span 2;
-    width: 100%;
-    aspect-ratio: 2 / 1;
-    overflow: hidden;
-  }
-  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery .promo-card { grid-column: auto; width: 100%; overflow: hidden; }
+  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; object-position: 50% 68%; }
 }
 /* Large tablets (flex layout): approximate two-card width using flex-basis */
 @media (min-width: 901px) and (max-width: 1199px) {
   .gallery .promo-card {
     display: block;
-    flex: 0 0 calc((250px * 2) + 12px); /* 2 cards + one gap (gap is 12px in this range) */
-    width: calc((250px * 2) + 12px);
-    max-width: calc((250px * 2) + 12px);
-    aspect-ratio: 2 / 1;
+    flex: 0 0 250px; /* match single tie card */
+    width: 250px;
+    max-width: 250px;
     overflow: hidden;
   }
-  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; object-position: 50% 68%; }
 }
