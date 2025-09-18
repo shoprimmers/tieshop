@@ -589,7 +589,7 @@ header.fullscreen ~ main#tie-collection .tie-card {
 .tie-card.promo::before {
   content: "";
   display: block;
-  padding-t op: 133.333%;
+  padding-top: 133.333%;
 }
 .tie-card.promo .promo-fill {
   position: absolute;
