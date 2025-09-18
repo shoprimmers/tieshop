@@ -348,7 +348,7 @@
     // Ensure animations always unlock on iOS Safari (transitionend can be flaky)
     let unlockTimer = null;
     function clearUnlockTimer(){ if(unlockTimer){ clearTimeout(unlockTimer); unlockTimer=null; } }
-  function scheduleUnlockFallback(){ clearUnlockTimer(); unlockTimer = setTimeout(function(){ isAnimating=false; updateA11y(currentSlideIndex); }, 500); }
+  function scheduleUnlockFallback(){ clearUnlockTimer(); unlockTimer = setTimeout(function(){ isAnimating=false; updateA11y(currentSlideIndex); setTransformByIndex(currentSlideIndex); }, 500); }
     track.addEventListener('transitionend', function(ev) {
       // Some engines may report vendor-specific names; accept any property containing 'transform'
       if (ev && ev.propertyName && ev.propertyName.indexOf('transform') === -1) return;
@@ -375,11 +375,12 @@
     let startX = 0;
     let deltaX = 0;
     let dragging = false;
-    const SWIPE_THRESHOLD = 0.18; // as fraction of slide width (~18%)
+  const SWIPE_THRESHOLD = 0.16; // slightly easier to advance on iOS
     const EDGE_RESISTANCE = 0.35; // resistance factor near edges
 
     function onPointerDown(e) {
-      if (isAnimating) return;
+      // If we ever got stuck, allow a new drag to reset state
+      if (isAnimating) { isAnimating = false; clearUnlockTimer(); track.style.transition = 'none'; }
       dragging = true;
       deltaX = 0;
       pointerId = e.pointerId;
@@ -414,8 +415,8 @@
         const dir = deltaX < 0 ? 1 : -1; // left drag moves to next (dir=1)
         gotoSlide(currentSlideIndex + dir);
       } else {
-        // snap back
-        setTransformByIndex(currentSlideIndex);
+  // snap back and ensure transform matches index
+  setTransformByIndex(currentSlideIndex);
       }
       pointerId = null;
       deltaX = 0;
@@ -444,7 +445,8 @@
       let locked = false;
       const LOCK_THRESHOLD = 8; // px to lock horizontal
       track.addEventListener('touchstart', (e) => {
-        if (isAnimating) return;
+        // If we ever got stuck, allow a new drag to reset state
+        if (isAnimating) { isAnimating = false; clearUnlockTimer(); track.style.transition = 'none'; }
         const t = e.touches[0];
         touchStartX = t.clientX;
         lastX = touchStartX;
