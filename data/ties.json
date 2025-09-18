@@ -250,6 +250,15 @@
         {"src": "images/darkblue-blue-stripes-tongue.webp", "alt": "R26 - Dark Blue With Blue Stripes - Tongue Detail"},
         {"src": "images/darkblue-blue-stripes-body.webp", "alt": "R26 - Dark Blue With Blue Stripes - Full Body"}
       ]
+    },
+    "27": {
+      "title": "R27 - Green With Blue Flowers - Silk",
+      "images": [
+        {"src": "images/green-patterns-face.jpg", "alt": "Green With Blue Flowers - Front View"},
+        {"src": "images/green-patterns-closeup.jpg", "alt": "Green With Blue Flowers - Close-up Detail"},
+        {"src": "images/green-patterns-back.jpg", "alt": "Green With Blue Flowers - Back View"},
+        {"src": "images/green-patterns-tongue.jpg", "alt": "Green With Blue Flowers - Tongue Detail"}
+      ]
     }
   }
 }
