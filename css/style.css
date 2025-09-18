@@ -589,7 +589,7 @@ header.fullscreen ~ main#tie-collection .tie-card {
 .tie-card.promo::before {
   content: "";
   display: block;
-  padding-top: 133.333%;
+  padding-t op: 133.333%;
 }
 .tie-card.promo .promo-fill {
   position: absolute;
@@ -868,6 +868,12 @@ body:has(.tie-details) {
     margin-left: 0;
   }
 }
+
+/* ---------------- TEMPORARY: HIDE PRICE UI ---------------- */
+/* Hide price line on index cards (the divider + price lives in h2::after) */
+.tie-card h2::after { display: none !important; }
+/* Hide price block on tie detail pages */
+.tie-price { display: none !important; }
 
 /* Tie pages (mobile/tablet): stack title and price tightly in same container */
 @media (max-width: 1023px) {
