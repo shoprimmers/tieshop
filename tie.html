@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Silk Tie - Rimmer's Collection</title>
-  <link rel="stylesheet" href="css/style.css?v=20250917-2">
+  <link rel="stylesheet" href="css/style.css?v=20250917-13">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
 <body class="tie-page tie-page-body">
@@ -307,7 +307,7 @@
     function setTransformByIndex(index) {
       const w = getContainerWidth();
       const px = -(index * w);
-      track.style.transform = `translateX(${px}px)`;
+      track.style.transform = `translate3d(${px}px, 0, 0)`;
     }
 
     function updateA11y(index) {
@@ -323,6 +323,10 @@
     function updateCarousel() {
       setTransformByIndex(currentSlideIndex);
       updateA11y(currentSlideIndex);
+      // Extra safety: clear any stuck animation state after a frame
+      if (isAnimating) {
+        setTimeout(function(){ isAnimating = false; }, 0);
+      }
     }
 
     function gotoSlide(index) {
@@ -337,21 +341,23 @@
       currentSlideIndex = index;
       setTransformByIndex(currentSlideIndex);
       // On iOS Safari, set a safety timer in case transitionend doesn't fire
-      if (isIOSSafari()) scheduleUnlockFallback();
+  // Always set a safety timer in case transitionend doesn't fire reliably (seen on iOS and occasionally elsewhere)
+  scheduleUnlockFallback();
     }
 
     // Ensure animations always unlock on iOS Safari (transitionend can be flaky)
     let unlockTimer = null;
     function clearUnlockTimer(){ if(unlockTimer){ clearTimeout(unlockTimer); unlockTimer=null; } }
-    function scheduleUnlockFallback(){ clearUnlockTimer(); unlockTimer = setTimeout(function(){ isAnimating=false; updateA11y(currentSlideIndex); }, 450); }
+  function scheduleUnlockFallback(){ clearUnlockTimer(); unlockTimer = setTimeout(function(){ isAnimating=false; updateA11y(currentSlideIndex); }, 500); }
     track.addEventListener('transitionend', function(ev) {
-      if (ev.propertyName !== 'transform') return;
+      // Some engines may report vendor-specific names; accept any property containing 'transform'
+      if (ev && ev.propertyName && ev.propertyName.indexOf('transform') === -1) return;
       isAnimating = false; clearUnlockTimer();
       // ensure a11y state sync after animation
       updateA11y(currentSlideIndex);
     });
     track.addEventListener('webkitTransitionEnd', function(ev){
-      if (ev.propertyName !== 'transform') return;
+      if (ev && ev.propertyName && ev.propertyName.indexOf('transform') === -1) return;
       isAnimating = false; clearUnlockTimer();
       updateA11y(currentSlideIndex);
     });
@@ -393,8 +399,8 @@
       if ((currentSlideIndex === 0 && dx > 0) || (currentSlideIndex === slides.length - 1 && dx < 0)) {
         dx *= EDGE_RESISTANCE;
       }
-      const base = -(currentSlideIndex * w);
-      track.style.transform = `translateX(${base + dx}px)`;
+  const base = -(currentSlideIndex * w);
+  track.style.transform = `translate3d(${base + dx}px, 0, 0)`;
     }
 
     function onPointerUpOrCancel() {
@@ -446,7 +452,7 @@
         locked = false;
         track.style.transition = 'none';
         track.style.willChange = 'transform';
-      }, { passive: true });
+      }, { passive: false });
       track.addEventListener('touchmove', (e) => {
         if (!dragging) return;
         const t = e.touches[0];
@@ -463,8 +469,8 @@
         if ((currentSlideIndex === 0 && dragX > 0) || (currentSlideIndex === slides.length - 1 && dragX < 0)) {
           dragX *= EDGE_RESISTANCE;
         }
-        const base = -(currentSlideIndex * w);
-        track.style.transform = `translateX(${base + dragX}px)`;
+  const base = -(currentSlideIndex * w);
+  track.style.transform = `translate3d(${base + dragX}px, 0, 0)`;
       }, { passive: false });
       track.addEventListener('touchend', (e) => {
         if (!dragging) return;
