@@ -256,42 +256,79 @@
   })();
   // Desktop: align preheader left/right to first row of ties (1st and 4th cards)
   (function(){
+    var root = document.documentElement;
+
+    function clearProps() {
+      root.style.removeProperty('--preheader-inner-left');
+      root.style.removeProperty('--preheader-inner-width');
+    }
+
     function alignPreheaderToTies(){
       var desktop = window.matchMedia('(min-width: 1200px)').matches;
-      var root = document.documentElement;
-      if (!desktop) {
-        root.style.removeProperty('--preheader-inner-left');
-        root.style.removeProperty('--preheader-inner-width');
-        return;
-      }
-      var cards = document.querySelectorAll('#tie-collection .tie-card');
-      if (!cards || cards.length < 4) return;
-      var first = cards[0];
-      var fourth = cards[3];
-      if (!first || !fourth) return;
-      var firstImg = first.querySelector('img');
-      var fourthImg = fourth.querySelector('img');
-      if (!firstImg || !fourthImg) return;
+      if (!desktop) { clearProps(); return; }
+
+      // Only consider visible cards (not hidden and rendered)
+      var cards = Array.from(document.querySelectorAll('#tie-collection .tie-card:not([hidden])'))
+        .filter(function(c){ return c.offsetParent !== null && c.querySelector('img'); });
+
+      if (!cards.length) { clearProps(); return; }
+
+      // Determine first row by the top of the first visible card
+      var firstTop = cards[0].getBoundingClientRect().top;
+      var row = cards.filter(function(c){
+        return Math.abs(c.getBoundingClientRect().top - firstTop) < 2;
+      });
+
+      if (row.length < 1) { clearProps(); return; }
+
+      var firstImg = row[0].querySelector('img');
+      var lastImg  = row[row.length - 1].querySelector('img');
+      if (!firstImg || !lastImg) { clearProps(); return; }
+
       var r1 = firstImg.getBoundingClientRect();
-      var r4 = fourthImg.getBoundingClientRect();
-      // Compute left offset and width so preheader__inner stretches exactly between image edges
+      var rL = lastImg.getBoundingClientRect();
+      if (!r1.width || !rL.width) { clearProps(); return; }
+
       var leftDoc = Math.round(window.scrollX + r1.left);
-      var rightDoc = Math.round(window.scrollX + r4.right);
-      var containerLeft = leftDoc;
-      var containerWidth = Math.max(0, rightDoc - leftDoc);
-      root.style.setProperty('--preheader-inner-left', containerLeft + 'px');
-      root.style.setProperty('--preheader-inner-width', containerWidth + 'px');
+      var rightDoc = Math.round(window.scrollX + rL.right);
+      var width = Math.max(0, rightDoc - leftDoc);
+
+      if (width < 50) { clearProps(); return; } // guard against degenerate values
+
+      root.style.setProperty('--preheader-inner-left', leftDoc + 'px');
+      root.style.setProperty('--preheader-inner-width', width + 'px');
+
       try {
-        localStorage.setItem('preheaderAlign', JSON.stringify({ left: containerLeft, width: containerWidth, vw: window.innerWidth, dpr: window.devicePixelRatio || 1 }));
+        localStorage.setItem('preheaderAlign', JSON.stringify({
+          left: leftDoc, width: width, vw: window.innerWidth, dpr: window.devicePixelRatio || 1
+        }));
       } catch(e){}
     }
+
     var tidy;
-    window.addEventListener('resize', function(){ clearTimeout(tidy); tidy = setTimeout(alignPreheaderToTies, 100); }, {passive:true});
+    window.addEventListener('resize', function(){
+      clearTimeout(tidy); tidy = setTimeout(alignPreheaderToTies, 100);
+    }, {passive:true});
     window.addEventListener('load', alignPreheaderToTies);
-    // Run when fonts are ready (affects title wrapping and card sizing)
+
     if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
       document.fonts.ready.then(function(){ alignPreheaderToTies(); });
     }
+
+    // Re-align when cards are hidden/shown dynamically
+    try {
+      var container = document.getElementById('tie-collection');
+      if (container) {
+        new MutationObserver(function(){
+          alignPreheaderToTies();
+        }).observe(container, {
+          subtree: true,
+          childList: true,
+          attributes: true,
+          attributeFilter: ['hidden', 'style', 'class']
+        });
+      }
+    } catch(e){}
   })();
   // Fullscreen hero disabled: start in shrunk state and show collection by default
 
@@ -421,9 +458,9 @@
       </a>
     </div>
 
-    <div class="tie-card">
+    <div class="tie-card" hidden>
   <a href="tie.html?id=7">
-        <img src="images/satin-darkgreydrawn.jpg" alt="R7 - Dark Grey and Blue Tie - Satin Silk">
+        <img src="images/satin-darkgreydrawn.jpg" alt="A dark grey satin silk tie with a repeating blue geometric pattern, neatly knotted and displayed against a bright white background. The tie exudes a formal and elegant tone. No visible text in the image.">
         <img src="images/satin-darkgreydrawn.closeup.jpg" alt="" aria-hidden="true" class="secondary">
   <h2><span class="title-text">Dark Grey and Blue Tie - Satin Silk</span></h2>
       </a>
@@ -437,7 +474,7 @@
       </a>
     </div>
 
-    <div class="tie-card">
+    <div class="tie-card" hidden>
   <a href="tie.html?id=2">
         <img src="images/satin-blue.jpg" alt="R2 - Dark blue and Blue Stars Tie - Satin Silk">
         <img src="images/satin-blue-closeup.jpg" alt="" aria-hidden="true" class="secondary">
@@ -509,7 +546,7 @@
       </a>
     </div>
 
-      <div class="tie-card">
+      <div class="tie-card" hidden>
   <a href="tie.html?id=13">
         <img src="images/silk-cotton-darkblue-stars.jpg" alt="R13 - Navy Blue and Silver Stars Tie - Silk and Cotton">
         <img src="images/silk-cotton-blue-stars-closeup.jpg" alt="" aria-hidden="true" class="secondary">
@@ -527,7 +564,7 @@
 
     
 
-     <div class="tie-card">
+     <div class="tie-card" hidden>
   <a href="tie.html?id=15">
         <img src="images/darkblue-tinypaterns.jpg" alt="R15 - Navy Blue and Small Pattern - Satin Silk">
         <img src="images/darkblue-tinypatterns.closeup.jpg" alt="" aria-hidden="true" class="secondary">
@@ -535,7 +572,7 @@
       </a>
     </div>
 
-    <div class="tie-card">
+    <div class="tie-card" hidden>
   <a href="tie.html?id=16">
         <img src="images/silk-cotton-green-starts.jpg" alt="R16 - Dark Green and Black Stars Tie - Silk and Cotton">
         <img src="images/silk-cotton-green-stars-closeup.jpg" alt="" aria-hidden="true" class="secondary">
@@ -551,7 +588,7 @@
       </a>
     </div>
 
-    <div class="tie-card">
+    <div class="tie-card" hidden>
   <a href="tie.html?id=18">
         <img src="images/blueavion-polkadots.webp" alt="R18 - Blue Avion White Dots Tie - Silk">
         <img src="images/blue-avion-polka-dots.jpg" alt="" aria-hidden="true" class="secondary">
@@ -559,7 +596,7 @@
       </a>
     </div>
     
-    <div class="tie-card">
+    <div class="tie-card" hidden>
   <a href="tie.html?id=20">
         <img src="images/verydarkblue-small-squares-face.jpg" alt="Dark Blue With Squares">
         <img src="images/verydarkblue-small-squares-closeup.jpg" alt="" aria-hidden="true" class="secondary">
@@ -599,7 +636,7 @@
       </a>
     </div>
     
-    <div class="tie-card">
+    <div class="tie-card" hidden>
   <a href="tie.html?id=25">
         <img src="images/brown-tinypolkadots-face.webp" alt="R25 - Brown Tiny Polka Dots">
   <h2><span class="title-text">Brown Tiny Polka Dots</span></h2>
