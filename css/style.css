@@ -93,6 +93,31 @@ h2 { text-align: center; color: #fff; }
   opacity: 1;
 }
 
+/* Sold Out badge (non-interactive, looks like a button) */
+.sold-out-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px; /* default: bottom-right for collection cards */
+  padding: 7px 12px;
+  background: var(--brand-blue);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1;
+  letter-spacing: 0.3px;
+  border-radius: 9999px; /* fully rounded */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  pointer-events: none; /* purely decorative, clicks pass through */
+  z-index: 4; /* above images, below nav arrows */
+  text-transform: uppercase;
+  user-select: none;
+}
+/* Keep visible on hover when secondary image shows */
+.tie-card:hover .sold-out-badge { opacity: 1; }
+
+/* Tie page: place badge bottom-left over each slide */
+
 /* ---------------- HEADER ---------------- */
 /* Thin preheader bar: appears only when header is shrunk and page is scrolled to very top.
    Use fixed positioning so it doesn't reserve space above the fullscreen header. */
@@ -583,6 +608,11 @@ header.fullscreen ~ main#tie-collection .tie-card {
   background: transparent;
 }
 
+/* Media wrapper so overlays align to image area */
+.tie-card .card-media {
+  position: relative;
+}
+
 /* Make the promo image fill the entire tile, including the brand/title/price area */
 .tie-card.promo { position: relative; overflow: hidden; }
 /* Reserve only the image area; meta height comes from the hidden heading (like other cards) */
@@ -997,6 +1027,9 @@ body:has(.tie-details) {
   /* Ensure border is visible on top/bottom and image is centered */
   margin: 10px auto;
 }
+
+/* Wrapper so overlays align to the actual image area on tie pages */
+/* tie-page badges removed per requirement; index-only */
 
 .carousel-nav {
   position: absolute;
@@ -1471,7 +1504,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
   }
 
   /* Shrink the whole content column slightly, keep left-aligned */
-  .tie-card a { display: block; width: 93%; margin: 0 auto; }
+  .tie-card a { display: block; width: 93%; margin: 0 auto; position: relative; }
   .tie-card img,
   .tie-card h2 { width: 100%; }
 
@@ -1549,7 +1582,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
   }
 
   /* Shrink the whole content column slightly, keep left-aligned */
-  .tie-card a { display: block; width: 93%; margin: 0 auto; }
+  .tie-card a { display: block; width: 93%; margin: 0 auto; position: relative; }
   .tie-card img,
   .tie-card h2 { width: 100%; }
 

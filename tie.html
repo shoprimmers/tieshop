@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>Silk Tie - Rimmer's Collection</title>
   <link rel="icon" href="images/favicon-logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css?v=20250918-1">
+  <link rel="stylesheet" href="css/style.css?v=20250918-3">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
 <body class="tie-page tie-page-body">
@@ -246,6 +246,9 @@
 
       // Slides
       track.innerHTML = '';
+  // Sold-out badges are index-only per requirement; ignore on tie pages
+  const isSoldOutTie = false;
+
       tie.images.forEach((img, idx) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
@@ -257,8 +260,10 @@
   image.src = img.src;
   image.loading = (idx === 0 ? 'eager' : 'lazy');
   image.decoding = 'async';
-        image.alt = img.alt || tie.title + ' - Image ' + (idx + 1);
-        slide.appendChild(image);
+    image.alt = img.alt || tie.title + ' - Image ' + (idx + 1);
+    slide.appendChild(image);
+        // If this tie is sold out, add a decorative badge to each slide
+        // No sold-out badges on tie pages
         track.appendChild(slide);
       });
       // Reset carousel state
