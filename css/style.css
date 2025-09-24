@@ -643,6 +643,33 @@ header.fullscreen ~ main#tie-collection .tie-card {
   transform-origin: 0% 60%;
   z-index: 0; /* image sits behind hidden heading, which is transparent */
 }
+/* Mobile & tablet: revert promo card to standard tie card behavior (show like other ties) */
+@media (max-width: 1024px) {
+  .tie-card.promo {
+    overflow: hidden; /* ensure consistent clipping */
+  }
+  .tie-card.promo::before {
+    /* Use same intrinsic-flow style as normal tie cards: remove forced ratio */
+    content: none;
+    display: none;
+    padding-top: 0;
+  }
+  .tie-card.promo h2 {
+    visibility: visible; /* show brand/title/price like other cards */
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .tie-card.promo .promo-fill {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* keep consistent cover behavior */
+    object-position: 50% 50%; /* center the tie for smaller viewports */
+    transform: none; /* remove extra zoom on small screens */
+    transform-origin: center center;
+  }
+}
 /* Keep heading in flow to reserve real meta height, but make it invisible */
 .tie-card.promo h2 { visibility: hidden; opacity: 0; margin: 0; padding: 0; pointer-events: none; }
 /* Disable hover swap for promo so the single image never fades out */
