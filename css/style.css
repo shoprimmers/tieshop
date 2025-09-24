@@ -8,7 +8,7 @@
   --font-display: 'Roboto Slab', serif; /* squared, less-detailed serif */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   /* computed in-page: actual preheader height in pixels */
-  /* --preheader-height is set by inline scripts on each page */
+  --preheader-height: 28px; /* Thickness of the preheader bar (edit me) */
 }
 
 html {
@@ -62,7 +62,7 @@ body {
   color: #ffffff;
   margin: 0;
   padding: 0;
-  /* Reserve space at the top for fixed preheader + fixed header */
+  /* Reserve space at the top for fixed   /* ...existing code... */
   padding-top: calc(var(--preheader-height, 0px) + var(--header-shrunk-height, 56px));
 }
 h1, h2, h3 {
@@ -134,8 +134,19 @@ h2 { text-align: center; color: #fff; }
   transform: translateY(-100%);
   transition: transform 240ms ease, opacity 180ms ease;
   pointer-events: none; /* don't intercept clicks when hidden */
+  height: var(--preheader-height, 28px); /* Controls bar thickness */
 }
-.preheader__inner { margin: 0; width: 100%; padding: 4px 16px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.preheader__inner {
+  margin: 0;
+  width: 100%;
+  height: 100%;               /* Fill the bar height */
+  padding: 0 16px;            /* Keep only horizontal padding */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
 .preheader__text { font-family: var(--font-display); font-weight: 600; text-transform: none; font-size: 0.85rem; letter-spacing: 0.01em; }
 .preheader__hebrew { font-family: "Noto Rashi Hebrew", serif; font-optical-sizing: auto; font-weight: 600; direction: rtl; color: #ffffff; font-size: 0.95rem; letter-spacing: 0.01em; white-space: nowrap; margin-left: auto; }
 .preheader__lang { margin-left: auto; }
@@ -1960,67 +1971,4 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     border-radius: 0; /* fully squared on mobile/tablet */
   }
   .preheader__inner { padding-left: 12px; padding-right: 12px; }
-}
-
-/* ---------- Desktop layout: cap at 4 columns ---------- */
-/* On large screens, switch the gallery to a 4-column grid so the first row always shows 4 ties and never more than 4 per row. */
-@media (min-width: 1200px) {
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px; /* tighter spacing between items */
-    align-items: start;
-    justify-items: center; /* center fixed-width cards if narrower than column */
-  }
-  /* Align preheader left/right items to the first row of ties (first and fourth images) */
-  .preheader__inner {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: var(--preheader-inner-left, auto);
-    width: var(--preheader-inner-width, auto);
-  }
-  .gallery .tie-card {
-    width: 100%;
-    max-width: 270px; /* ~25% smaller maximum for desktop fullscreen */
-  }
-  /* Promo behaves like a single tie tile (one column) */
-  .gallery .promo-card {
-    grid-column: auto;
-    width: 100%;
-    max-width: 270px; /* match tie card width */
-    justify-self: center;
-    align-self: start;
-    background: #ffffff;
-    box-shadow: none;
-    overflow: hidden; /* crop image cleanly */
-  }
-  .gallery .promo-card .promo-img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 68%; /* focus on the tie */
-  }
-}
-
-/* Phones: 2-column grid — make promo span both (two slots) */
-@media (max-width: 600px) {
-  .gallery .promo-card { grid-column: auto; width: 100%; overflow: hidden; }
-  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 68%; display: block; }
-}
-/* Small tablets: 3-column grid — make promo span 2 of 3 */
-@media (min-width: 601px) and (max-width: 900px) {
-  .gallery .promo-card { grid-column: auto; width: 100%; overflow: hidden; }
-  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; object-position: 50% 68%; }
-}
-/* Large tablets (flex layout): approximate two-card width using flex-basis */
-@media (min-width: 901px) and (max-width: 1199px) {
-  .gallery .promo-card {
-    display: block;
-    flex: 0 0 250px; /* match single tie card */
-    width: 250px;
-    max-width: 250px;
-    overflow: hidden;
-  }
-  .gallery .promo-card .promo-img { width: 100%; height: 100%; object-fit: cover; display: block; object-position: 50% 68%; }
 }
