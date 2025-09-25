@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>Silk Tie - Rimmer's Collection</title>
   <link rel="icon" href="images/favicon-logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css?v=20250926-1">
+  <link rel="stylesheet" href="css/style.css?v=20250926-2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     // Tag <html> with .is-ios for iOS (including iPadOS desktop mode) to allow iOS-only CSS
@@ -222,7 +222,7 @@
       
       <!-- Contact Us Button -->
       <div class="tie-contact-section">
-        <a href="contact.html" class="tie-contact-btn">Contact us</a>
+        <button type="button" class="tie-contact-btn" id="contact-trigger">Contact us</button>
       </div>
     </div>
 
@@ -234,6 +234,36 @@
     </p>
   </div>
   </main>
+
+  <!-- Contact Curtain Modal -->
+  <div id="contact-overlay" class="contact-overlay">
+    <div class="contact-curtain" id="contact-curtain">
+      <button type="button" class="contact-close" id="contact-close" aria-label="Close contact panel">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <div class="contact-content">
+        <h2>Contact us</h2>
+        
+        <div class="contact-options">
+          <a href="mailto:shop.rimmers@gmail.com" class="contact-option">
+            <i class="fas fa-envelope"></i>
+            <span>shop.rimmers@gmail.com</span>
+          </a>
+          
+          <a href="https://wa.me/972533191655" target="_blank" rel="noopener" class="contact-option">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+          </a>
+          
+          <a href="tel:+972533191655" class="contact-option">
+            <i class="fas fa-phone"></i>
+            <span>+972 53-319-1655</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Tiny data-driven tie page: reads ?id=NUMBER and loads images/title from data/ties.json
@@ -541,6 +571,51 @@
     function syncTransformToSize(){ const prev=track.style.transition; track.style.transition='none'; setTransformByIndex(currentSlideIndex); void track.offsetWidth; track.style.transition=prev; }
     window.addEventListener('resize', debounce(syncTransformToSize, 120));
     window.addEventListener('orientationchange', debounce(syncTransformToSize, 120));
+
+    // Contact Curtain functionality
+    (function() {
+      const contactTrigger = document.getElementById('contact-trigger');
+      const contactOverlay = document.getElementById('contact-overlay');
+      const contactClose = document.getElementById('contact-close');
+      
+      if (!contactTrigger || !contactOverlay || !contactClose) return;
+      
+      function openContactCurtain() {
+        contactOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      }
+      
+      function closeContactCurtain() {
+        contactOverlay.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+      }
+      
+      // Open curtain when clicking contact button
+      contactTrigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        openContactCurtain();
+      });
+      
+      // Close curtain when clicking X button
+      contactClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeContactCurtain();
+      });
+      
+      // Close curtain when clicking overlay background (not the curtain itself)
+      contactOverlay.addEventListener('click', function(e) {
+        if (e.target === contactOverlay) {
+          closeContactCurtain();
+        }
+      });
+      
+      // Close curtain with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && contactOverlay.classList.contains('active')) {
+          closeContactCurtain();
+        }
+      });
+    })();
   </script>
   <footer class="site-footer" role="contentinfo" aria-label="Site footer">
     <div class="footer-main">

@@ -974,6 +974,165 @@ body:has(.tie-details) {
   outline-offset: 2px;
 }
 
+/* Contact Curtain Modal */
+.contact-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.contact-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.contact-curtain {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: #ffffff;
+  color: var(--brand-blue);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-overlay.active .contact-curtain {
+  transform: translateX(0);
+}
+
+.contact-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--brand-blue);
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.contact-close:hover {
+  background: rgba(0, 33, 71, 0.1);
+}
+
+.contact-close:focus,
+.contact-close:focus-visible {
+  outline: 3px solid #ffbf47;
+  outline-offset: 2px;
+}
+
+.contact-content {
+  flex: 1;
+  padding: 80px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.contact-content h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--brand-blue);
+  margin: 0 0 40px 0;
+  letter-spacing: 0.02em;
+}
+
+.contact-options {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.contact-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(0, 33, 71, 0.05);
+  color: var(--brand-blue);
+  text-decoration: none;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-option:hover {
+  background: rgba(0, 33, 71, 0.1);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: var(--brand-blue);
+}
+
+.contact-option i {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+  color: var(--brand-blue);
+}
+
+.contact-option .fab.fa-whatsapp {
+  color: #25D366;
+}
+
+/* Desktop: curtain takes half the screen width */
+@media (min-width: 1024px) {
+  .contact-curtain {
+    width: 50%;
+  }
+}
+
+/* Mobile/Tablet: curtain takes full screen width */
+@media (max-width: 1023px) {
+  .contact-curtain {
+    width: 100%;
+  }
+  
+  .contact-content {
+    padding: 100px 30px 40px;
+  }
+  
+  .contact-content h2 {
+    font-size: 1.75rem;
+  }
+  
+  .contact-options {
+    max-width: none;
+    width: 100%;
+  }
+  
+  .contact-option {
+    padding: 20px;
+    font-size: 1.1rem;
+  }
+}
+
 /* Desktop: align contact button with title/price inset */
 @media (min-width: 1024px) {
   .tie-contact-section {
