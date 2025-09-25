@@ -318,6 +318,17 @@
         {"src": "images/blue-patterns-tongue.webp", "alt": "Grey Six Sides Drawn - Tongue Detail"},
         {"src": "images/blue-patterns-body.webp", "alt": "Grey Six Sides Drawn - Full Body"}
       ]
+    },
+    "32": {
+      "soldOut": false,
+      "title": "R32 Navy Blue Drawn Tie - Satin Silk",
+      "images": [
+        {"src": "images/satin-navyblue-bluedrawn.jpg", "alt": "Navy Blue Drawn - Main Image"},
+        {"src": "images/satin-navyblue-bluedrawn-closeup.webp", "alt": "Navy Blue Drawn - Close-up Detail"},
+        {"src": "images/satin-navyblue-bluedrawn-back.webp", "alt": "Navy Blue Drawn - Back View"},
+        {"src": "images/satin-navyblue-bluedrawn-tongue.webp", "alt": "Navy Blue Drawn - Tongue Detail"},
+        {"src": "images/satin-navyblue-bluedrawn-body.webp", "alt": "Navy Blue Drawn - Full Body"}
+      ]
     }
   }
 }
