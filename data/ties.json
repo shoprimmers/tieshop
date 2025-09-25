@@ -65,7 +65,7 @@
       ]
     },
     "7": {
-      "soldOut": true,
+      "soldOut": false,
       "title": "R7 - Dark Grey and Blue Tie - Satin Silk",
       "images": [
         {"src": "images/satin-darkgreydrawn.jpg", "alt": "Dark Grey and Blue Tie - Front View"},
@@ -76,7 +76,7 @@
       ]
     },
     "8": {
-      "soldOut": true,
+      "soldOut": false,
       "title": "R8 - Dark Blue and Red Tie - Satin Silk",
       "images": [
         {"src": "images/satin-darkblue-red-drawn.jpg", "alt": "Dark Blue and Red Tie - Front View"},
@@ -87,7 +87,7 @@
       ]
     },
     "9": {
-      "soldOut": true,
+      "soldOut": false,
       "title": "R9 - Light Blue and Dark Blue Tie - Satin Silk",
       "images": [
         {"src": "images/satin-lightblue-drawn.jpg", "alt": "Light Blue and Dark Blue Tie - Front View"},
@@ -178,7 +178,7 @@
       ]
     },
     "18": {
-      "soldOut": true,
+      "soldOut": false,
       "title": "R18 - Blue Avion with White Polka Dots - Silk and Cotton",
       "images": [
         {"src": "images/blueavion-polkadots.webp", "alt": "Blue Avion White Dots - Front View"},
@@ -189,7 +189,7 @@
     }
     ,
     "19": {
-      "soldOut": true,
+      "soldOut": false,
       "title": "R19 - Dark Blue and Grey - Satin Silk",
       "images": [
         {"src": "images/satin-darkblue-greydrawn-face.jpg", "alt": "R19 - Dark Blue and Grey - Front View"},
@@ -274,6 +274,29 @@
         {"src": "images/green-patterns-back.jpg", "alt": "Green With Blue Flowers - Back View"},
         {"src": "images/green-patterns-tongue.jpg", "alt": "Green With Blue Flowers - Tongue Detail"}
       ]
+    },
+    "28": {
+      "soldOut": false,
+      "title": "R28 SKY BLUE AND BLUE AND RED SQUARES - SILK",
+      "images": [
+        {"src": "images/silk-skyblue-blue-squares.jpg", "alt": "Sky Blue and Blue and Red Squares - Main Image"},
+        {"src": "images/silk-skyblue-blue-squares-closeup.jpg", "alt": "Sky Blue and Blue and Red Squares - Close-up Detail"},
+        {"src": "images/silk-skyblue-blue-squares-back.jpg", "alt": "Sky Blue and Blue and Red Squares - Back View"},
+        {"src": "images/silk-skyblue-blue-squares-face.webp", "alt": "Sky Blue and Blue and Red Squares - Face View"},
+        {"src": "images/silk-skyblue-blue-squares-front.jpg", "alt": "Sky Blue and Blue and Red Squares - Front View"}
+      ]
     }
+
+     },
+    "28": {
+      "title": "R28 - Skyblue and Blue and Red Squares.jpg - Silk",
+      "images": [
+        {"src": "images/s", "alt": "Green With Blue Flowers - Front View"},
+        {"src": "images/green-patterns-closeup.jpg", "alt": "Green With Blue Flowers - Close-up Detail"},
+        {"src": "images/green-patterns-back.jpg", "alt": "Green With Blue Flowers - Back View"},
+        {"src": "images/green-patterns-tongue.jpg", "alt": "Green With Blue Flowers - Tongue Detail"}
+      ]
+
+  
   }
 }

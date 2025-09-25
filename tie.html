@@ -276,7 +276,10 @@
       try { if (window.__alignPreheaderToCarousel) { setTimeout(window.__alignPreheaderToCarousel, 50); } } catch(e){}
     }
 
-    fetch('data/ties.json')
+    (function(){
+      var ver = (window.__TIES_VER__ || '20250925-2');
+      return fetch('data/ties.json?v=' + encodeURIComponent(ver), { cache: 'no-store' });
+    })()
       .then(r => r.json())
       .then(data => {
         const tie = data.ties[id];

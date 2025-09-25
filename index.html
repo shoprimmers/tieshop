@@ -168,6 +168,13 @@
       media.appendChild(badge);
     }
 
+    function removeBadgeFromCard(card){
+      if (!card) return;
+      var badges = card.querySelectorAll('.sold-out-badge');
+      if (!badges || !badges.length) return;
+      badges.forEach(function(b){ b && b.remove && b.remove(); });
+    }
+
     function syncBadges(data){
       var ties = (data && data.ties) || {};
       var cards = document.querySelectorAll('#tie-collection .tie-card');
@@ -178,11 +185,18 @@
         var id = m && m[1];
         if (!id) return;
         var t = ties[id];
-        if (t && t.soldOut) addBadgeToCard(card);
+        if (t && t.soldOut) {
+          addBadgeToCard(card);
+        } else {
+          // Explicitly remove any existing badge if not sold out
+          removeBadgeFromCard(card);
+        }
       });
     }
 
-    fetch('data/ties.json')
+    // Cache-bust to prevent stale soldOut flags from being used
+  var cacheBust = (window.__TIES_VER__ || '20250925-2');
+    fetch('data/ties.json?v=' + encodeURIComponent(cacheBust), { cache: 'no-store' })
       .then(function(r){ return r.json(); })
       .then(function(data){ syncBadges(data); })
       .catch(function(){});
@@ -487,13 +501,11 @@
       </a>
     </div>
 
-    <div class="tie-card">
-  <a href="tie.html?id=6">
-        <div class="card-media">
-          <img src="images/satin-light-blue-blue-starts.jpg" alt="R6 - Light Blue and Blue Stars Tie - Satin Silk" class="primary">
-          <img src="images/satin-lightblue-blue-stars.jpg" alt="" aria-hidden="true" class="secondary">
-        </div>
-  <h2><span class="title-text">Light Blue and Blue Stars Tie - Satin Silk</span></h2>
+        <div class="tie-card">
+  <a href="tie.html?id=28">
+  <img src="images/silk-skyblue-blue-squares.jpg" alt="R28 SKY BLUE AND BLUE AND RED SQUARES - SILK">
+        <img src="images/silk-skyblue-blue-squares-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+  <h2><span class="title-text">Sky Blue and Blue and Red Squares - Silk</span></h2>
       </a>
     </div>
 
@@ -502,9 +514,56 @@
         <div class="card-media">
           <img src="images/satin-darkgreydrawn.jpg" alt="A dark grey satin silk tie with a repeating blue geometric pattern, neatly knotted and displayed against a bright white background. The tie exudes a formal and elegant tone. No visible text in the image." class="primary">
           <img src="images/satin-darkgreydrawn.closeup.jpg" alt="" aria-hidden="true" class="secondary">
-          <span class="sold-out-badge" aria-hidden="true">Sold Out</span>
         </div>
   <h2><span class="title-text">Dark Grey and Blue Tie - Satin Silk</span></h2>
+      </a>
+    </div>
+
+       <div class="tie-card">
+  <a href="tie.html?id=8">
+        <div class="card-media">
+          <img src="images/satin-darkblue-red-drawn.jpg" alt="R8 - Dark Blue and Red Tie - Satin Silk" class="primary">
+          <img src="images/satin-darkblue-red-drawn-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
+  <h2><span class="title-text">Dark Blue and Red Tie - Satin Silk</span></h2>
+      </a>
+    </div>
+
+    <div class="tie-card">
+  <a href="tie.html?id=19">
+        <div class="card-media">
+          <img src="images/satin-darkblue-greydrawn-face.jpg" alt="R19 - Dark Blue and Grey - Satin Silk" class="primary">
+          <img src="images/satin-darkblue-greydrawn-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
+  <h2><span class="title-text">Dark Blue and Grey - Satin Silk</span></h2>
+      </a>
+    </div>
+
+    <div class="tie-card">
+  <a href="tie.html?id=9">
+        <div class="card-media">
+          <img src="images/satin-lightblue-drawn.jpg" alt="R9 - Light Blue and Blue Tie - Satin Silk" class="primary">
+          <img src="images/satin-lightblue-drawn-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
+  <h2><span class="title-text">Light Blue and Blue Tie - Satin Silk</span></h2>
+      </a>
+    </div>
+
+       <div class="tie-card">
+  <a href="tie.html?id=10">
+    <img src="images/blue-geometrics.jpg" alt="R10 - Light Blue Chains Tie - Satin Silk" class="primary">
+    <img src="images/blue-geometrics-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+  <h2><span class="title-text">Light Blue Chains Tie - Satin Silk</span></h2>
+  </a>
+</div>
+
+    <div class="tie-card">
+  <a href="tie.html?id=6">
+        <div class="card-media">
+          <img src="images/satin-light-blue-blue-starts.jpg" alt="R6 - Light Blue and Blue Stars Tie - Satin Silk" class="primary">
+          <img src="images/satin-lightblue-blue-stars.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
+  <h2><span class="title-text">Light Blue and Blue Stars Tie - Satin Silk</span></h2>
       </a>
     </div>
 
@@ -549,47 +608,7 @@
       </a>
     </div>
 
-    <div class="tie-card">
-  <a href="tie.html?id=8">
-        <div class="card-media">
-          <img src="images/satin-darkblue-red-drawn.jpg" alt="R8 - Dark Blue and Red Tie - Satin Silk" class="primary">
-          <img src="images/satin-darkblue-red-drawn-closeup.jpg" alt="" aria-hidden="true" class="secondary">
-          <span class="sold-out-badge" aria-hidden="true">Sold Out</span>
-        </div>
-  <h2><span class="title-text">Dark Blue and Red Tie - Satin Silk</span></h2>
-      </a>
-    </div>
-
-    <div class="tie-card">
-  <a href="tie.html?id=19">
-        <div class="card-media">
-          <img src="images/satin-darkblue-greydrawn-face.jpg" alt="R19 - Dark Blue and Grey - Satin Silk" class="primary">
-          <img src="images/satin-darkblue-greydrawn-closeup.jpg" alt="" aria-hidden="true" class="secondary">
-          <span class="sold-out-badge" aria-hidden="true">Sold Out</span>
-        </div>
-  <h2><span class="title-text">Dark Blue and Grey - Satin Silk</span></h2>
-      </a>
-    </div>
-
-    <div class="tie-card">
-  <a href="tie.html?id=9">
-        <div class="card-media">
-          <img src="images/satin-lightblue-drawn.jpg" alt="R9 - Light Blue and Blue Tie - Satin Silk" class="primary">
-          <img src="images/satin-lightblue-drawn-closeup.jpg" alt="" aria-hidden="true" class="secondary">
-          <span class="sold-out-badge" aria-hidden="true">Sold Out</span>
-        </div>
-  <h2><span class="title-text">Light Blue and Blue Tie - Satin Silk</span></h2>
-      </a>
-    </div>
-
-       <div class="tie-card">
-  <a href="tie.html?id=10">
-    <img src="images/blue-geometrics.jpg" alt="R10 - Light Blue Chains Tie - Satin Silk" class="primary">
-    <img src="images/blue-geometrics-closeup.jpg" alt="" aria-hidden="true" class="secondary">
-  <h2><span class="title-text">Light Blue Chains Tie - Satin Silk</span></h2>
-  </a>
-</div>
-
+ 
     <div class="tie-card">
   <a href="tie.html?id=11">
         <div class="card-media">
@@ -665,7 +684,6 @@
         <div class="card-media">
           <img src="images/blueavion-polkadots.webp" alt="R18 - Blue Avion White Dots Tie - Silk" class="primary">
           <img src="images/blue-avion-polka-dots.jpg" alt="" aria-hidden="true" class="secondary">
-          <span class="sold-out-badge" aria-hidden="true">Sold Out</span>
         </div>
   <h2><span class="title-text">Blue Avion White Dots Tie - Silk</span></h2>
       </a>
