@@ -5,8 +5,19 @@
   <meta charset="UTF-8">
   <title>Silk Tie - Rimmer's Collection</title>
   <link rel="icon" href="images/favicon-logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css?v=20250918-3">
+  <link rel="stylesheet" href="css/style.css?v=20250925-4">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    // Tag <html> with .is-ios for iOS (including iPadOS desktop mode) to allow iOS-only CSS
+    (function(){
+      try {
+        var ua = navigator.userAgent || '';
+        var iPadOSDesktop = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        var isiOS = /iPad|iPhone|iPod/.test(ua) || iPadOSDesktop;
+        if (isiOS) { document.documentElement.classList.add('is-ios'); }
+      } catch(e) {}
+    })();
+  </script>
   </head>
 <body class="tie-page tie-page-body">
   <a href="#main" class="skip-link">Skip to content</a>

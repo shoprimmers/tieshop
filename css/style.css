@@ -1133,6 +1133,16 @@ body:has(.tie-details) {
   .carousel-nav.next { right: 12px; }
 }
 
+/* iOS-only: show arrows on smartphone/tablet and hide numeric pager */
+@media (max-width: 1023px) {
+  html.is-ios .tie-page .carousel-nav,
+  html.is-ios .tie1-page .carousel-nav { display: flex !important; }
+  html.is-ios .carousel-numeric { display: none !important; }
+  /* Keep comfortable insets near the image border */
+  html.is-ios .carousel-nav.prev { left: 12px; }
+  html.is-ios .carousel-nav.next { right: 12px; }
+}
+
 .carousel-dot {
   width: 10px;
   height: 10px;
