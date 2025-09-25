@@ -551,8 +551,8 @@ header.fullscreen .rashi-phrase { display: block; }
   }
 }
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 250px);
   justify-content: center;
   padding: 0; /* attach directly under the bar */
   gap: 20px;
