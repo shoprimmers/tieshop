@@ -296,6 +296,17 @@
         {"src": "images/satin-silk-blue-lines-tongue.webp", "alt": "Blue Lines - Tongue Detail"},
         {"src": "images/satin-silk-blue-lines-body.webp", "alt": "Blue Lines - Full Body"}
       ]
+    },
+    "30": {
+      "soldOut": false,
+      "title": "R30 Light Blue Six Sides Drawn Tie - Satin Silk",
+      "images": [
+        {"src": "images/satin-silk-six-sides.jpg", "alt": "Light Blue Six Sides Drawn - Main Image"},
+        {"src": "images/satin-silk-six-sides-closeup.jpg", "alt": "Light Blue Six Sides Drawn - Close-up Detail"},
+        {"src": "images/satin-silk-six-sides-back.webp", "alt": "Light Blue Six Sides Drawn - Back View"},
+        {"src": "images/satin-silk-six-sides-tongue.webp", "alt": "Light Blue Six Sides Drawn - Tongue Detail"},
+        {"src": "images/satin-silk-six-sides-body.webp", "alt": "Light Blue Six Sides Drawn - Full Body"}
+      ]
     }
   }
 }
