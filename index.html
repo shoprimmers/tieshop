@@ -195,7 +195,7 @@
     }
 
     // Cache-bust to prevent stale soldOut flags from being used
-  var cacheBust = (window.__TIES_VER__ || '20250925-2');
+  var cacheBust = (window.__TIES_VER__ || '20250925-3');
     fetch('data/ties.json?v=' + encodeURIComponent(cacheBust), { cache: 'no-store' })
       .then(function(r){ return r.json(); })
       .then(function(data){ syncBadges(data); })
@@ -497,6 +497,14 @@
   <a href="tie.html?id=5">
         <img src="images/satin-red-bluelines.jpg" alt="R5 - Red and Blue Lines Tie - Satin Silk">
         <img src="images/satin-redblue-lines-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+  <h2><span class="title-text">Red and Blue Lines Tie - Satin Silk</span></h2>
+      </a>
+    </div>
+
+      <div class="tie-card">
+  <a href="tie.html?id=29">
+    <img src="images/satin-silk-blue-lines.jpg" alt="R29 BLUE LINES - SATIN SILK">
+        <img src="images/satin-silk-blue-lines-closeup.jpg" alt="" aria-hidden="true" class="secondary">
   <h2><span class="title-text">Red and Blue Lines Tie - Satin Silk</span></h2>
       </a>
     </div>
