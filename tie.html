@@ -277,7 +277,7 @@
     }
 
     (function(){
-      var ver = (window.__TIES_VER__ || '20250925-2');
+  var ver = (window.__TIES_VER__ || '20250925-3');
       return fetch('data/ties.json?v=' + encodeURIComponent(ver), { cache: 'no-store' });
     })()
       .then(r => r.json())

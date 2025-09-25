@@ -307,6 +307,17 @@
         {"src": "images/satin-silk-six-sides-tongue.webp", "alt": "Light Blue Six Sides Drawn - Tongue Detail"},
         {"src": "images/satin-silk-six-sides-body.webp", "alt": "Light Blue Six Sides Drawn - Full Body"}
       ]
+    },
+    "31": {
+      "soldOut": false,
+      "title": "R31 Grey Six Sides Drawn - Satin Silk",
+      "images": [
+        {"src": "images/blue-patterns-front.jpg", "alt": "Grey Six Sides Drawn - Main Image"},
+        {"src": "images/blue-patterns-closeup.jpg", "alt": "Grey Six Sides Drawn - Close-up Detail"},
+        {"src": "images/blue-patterns-back.webp", "alt": "Grey Six Sides Drawn - Back View"},
+        {"src": "images/blue-patterns-tongue.webp", "alt": "Grey Six Sides Drawn - Tongue Detail"},
+        {"src": "images/blue-patterns-body.webp", "alt": "Grey Six Sides Drawn - Full Body"}
+      ]
     }
   }
 }
