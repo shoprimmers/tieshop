@@ -147,6 +147,21 @@ h2 { text-align: center; color: #fff; }
   justify-content: space-between;
   gap: 12px;
 }
+
+/* Desktop: Align preheader text with the exact start of the first tie image */
+@media (min-width: 901px) {
+  .preheader__inner {
+    max-width: 1140px; /* Match desktop gallery max-width */
+    margin: 0 auto; /* Center the container like the gallery */
+    /* Calculate exact alignment with first tie image:
+       Gallery content width: 1140px - 32px (padding) = 1108px
+       4 columns of 250px + 3 gaps of 12px = 1036px total grid width
+       Centered offset: (1108px - 1036px) / 2 = 36px
+       Total left offset: 16px (container padding) + 36px (centering) = 52px */
+    padding-left: 52px;
+    padding-right: 16px;
+  }
+}
 .preheader__text { font-family: var(--font-display); font-weight: 600; text-transform: none; font-size: 0.85rem; letter-spacing: 0.01em; }
 .preheader__hebrew { font-family: "Noto Rashi Hebrew", serif; font-optical-sizing: auto; font-weight: 600; direction: rtl; color: #ffffff; font-size: 0.95rem; letter-spacing: 0.01em; white-space: nowrap; margin-left: auto; }
 .preheader__lang { margin-left: auto; }
