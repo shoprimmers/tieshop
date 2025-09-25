@@ -937,6 +937,61 @@ body:has(.tie-details) {
   }
 }
 
+/* Contact Us Button on tie pages */
+.tie-contact-section {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.tie-contact-btn {
+  display: inline-block;
+  background: var(--brand-blue);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,33,71,0.15);
+}
+
+.tie-contact-btn:hover {
+  background: #001530;
+  box-shadow: 0 4px 12px rgba(0,33,71,0.25);
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.tie-contact-btn:focus,
+.tie-contact-btn:focus-visible {
+  outline: 3px solid #ffbf47;
+  outline-offset: 2px;
+}
+
+/* Desktop: align contact button with title/price inset */
+@media (min-width: 1024px) {
+  .tie-contact-section {
+    text-align: left;
+    padding-left: 14px; /* same inset as title/price */
+    margin-top: 28px;
+  }
+}
+
+/* Mobile/tablet: align with title/price padding */
+@media (max-width: 1023px) {
+  .tie-contact-section {
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-top: 20px;
+  }
+}
+
 /* ---------------- TEMPORARY: HIDE PRICE UI ---------------- */
 /* Hide price line on index cards (the divider + price lives in h2::after) */
 .tie-card h2::after { display: none !important; }
