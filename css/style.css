@@ -152,6 +152,8 @@ h2 { text-align: center; color: #fff; }
 .preheader__lang { margin-left: auto; }
 /* Language switcher: square button, label + chevron aligned on baseline */
 .lang-switcher { display: inline-flex; align-items: center; position: relative; }
+/* Temporarily hide language switcher */
+.preheader__lang { display: none !important; }
 .lang-toggle {
   display: inline-flex;
   align-items: baseline; /* align arrow baseline with text */
