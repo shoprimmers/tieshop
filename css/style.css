@@ -116,6 +116,29 @@ h2 { text-align: center; color: #fff; }
 /* Keep visible on hover when secondary image shows */
 .tie-card:hover .sold-out-badge { opacity: 1; }
 
+/* NEW badge (same style as sold-out but with bright green background and black text) */
+.new-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px; /* default: bottom-right for collection cards */
+  padding: 7px 12px;
+  background: #00ff00; /* bright green */
+  color: #000000; /* black text */
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1;
+  letter-spacing: 0.3px;
+  border-radius: 9999px; /* fully rounded */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  pointer-events: none; /* purely decorative, clicks pass through */
+  z-index: 4; /* above images, below nav arrows */
+  text-transform: uppercase;
+  user-select: none;
+}
+/* Keep visible on hover when secondary image shows */
+.tie-card:hover .new-badge { opacity: 1; }
+
 /* Tie page: place badge bottom-left over each slide */
 
 /* ---------------- HEADER ---------------- */

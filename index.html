@@ -198,22 +198,25 @@
   <script>
   // Add Sold Out badges on the collection from data/ties.json
   (function(){
-    function addBadgeToCard(card){
+    function addBadgeToCard(card, badgeType){
       if (!card) return;
-      if (card.querySelector('.sold-out-badge')) return; // already present
-      // Prefer a media wrapper; if absent, use the link
-      var media = card.querySelector('.card-media') || card.querySelector('a');
+      var badgeClass = badgeType === 'new' ? 'new-badge' : 'sold-out-badge';
+      var badgeText = badgeType === 'new' ? 'NEW' : 'Sold Out';
+      
+      if (card.querySelector('.' + badgeClass)) return; // already present
+      // Only use .card-media to ensure badge appears on image, not title
+      var media = card.querySelector('.card-media');
       if (!media) return;
       var badge = document.createElement('span');
-      badge.className = 'sold-out-badge';
+      badge.className = badgeClass;
       badge.setAttribute('aria-hidden','true');
-      badge.textContent = 'Sold Out';
+      badge.textContent = badgeText;
       media.appendChild(badge);
     }
 
     function removeBadgeFromCard(card){
       if (!card) return;
-      var badges = card.querySelectorAll('.sold-out-badge');
+      var badges = card.querySelectorAll('.sold-out-badge, .new-badge');
       if (!badges || !badges.length) return;
       badges.forEach(function(b){ b && b.remove && b.remove(); });
     }
@@ -228,11 +231,15 @@
         var id = m && m[1];
         if (!id) return;
         var t = ties[id];
+        
+        // Remove existing badges first
+        removeBadgeFromCard(card);
+        
+        // Add appropriate badge based on tie properties
         if (t && t.soldOut) {
-          addBadgeToCard(card);
-        } else {
-          // Explicitly remove any existing badge if not sold out
-          removeBadgeFromCard(card);
+          addBadgeToCard(card, 'soldOut');
+        } else if (t && t.new) {
+          addBadgeToCard(card, 'new');
         }
       });
     }
@@ -544,16 +551,20 @@
 
       <div class="tie-card">
   <a href="tie.html?id=29">
-    <img src="images/satin-silk-blue-lines.jpg" alt="R29 BLUE LINES - SATIN SILK">
-        <img src="images/satin-silk-blue-lines-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        <div class="card-media">
+          <img src="images/satin-silk-blue-lines.jpg" alt="R29 BLUE LINES - SATIN SILK" class="primary">
+          <img src="images/satin-silk-blue-lines-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
   <h2><span class="title-text">Red and Blue Lines Tie - Satin Silk</span></h2>
       </a>
     </div>
 
         <div class="tie-card">
   <a href="tie.html?id=28">
-  <img src="images/silk-skyblue-blue-squares.jpg" alt="R28 SKY BLUE AND BLUE AND RED SQUARES - SILK">
-        <img src="images/silk-skyblue-blue-squares-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        <div class="card-media">
+          <img src="images/silk-skyblue-blue-squares.jpg" alt="R28 SKY BLUE AND BLUE AND RED SQUARES - SILK" class="primary">
+          <img src="images/silk-skyblue-blue-squares-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
   <h2><span class="title-text">Sky Blue and Blue and Red Squares - Silk</span></h2>
       </a>
     </div>
@@ -618,16 +629,20 @@
 
        <div class="tie-card">
   <a href="tie.html?id=31">
-  <img src="images/blue-patterns-front.jpg" alt="R31 Grey Six Sides Drawn - Satin Silk" class="primary">
-    <img src="images/blue-patterns-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        <div class="card-media">
+          <img src="images/blue-patterns-front.jpg" alt="R31 Grey Six Sides Drawn - Satin Silk" class="primary">
+          <img src="images/blue-patterns-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
   <h2><span class="title-text">Grey Six Sides Drawn - Satin Silk</span></h2>
   </a>
 </div>
 
     <div class="tie-card">
   <a href="tie.html?id=30">
-  <img src="images/satin-silk-six-sides.jpg" alt="R30 Light Blue Six Sides Drawn Tie - Satin Silk" class="primary">
-    <img src="images/satin-silk-six-sides-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        <div class="card-media">
+          <img src="images/satin-silk-six-sides.jpg" alt="R30 Light Blue Six Sides Drawn Tie - Satin Silk" class="primary">
+          <img src="images/satin-silk-six-sides-closeup.jpg" alt="" aria-hidden="true" class="secondary">
+        </div>
   <h2><span class="title-text">Light Blue Six Sides Drawn Tie - Satin Silk</span></h2>
   </a>
 </div>
