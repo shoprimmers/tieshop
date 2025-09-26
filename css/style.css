@@ -182,15 +182,18 @@ h2 { text-align: center; color: #fff; }
 
   /* Align mobile menu dropdown with tie images and preheader text */
   .mobile-menu {
-    /* Move dropdown right to align with preheader text and tie images */
-    left: 52px; /* Direct positioning from viewport edge */
+    /* Calculate position relative to header container:
+       Viewport position needed: 52px
+       Header container starts at: calc((100vw - 1140px) / 2)  
+       So dropdown left = 52px - header container start */
+    left: calc(52px - (100vw - 1140px) / 2);
     right: auto;
     width: max-content;
     min-width: 220px;
     border-radius: 0;
     margin-top: 8px;
     border: 1px solid #e6e9ef;
-    margin-left: 0; /* Remove margin-left */
+    margin-left: 0;
     transform: none;
   }
 }
