@@ -1330,6 +1330,7 @@ body:has(.tie-details) {
   position: relative;
 }
 
+
 .carousel-slide img {
   max-width: 100%;
   max-height: 100%;
@@ -1462,7 +1463,7 @@ body:has(.tie-details) {
 @media (min-width: 1024px) {
   .tie-carousel {
     max-width: 100%;
-    margin: 24px auto 0; /* more space under the white bar on desktop */
+    /* margin handled above for left alignment, only margin-top remains */
   }
   .carousel-slide {
     height: 85vh;
@@ -1474,7 +1475,12 @@ body:has(.tie-details) {
   .carousel-nav.prev { left: 12px; }
   .carousel-nav.next { right: 12px; }
   /* Shrink image slightly inside its area on desktop */
-  .carousel-slide img { max-width: 85%; margin: 18px auto 18px; border: 1px solid #e6e9ef; }
+  .tie-carousel .carousel-slide img {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 18px 0 !important;
+    border: 1px solid #e6e9ef;
+  }
 }
 
 /* Desktop: shrink image slightly inside its border */
@@ -1771,6 +1777,21 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
   footer.site-footer .footer-left, footer.site-footer .footer-right { width: 100%; justify-content: center; }
   footer.site-footer .footer-right { display: block; }
   footer.site-footer .footer-contact { text-align: center; }
+}
+
+/* Desktop: perfectly center the logo in the header */
+@media (min-width: 901px) {
+  header .header-flex { position: relative; }
+  header .header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  header .header-left, header .header-right { position: relative; z-index: 3; }
 }
 
 /* ---------------- RESPONSIVE DESIGN ---------------- */
