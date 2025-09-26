@@ -161,6 +161,38 @@ h2 { text-align: center; color: #fff; }
     padding-left: 52px;
     padding-right: 16px;
   }
+
+  /* Align header content container with gallery */
+  .header-flex {
+    max-width: 1140px; /* Match desktop gallery max-width */
+    margin: 0 auto; /* Center the container like the gallery */
+    padding-left: 16px; /* Match gallery container padding */
+    padding-right: 3px; /* 16px - 13px (header padding) = 3px */
+  }
+
+  /* Position menu button to align its left edge with tie images */
+  .header-left {
+    margin-left: 36px; /* The centering offset to align with first tie image */
+    padding-left: 0;
+  }
+
+  .menu-toggle {
+    margin-left: 0;
+  }
+
+  /* Align mobile menu dropdown with tie images and preheader text */
+  .mobile-menu {
+    /* Move dropdown right to align with preheader text and tie images */
+    left: 52px; /* Direct positioning from viewport edge */
+    right: auto;
+    width: max-content;
+    min-width: 220px;
+    border-radius: 0;
+    margin-top: 8px;
+    border: 1px solid #e6e9ef;
+    margin-left: 0; /* Remove margin-left */
+    transform: none;
+  }
 }
 .preheader__text { font-family: var(--font-display); font-weight: 600; text-transform: none; font-size: 0.85rem; letter-spacing: 0.01em; }
 .preheader__hebrew { font-family: "Noto Rashi Hebrew", serif; font-optical-sizing: auto; font-weight: 600; direction: rtl; color: #ffffff; font-size: 0.95rem; letter-spacing: 0.01em; white-space: nowrap; margin-left: auto; }
@@ -2231,15 +2263,7 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
     min-height: calc(1.15em * 2);
     max-height: calc(1.15em * 2);
   }
-  .mobile-menu {
-    left: auto;
-    right: 12px;
-    width: max-content;
-    min-width: 220px;
-    border-radius: 0; /* squared corners on desktop too */
-    margin-top: 8px;
-    border: 1px solid #e6e9ef;
-  }
+  /* Mobile menu positioning now handled in the main desktop media query above */
 }
 
 /* Mobile/tablet: keep full-width feel, soft rounded bottom corners */

@@ -139,7 +139,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Rashi+Hebrew:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20250926-9">
+  <link rel="stylesheet" href="css/style.css?v=20250926-17">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     // Add a .is-safari class to <html> for CSS targeting (excludes Chrome/CriOS/Edg/Chromium)
@@ -227,17 +227,18 @@
   <header class="shrunk" id="site-header" role="banner">
     <div class="header-flex">
     <div class="header-left">
+  <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
   <a href="contact.html" class="contact-link" style="color: var(--brand-blue); text-decoration: underline; font-weight: bold; font-size: 1.1em; margin-right: 8px; background: none; border: none; padding: 0; border-radius: 0;">Contact</a>
       </div>
       <div class="header-center">
         <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
       </div>
       <div class="header-right">
-  <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </button>
+      </div>
       </div>
     </div>
     <nav id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Main menu">
