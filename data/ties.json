@@ -77,7 +77,6 @@
     },
     "8": {
       "soldOut": false,
-      "new": true,
       "title": "R8 - Dark Blue and Red Tie - Satin Silk",
       "images": [
         {"src": "images/satin-darkblue-red-drawn.jpg", "alt": "Dark Blue and Red Tie - Front View"},
@@ -89,7 +88,6 @@
     },
     "9": {
       "soldOut": false,
-      "new": true,
       "title": "R9 - Light Blue and Dark Blue Tie - Satin Silk",
       "images": [
         {"src": "images/satin-lightblue-drawn.jpg", "alt": "Light Blue and Dark Blue Tie - Front View"},
@@ -279,7 +277,6 @@
     },
     "28": {
       "soldOut": false,
-      "new": true,
       "title": "R28 SKY BLUE AND BLUE AND RED SQUARES - SILK",
       "images": [
         {"src": "images/silk-skyblue-blue-squares.jpg", "alt": "Sky Blue and Blue and Red Squares - Main Image"},
@@ -291,7 +288,6 @@
     },
     "29": {
       "soldOut": false,
-      "new": true,
       "title": "R29 BLUE LINES - SATIN SILK",
       "images": [
         {"src": "images/satin-silk-blue-lines.jpg", "alt": "Blue Lines - Main Image"},
@@ -303,7 +299,6 @@
     },
     "30": {
       "soldOut": false,
-      "new": true,
       "title": "R30 Light Blue Six Sides Drawn Tie - Satin Silk",
       "images": [
         {"src": "images/satin-silk-six-sides.jpg", "alt": "Light Blue Six Sides Drawn - Main Image"},
@@ -315,7 +310,6 @@
     },
     "31": {
       "soldOut": false,
-      "new": true,
       "title": "R31 Grey Six Sides Drawn - Satin Silk",
       "images": [
         {"src": "images/blue-patterns-front.jpg", "alt": "Grey Six Sides Drawn - Main Image"},
@@ -327,7 +321,6 @@
     },
     "32": {
       "soldOut": false,
-      "new": true,
       "title": "R32 Navy Blue Drawn Tie - Satin Silk",
       "images": [
         {"src": "images/satin-navyblue-bluedrawn.jpg", "alt": "Navy Blue Drawn - Main Image"},
@@ -335,6 +328,17 @@
         {"src": "images/satin-navyblue-bluedrawn-back.webp", "alt": "Navy Blue Drawn - Back View"},
         {"src": "images/satin-navyblue-bluedrawn-tongue.webp", "alt": "Navy Blue Drawn - Tongue Detail"},
         {"src": "images/satin-navyblue-bluedrawn-body.webp", "alt": "Navy Blue Drawn - Full Body"}
+      ]
+    },
+    "33": {
+      "soldOut": false,
+      "title": "R33 Green Madden With Patterns - Silk",
+      "images": [
+        {"src": "images/green-madden.jpg", "alt": "Green Madden With Patterns - Main Image"},
+        {"src": "images/green-madden-closeup.jpg", "alt": "Green Madden With Patterns - Close-up Detail"},
+        {"src": "images/green-madden-back.webp", "alt": "Green Madden With Patterns - Back View"},
+        {"src": "images/green-madden-tongue.webp", "alt": "Green Madden With Patterns - Tongue Detail"},
+        {"src": "images/green-madden-body.webp", "alt": "Green Madden With Patterns - Full Body"}
       ]
     }
   }
