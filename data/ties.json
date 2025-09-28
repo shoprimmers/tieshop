@@ -309,7 +309,7 @@
       ]
     },
     "31": {
-      "soldOut": false,
+      "soldOut": true,
       "title": "R31 Grey Six Sides Drawn - Satin Silk",
       "images": [
         {"src": "images/blue-patterns-front.jpg", "alt": "Grey Six Sides Drawn - Main Image"},
