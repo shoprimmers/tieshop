@@ -98,6 +98,7 @@
       ]
     },
     "10": {
+      "soldOut": true,
       "title": "R10 - Blue Geometrics Tie - Satin Silk",
       "images": [
         {"src": "images/blue-geometrics.jpg", "alt": "Blue Geometrics Tie - Front View"},
