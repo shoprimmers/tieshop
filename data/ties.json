@@ -348,7 +348,6 @@
       "images": [
         {"src": "images/silk-cotton-grey-front.jpg", "alt": "Grey With Small Patterns - Main Image"},
         {"src": "images/silk-cotton-grey-closeup.jpg", "alt": "Grey With Small Patterns - Close-up Detail"},
-        {"src": "images/silk-cotton-grey-back.webp", "alt": "Grey With Small Patterns - Back View"},
         {"src": "images/silk-cotton-grey-tongue.webp", "alt": "Grey With Small Patterns - Tongue Detail"},
         {"src": "images/silk-cotton-grey-body.webp", "alt": "Grey With Small Patterns - Full Body"}
       ]
