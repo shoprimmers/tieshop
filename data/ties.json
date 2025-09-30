@@ -300,7 +300,7 @@
       ]
     },
     "30": {
-      "soldOut": false,
+      "soldOut": true,
       "title": "R30 Light Blue Six Sides Drawn Tie - Satin Silk",
       "images": [
         {"src": "images/satin-silk-six-sides.jpg", "alt": "Light Blue Six Sides Drawn - Main Image"},
@@ -344,7 +344,7 @@
       ]
     },
     "34": {
-      "soldOut": false,
+      "soldOut": true,
       "title": "R34 GREY WITH SMALL PATTERNS - SILK/COTTON",
       "images": [
         {"src": "images/silk-cotton-grey-front.jpg", "alt": "Grey With Small Patterns - Main Image"},
