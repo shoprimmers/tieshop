@@ -353,8 +353,8 @@
       </div>
       </div>
     </div>
-    <nav id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Main menu">
-      <a href="contact.html">Contact</a>
+    <nav id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Main menu" aria-hidden="true">
+      <a href="contact.html" role="menuitem">Contact</a>
     </nav>
   <style>
     .header-flex {
@@ -584,16 +584,17 @@
     })();
   </script>
 
-  <main id="main">
+  <main id="main" role="main" aria-labelledby="collection-title">
     <!-- Collection section title aligned with the grid below -->
     <section class="collection-header" aria-labelledby="collection-title">
       <div class="collection-header__inner">
-        <h2 id="collection-title" class="collection-title">The Tie Collection</h2>
+        <h1 id="collection-title" class="collection-title">The Tie Collection</h1>
         <p class="collection-lead">Our ties are crafted entirely by hand in Italy, using only the finest silks woven in the historic mills of Como, a city long celebrated as the Silk Capital of the World. The exceptional density of silk in every square meter lends each tie a flawless drape, enduring durability, and a richness of pattern that enhances its beauty. Every tie is a testament to timeless elegance, created to embody sophistication and enduring style.</p>
       </div>
     </section>
-  <div class="gallery revealed" id="tie-collection">
+  <div class="gallery revealed" id="tie-collection" role="region" aria-labelledby="collection-title" aria-describedby="collection-description">
     <div id="collection-start"></div>
+    <div id="collection-description" class="sr-only">A collection of handcrafted Italian silk ties. Each tie includes images and detailed information.</div>
   
     <!-- Promo as a single tie card linking to Tie 5 -->
     <div class="tie-card promo">

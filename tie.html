@@ -211,9 +211,10 @@
   <main id="main">
   <h1 class="sr-only">Tie details</h1>
   <div class="tie-details">
-    <div class="tie-carousel" role="region" aria-roledescription="carousel" aria-label="Tie image gallery">
+    <div class="tie-carousel" role="region" aria-roledescription="carousel" aria-label="Tie image gallery" aria-describedby="carousel-instructions">
+      <div id="carousel-instructions" class="sr-only">Use arrow keys to navigate between images, or swipe on touch devices.</div>
       <div class="carousel-container">
-        <div class="carousel-track" id="carousel-track">
+        <div class="carousel-track" id="carousel-track" role="group" aria-label="Tie images">
           <!-- Slides injected by JS -->
         </div>
         <!-- Desktop-only navigation arrows (hidden on mobile/tablet via CSS) -->
@@ -229,21 +230,22 @@
     </div>
 
     <!-- Info block below the images: brand label (via CSS), title, and price -->
-    <div class="tie-info">
+    <div class="tie-info" role="region" aria-labelledby="tie-title">
       <div class="tie-header">
         <h2 id="tie-title"><span class="title-text">Loading...</span></h2>
-        <div id="tie-price" class="tie-price">₪350,00</div>
+        <div id="tie-price" class="tie-price" role="text" aria-label="Price">₪350,00</div>
       </div>
       
       <!-- Contact Us Button -->
       <div class="tie-contact-section">
-        <button type="button" class="tie-contact-btn" id="contact-trigger">Contact us</button>
+        <button type="button" class="tie-contact-btn" id="contact-trigger" aria-describedby="contact-description">Contact us</button>
+        <div id="contact-description" class="sr-only">Opens contact options to inquire about this tie</div>
       </div>
     </div>
 
-    <p class="back-actions">
-      <a href="index.html" class="back-link-inline">← Back to Collection</a>
-    </p>
+    <nav class="back-actions" aria-label="Navigation actions">
+      <a href="index.html" class="back-link-inline" aria-label="Return to tie collection">← Back to Collection</a>
+    </nav>
   </div>
   </main>
 
