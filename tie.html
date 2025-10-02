@@ -47,8 +47,53 @@
       } catch(e) {}
     })();
   </script>
+  <style>
+  /* Tie Details Page Responsive Styles */
+
+  /* Mobile & Tablet */
+  @media (max-width: 768px) {
+    .tie-details {
+      display: block; /* stack columns */
+    }
+
+    .tie-details > .tie-info {
+      margin: 0 !important;
+      padding: 0 !important;
+      padding-left: 3px;       /* shift content 3px right */
+      border: none;
+      text-align: left;
+      width: auto !important;
+      max-width: none !important;
+      box-sizing: border-box;
+      float: none !important;
+      display: block;
+    }
+
+    .tie-details > .tie-info h2,
+    .tie-details > .tie-info .tie-price {
+      font-size: 1em;
+      line-height: 1.3em;
+      margin: 8px 0;
+    }
+
+    .tie-details > .tie-info p,
+    .tie-details > .tie-info .tie-description {
+      margin: 8px 0;
+    }
+
+    .tie-details > .tie-info .tie-contact-section {
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .tie-details > .tie-info .tie-contact-btn {
+      margin: 0 auto;
+      display: inline-block;
+    }
+  }
+  </style>
   </head>
-<body class="tie-page tie-page-body">
+<body class="tie-page tie-page-body debug-mode">
   <a href="#main" class="skip-link">Skip to content</a>
   <!-- Thin preheader bar: always visible, header offsets below it -->
   <div class="preheader preheader--visible" id="preheader" aria-hidden="false">
