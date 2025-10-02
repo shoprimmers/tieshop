@@ -119,6 +119,7 @@
       ]
     },
     "12": {
+      "soldOut": true,
       "title": "R12 - Blue Avion and Bordeux Starts - Silk and Cotton",
       "images": [
         {"src": "images/silk-cotton-darkblue-redstars.jpg", "alt": "Blue Avion and Bordeux Starts - Front View"},
@@ -179,7 +180,7 @@
       ]
     },
     "18": {
-      "soldOut": false,
+      "soldOut": true,
       "title": "R18 - Blue Avion with White Polka Dots - Silk and Cotton",
       "images": [
         {"src": "images/blueavion-polkadots.webp", "alt": "Blue Avion White Dots - Front View"},
