@@ -48,52 +48,78 @@
     })();
   </script>
   <style>
-  /* Tie Details Page Responsive Styles */
 
-  /* Mobile & Tablet */
-  @media (max-width: 768px) {
-    .tie-details {
-      display: block; /* stack columns */
-    }
+/* Tie Details Page Responsive Styles */
 
-    .tie-details > .tie-info {
-      margin: 0 !important;
-      padding: 0 !important;
-      padding-left: 3px;       /* shift content 3px right */
-      border: none;
-      text-align: left;
-      width: auto !important;
-      max-width: none !important;
-      box-sizing: border-box;
-      float: none !important;
-      display: block;
-    }
-
-    .tie-details > .tie-info h2,
-    .tie-details > .tie-info .tie-price {
-      font-size: 1em;
-      line-height: 1.3em;
-      margin: 8px 0;
-    }
-
-    .tie-details > .tie-info p,
-    .tie-details > .tie-info .tie-description {
-      margin: 8px 0;
-    }
-
-    .tie-details > .tie-info .tie-contact-section {
-      margin-top: 12px;
-      text-align: center;
-    }
-
-    .tie-details > .tie-info .tie-contact-btn {
-      margin: 0 auto;
-      display: inline-block;
-    }
+/* Mobile & Tablet */
+@media (max-width: 768px) {
+  .tie-details {
+    display: block; /* stack carousel over info */
+    margin: 0 !important;
+    padding: 0 !important;
   }
+
+  .tie-details > .tie-info {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none;
+    text-align: left;
+    width: 100% !important;
+    box-sizing: border-box;
+    float: none;
+    display: block;
+  }
+
+  .tie-details > .tie-info h2,
+  .tie-details > .tie-info .tie-price {
+    font-size: 1em;
+    line-height: 1.3em;
+    margin: 8px 0;
+  }
+
+  .tie-details > .tie-info p,
+  .tie-details > .tie-info .tie-description {
+    margin: 8px 0;
+  }
+
+  /* Improved Contact Us button */
+  .tie-details > .tie-info .tie-contact-section {
+    margin-top: 12px;
+    text-align: center;
+  }
+  .tie-details > .tie-info .tie-contact-btn {
+    padding: 12px 24px;
+    font-size: 1em;
+    background-color: var(--brand-blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 0 auto;
+    display: inline-block;
+  }
+
+  /* Improved Back to Collection link */
+  body.tie-page .back-actions {
+    text-align: center;
+    margin-top: 24px;
+    margin-bottom: 24px; /* added white space before footer */
+  }
+  body.tie-page .back-actions .back-link-inline {
+    display: inline-block;
+    font-size: 0.95em;
+    color: var(--brand-blue);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--brand-blue);
+    border-radius: 4px;
+  }
+}
+  
   </style>
   </head>
-<body class="tie-page tie-page-body debug-mode">
+<body class="tie-page tie-page-body">
   <a href="#main" class="skip-link">Skip to content</a>
   <!-- Thin preheader bar: always visible, header offsets below it -->
   <div class="preheader preheader--visible" id="preheader" aria-hidden="false">
