@@ -2375,3 +2375,13 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
   }
   .preheader__inner { padding-left: 12px; padding-right: 12px; }
 }
+
+/* === DEBUGGING SECOND COLUMN (.tie-info) === */
+/* Enable by adding class="debug-mode" on <body> or <html> */
+
+/* DEBUG: Highlight tie-info section in debug mode */
+.debug-mode .tie-details > .tie-info {
+  margin-left: 130px;
+  margin-right: 130px;
+  padding: 20px;
+}
