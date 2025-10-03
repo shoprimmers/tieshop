@@ -2028,7 +2028,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
 /* iPads and Desktop: make shrunk white bar 80px height (keep logo size unchanged) */
 @media (min-width: 768px) {
   :root {
-    --header-shrunk-height: 80px; /* Set to 80px for desktop/iPad */
+    --header-shrunk-height: 60px; /* Set to 80px for desktop/iPad */
   }
   /* Reinforce in case any other rule interferes */
   header.shrunk { height: var(--header-shrunk-height) !important; }
@@ -2404,103 +2404,47 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
   }
 }
 
-.header-subtitle {
-  margin-top: 6px;
-  text-align: center;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+
+/* --- HEADER BAR & LOGO CLEANUP --- */
+
+/* Consistent header bar size (no dynamic shrink) */
+#site-header {
+  padding: 12px 0 !important;
+  transition: none !important;
 }
 
+/* Clean, consistent logo styling */
 .logo {
-  max-height: 60px;
+  max-height: 75px;
   width: auto;
   display: block;
   margin: 0 auto;
-  filter: brightness(0) invert(1);
   align-self: center;
+  /* Remove filter so logo appears as intended */
+  filter: none;
 }
 
-.jerusalem-img {
-  max-height: 44px; /* slightly smaller than logo */
-  width: auto;
-  display: inline-block;
-}
-
-#site-header {
-  padding: 24px 0; /* thicker when image is visible */
-  transition: padding 0.3s ease;
-}
-
-body.scrolled .header-subtitle {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-body.scrolled #site-header {
-  padding: 12px 0; /* shrink back on scroll */
-}
-
-/* Mobile tweaks */
-@media (max-width: 600px) {
-  .logo {
-    max-height: 36px;
-  }
-}
-
+/* Center logo vertically & horizontally in header */
 .header-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* keep logo + Jerusalem centered */
-}
-
-
-
-/* Header default: thicker to fit logo + Jerusalem */
-#site-header {
-  padding: 28px 0;          /* thicker at load */
-  transition: padding 0.3s ease;
-}
-
-/* Subtitle (Yerushalayim image) styling */
-.header-subtitle {
-  margin-top: 6px;
-  text-align: center;
-  transition: opacity 1s ease, transform 1s ease; /* slower fade for luxury feel */
-}
-
-.jerusalem-img {
-  max-height: 25px; /* smaller than logo for balance */
-  width: auto;
-  display: inline-block;
-}
-
-/* Shrink header and fade subtitle when scrolling */
-body.scrolled .header-subtitle {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-body.scrolled #site-header {
-  padding: 12px 0; /* shrink back to smaller size */
-}
-
-#site-header {
-  padding: 40px 0;   /* thicker to fit both images comfortably */
-  transition: padding 0.4s ease;
-}
-
-body.scrolled #site-header {
-  padding: 12px 0; /* shrink back to smaller size */
-}
-header .header-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* centers vertically + horizontally */
-  
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: auto; /* make it shrink to content */
+  height: 100%;
+  width: 100%;
+  position: static;
+  top: auto;
+  left: auto;
+  transform: none;
+  text-align: center;
 }
+
+/* Responsive: keep logo visible and sized well on mobile */
+@media (max-width: 600px) {
+  .logo {
+    max-height: 75px;
+  }
+}
+
+/* Remove Jerusalem image and subtitle styles (no longer used) */
 
