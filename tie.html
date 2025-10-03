@@ -49,6 +49,32 @@
   </script>
   <style>
 
+/* Desktop Back to Collection styling */
+@media (min-width: 1025px) {
+  body.tie-page .back-actions {
+    text-align: center;
+   margin-top: 20px;   /* distance above (towards ties) */
+  margin-bottom: 58px; /* distance below (towards footer) */
+    padding: 0;       /* ensure no extra padding offsets */
+  }
+
+  body.tie-page .back-actions .back-link-inline {
+    display: inline-block;
+    font-size: 1em;
+    color: var(--brand-blue);
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid var(--brand-blue);
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  body.tie-page .back-actions .back-link-inline:hover {
+    background-color: var(--brand-blue);
+    color: #fff;
+  }
+}
 /* Tie Details Page Responsive Styles */
 
 /* Mobile & Tablet */
