@@ -382,14 +382,6 @@ h2 { text-align: center; color: #fff; }
    height: 100%;
  }
 /* Preheader visibility is controlled via JS with .preheader--visible */
- .logo {
-   width: 150px;
-   height: auto;
-   display: block;
-   margin: 0 auto;
-   filter: brightness(0) invert(1); /* makes dark SVG appear white */
-   align-self: center;
- }
 header {
   /* Animated background that transitions from blue to white during collapse */
   background: linear-gradient(to bottom, var(--brand-blue) 0%, var(--brand-blue) 50%, #ffffff 50%, #ffffff 100%);
@@ -567,13 +559,6 @@ header.shrunk .logo {
 header.fullscreen .logo { max-height: 65vh; }
 header.shrunk .logo { max-height: 42px; }
 
-.logo {
-  width: 150px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  /* default filter neutral; state rules below control color */
-}
 
 /* Logo color per state */
 header.fullscreen .logo { filter: brightness(0) invert(1); } /* white on blue */
@@ -2426,8 +2411,12 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
 }
 
 .logo {
-  max-height: 50px;  /* main logo size */
+  max-height: 60px;
   width: auto;
+  display: block;
+  margin: 0 auto;
+  filter: brightness(0) invert(1);
+  align-self: center;
 }
 
 .jerusalem-img {
@@ -2463,16 +2452,6 @@ body.scrolled #site-header {
   align-items: center; /* keep logo + Jerusalem centered */
 }
 
-.logo {
-  max-height: 50px;
-  width: auto;
-}
-
-
-.logo {
-  max-height: 50px;
-  width: auto;
-}
 
 
 /* Header default: thicker to fit logo + Jerusalem */
