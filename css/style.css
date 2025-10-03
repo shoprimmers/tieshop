@@ -3,7 +3,7 @@
 
 /* ---------------- GLOBAL STYLES ---------------- */
 :root {
-  --header-shrunk-height: 80px; /* 80px for desktop/iPad, matches tie pages */
+  --header-shrunk-height: 56px; /* Base height for smartphones */
   --brand-blue: #002147; /* E. Marinella-inspired navy (update if exact hex is provided) */
   --font-display: 'Roboto Slab', serif; /* squared, less-detailed serif */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -242,16 +242,15 @@ h2 { text-align: center; color: #fff; }
   .header-flex {
     max-width: 1140px; /* Match desktop gallery max-width */
     margin: 0 auto; /* Center the container like the gallery */
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 16px; /* Match gallery container padding */
+    padding-right: 3px; /* 16px - 13px (header padding) = 3px */
   }
 
   /* Position menu button to align its left edge with tie images */
   .header-left {
-    margin-left: 0;
+    margin-left: 36px; /* The centering offset to align with first tie image */
     padding-left: 0;
   }
-.header-left, .header-right { flex: 1 0 0; }
 
   .menu-toggle {
     margin-left: 0;
@@ -374,36 +373,23 @@ h2 { text-align: center; color: #fff; }
 .lang-option[aria-checked="true"] { background: rgba(255,255,255,0.14); }
 .lang-option:hover { background: rgba(255,255,255,0.10); }
 .preheader--visible { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-.header-flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* distribute left, center, right */
-  width: 100%;
-  height: 100%;
-}
-
-.header-left,
-.header-right {
-  flex: 1;              /* take equal space left and right */
-  display: flex;
-  align-items: center;
-}
-
-.header-center {
-  flex: 0;              /* logo keeps its own size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: 0 auto;       /* ensures horizontal centering */
-}
-
-.logo {
-  max-height: 56px;
-  height: auto;
-  width: auto;
-  display: block;
-}
+ .header-flex {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 24px;
+   width: 100%;
+   height: 100%;
+ }
+/* Preheader visibility is controlled via JS with .preheader--visible */
+ .logo {
+   width: 150px;
+   height: auto;
+   display: block;
+   margin: 0 auto;
+   filter: brightness(0) invert(1); /* makes dark SVG appear white */
+   align-self: center;
+ }
 header {
   /* Animated background that transitions from blue to white during collapse */
   background: linear-gradient(to bottom, var(--brand-blue) 0%, var(--brand-blue) 50%, #ffffff 50%, #ffffff 100%);
@@ -489,15 +475,12 @@ header.shrunk::before { opacity: 0; transform: scale(1); }
 header.shrunk::after { opacity: 0; }
 
 header.shrunk {
-  height: var(--header-shrunk-height);
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background: #ffffff;
-  color: var(--brand-blue);
-  border-bottom: 1px solid #e6e9ef;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: var(--header-shrunk-height); /* classic thin bar (variable-controlled) */
+  padding-top: 6px; /* keep white bar vertical padding */
+  padding-bottom: 6px;
+  background: #ffffff; /* solid white, no gradient */
+  color: var(--brand-blue); /* text/icon color on white */
+  border-bottom: 1px solid #e6e9ef; /* very thin, light grey underline when thin */
 }
 
 /* Responsive focal point adjustments for the hero image */
@@ -581,9 +564,8 @@ header.shrunk .logo {
   height: auto;
   max-width: 90vw;
 }
-header.fullscreen .logo { max-height: 56px; }
-header.shrunk .logo { max-height: 56px; }
-header.shrunk .header-subtitle { opacity: 0; transform: translateY(-8px); }
+header.fullscreen .logo { max-height: 65vh; }
+header.shrunk .logo { max-height: 42px; }
 
 .logo {
   width: 150px;
@@ -604,7 +586,29 @@ header h1 {
 }
 
 /* Rashi Hebrew phrase under the logo (fullscreen only) */
+.rashi-phrase {
+  font-family: "Noto Rashi Hebrew", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  direction: rtl;
+  text-align: center;
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  font-size: clamp(18px, 2.6vw, 36px);
+}
+header.shrunk .rashi-phrase { display: none; }
+header.fullscreen .rashi-phrase { display: block; }
 
+@media (max-width: 900px) {
+  .rashi-phrase { font-size: clamp(16px, 3.6vw, 28px); margin-top: 0; margin-bottom: 18px; }
+}
+@media (max-width: 600px) {
+  .rashi-phrase { font-size: clamp(15px, 4.2vw, 24px); }
+}
 
 /* Catalog bar removed */
 
@@ -1851,26 +1855,200 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
   footer.site-footer .footer-contact { text-align: center; }
 }
 
+/* Desktop: perfectly center the logo in the header */
+@media (min-width: 901px) {
+  header .header-flex { position: relative; }
+  header .header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  header .header-left, header .header-right { position: relative; z-index: 3; }
+}
 
+/* ---------------- RESPONSIVE DESIGN ---------------- */
+@media (max-width: 900px) {
+  /* Perfectly center the logo in the bar on small screens */
+  header .header-flex { position: relative; }
+  header .header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* stack logo, phrase, etc. vertically */
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* allow phrase to center and wrap nicely */
+    text-align: center;
+    gap: 22px; /* space between logo and phrase on tablet */
+  }
+  header .header-left, header .header-right { position: relative; z-index: 3; }
+
+  /* Show hamburger, hide Contact text on small screens */
+  header .header-left a { display: none; }
+  .menu-toggle { display: inline-flex; }
+
+  /* Tweak fullscreen logo for tablets (smaller) */
+  header.fullscreen .logo {
+    max-height: 36vh;
+    max-width: 78vw;
+  }
+  header .scroll-hint { bottom: 18px; font-size: 0.8rem; }
+
+  .gallery {
+    /* Glue cards together with shared 1px separators */
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0; /* no separation between cards */
+    justify-content: stretch;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box; /* include border in width to avoid horizontal overflow */
+    border-right: 1px solid #e6e9ef; /* close the grid on the far edge */
+    border-bottom: 1px solid #e6e9ef; /* close the grid along the bottom */
+    overflow-x: hidden; /* guard against sub-pixel overflow on iOS */
+  }
+
+  .tie-card {
+    /* In grid, each card contributes the top/left separator only to avoid double borders */
+    border: none;
+    border-top: 1px solid #e6e9ef;
+    border-left: 1px solid #e6e9ef;
+    box-sizing: border-box;
+    overflow: hidden; /* ensure content aligns with the border */
+    width: 100%;
+    padding: 10px; /* inset content so it doesn't touch the border */
+  }
+
+  /* Shrink the whole content column slightly, keep left-aligned */
+  .tie-card a { display: block; width: 93%; margin: 0 auto; position: relative; }
+  .tie-card img,
+  .tie-card h2 { width: 100%; }
+
+  /* Slightly smaller titles on tablet; align all text and divider to card padding */
+  .tie-card h2 { font-size: 0.95em; padding: 8px 0; }
+  .tie-card h2::before { padding-left: 0; padding-right: 0; }
+  .tie-card h2::after { padding-left: 0; padding-right: 0; font-size: 1.06em; }
+  /* Exactly three lines visible for the title text; keep space even if shorter */
+  .tie-card h2 .title-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    line-height: 1.18;
+    min-height: calc(1.18em * 3);
+    max-height: calc(1.18em * 3);
+  }
+  /* Keep uniform height for titles across all cards; do not change size per-card */
+  .tie-card h2.condensed { letter-spacing: 0.01em; }
+}
 
 /* iPad and small laptop portrait refinements */
 @media (max-width: 1200px) and (orientation: portrait) {
   header.fullscreen .logo {
-    max-height: 56px;
+    max-height: 52vh;
     max-width: 85vw;
   }
 }
 
+@media (max-width: 600px) {
+  header .header-center { gap: 28px; } /* a bit more space on phones */
+  /* Use small/ dynamic viewport units on mobile for better fullscreen fit */
+  header.fullscreen { height: 100svh; height: 100dvh; }
+  header {
+    padding: 11px;
+  }
+  header h1 {
+    font-size: 1.5em;
+    padding: 0;
+  }
+  /* Tame fullscreen logo for phones (smaller) */
+  header.fullscreen .logo { max-height: 28vh; max-width: 74vw; }
+  /* Slightly smaller shrunk logo on phones */
+  header.shrunk .logo { max-height: 36px; }
+  /* Bring scroll hint closer to the centered logo on phones */
+  header .scroll-hint { bottom: 48px; font-size: 0.75rem; }
+  /* Even closer when the header is in fullscreen (big blue bar) */
+  header.fullscreen .scroll-hint { bottom: 96px; }
+
+  /* Two-per-row layout on smartphones: no gap, shared single-pixel separators */
+  .gallery {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    justify-content: stretch;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box; /* include border in width to avoid horizontal overflow */
+    border-right: 1px solid #e6e9ef;
+    border-bottom: 1px solid #e6e9ef;
+    overflow-x: hidden; /* guard against sub-pixel overflow on iOS */
+  }
+
+  .tie-card {
+    /* Provide only top/left borders so adjacent items share a single line */
+    margin: 0;
+    border: none;
+    border-top: 1px solid #e6e9ef;
+    border-left: 1px solid #e6e9ef;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    padding: 8px; /* inset content so it doesn't touch the border */
+  }
+
+  /* Shrink the whole content column slightly, keep left-aligned */
+  .tie-card a { display: block; width: 93%; margin: 0 auto; position: relative; }
+  .tie-card img,
+  .tie-card h2 { width: 100%; }
+
+  .tie-card h2 { font-size: 0.88em; padding: 6px 0; }
+  .tie-card h2::before { font-size: 0.78em; padding-left: 0; padding-right: 0; }
+  .tie-card h2::after { padding-left: 0; padding-right: 0; font-size: 1.04em; }
+  /* Exactly three lines visible for the title text; keep space even if shorter */
+  .tie-card h2 .title-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    line-height: 1.16;
+    min-height: calc(1.16em * 3);
+    max-height: calc(1.16em * 3);
+  }
+  /* Keep uniform height for titles across all cards; do not change size per-card */
+  .tie-card h2.condensed { letter-spacing: 0.01em; }
+
+  .tie-details {
+    width: 100%;
+    max-width: 100%;
+    padding: 11px;
+    margin: 10px auto;
+  }
+
+  .large {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    box-sizing: border-box;
+  }
+}
 
 /* iPads and Desktop: make shrunk white bar 80px height (keep logo size unchanged) */
 @media (min-width: 768px) {
   :root {
-    --header-shrunk-height: 80px; /* 80px for desktop/iPad */
+    --header-shrunk-height: 80px; /* Set to 80px for desktop/iPad */
   }
   /* Reinforce in case any other rule interferes */
   header.shrunk { height: var(--header-shrunk-height) !important; }
   
-  /* Ensure content stays vertically centered in the bar */
+  /* Ensure content stays vertically centered in the taller bar */
   header .header-left,
   header .header-right {
     display: flex;
@@ -2241,12 +2419,109 @@ header.shrunk .menu-toggle { color: var(--brand-blue); }
   }
 }
 
-/* Main logo */
-/* Main logo (unified, matches tie pages) */
-.logo {
-  max-height: 56px;
-  width: auto;
-  height: auto;
-  display: block;
-  margin: 0 auto;
+.header-subtitle {
+  margin-top: 6px;
+  text-align: center;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+.logo {
+  max-height: 50px;  /* main logo size */
+  width: auto;
+}
+
+.jerusalem-img {
+  max-height: 44px; /* slightly smaller than logo */
+  width: auto;
+  display: inline-block;
+}
+
+#site-header {
+  padding: 24px 0; /* thicker when image is visible */
+  transition: padding 0.3s ease;
+}
+
+body.scrolled .header-subtitle {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+body.scrolled #site-header {
+  padding: 12px 0; /* shrink back on scroll */
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .logo {
+    max-height: 36px;
+  }
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* keep logo + Jerusalem centered */
+}
+
+.logo {
+  max-height: 50px;
+  width: auto;
+}
+
+
+.logo {
+  max-height: 50px;
+  width: auto;
+}
+
+
+/* Header default: thicker to fit logo + Jerusalem */
+#site-header {
+  padding: 28px 0;          /* thicker at load */
+  transition: padding 0.3s ease;
+}
+
+/* Subtitle (Yerushalayim image) styling */
+.header-subtitle {
+  margin-top: 6px;
+  text-align: center;
+  transition: opacity 1s ease, transform 1s ease; /* slower fade for luxury feel */
+}
+
+.jerusalem-img {
+  max-height: 25px; /* smaller than logo for balance */
+  width: auto;
+  display: inline-block;
+}
+
+/* Shrink header and fade subtitle when scrolling */
+body.scrolled .header-subtitle {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+body.scrolled #site-header {
+  padding: 12px 0; /* shrink back to smaller size */
+}
+
+#site-header {
+  padding: 40px 0;   /* thicker to fit both images comfortably */
+  transition: padding 0.4s ease;
+}
+
+body.scrolled #site-header {
+  padding: 12px 0; /* shrink back to smaller size */
+}
+header .header-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* centers vertically + horizontally */
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto; /* make it shrink to content */
+}
+
