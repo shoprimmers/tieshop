@@ -86,6 +86,53 @@
         width: 90px;
       }
     }
+    .menu-drawer {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 260px;
+      height: 100%;
+      background: #fff;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+      transition: left 0.3s ease;
+      z-index: 9999;
+      padding: 20px;
+    }
+    .menu-drawer.open {
+      left: 0;
+    }
+    .drawer-nav {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* horizontally centered */
+      justify-content: flex-start;
+      gap: 16px;
+      text-align: center;
+    }
+    .drawer-nav a {
+      font-size: 1.2em;
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .drawer-nav a:hover { text-decoration: underline; }
+
+    .close-drawer {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 28px;
+      line-height: 1;
+      padding: 0;
+      color: var(--brand-blue);
+    }
+    .close-drawer:hover {
+      color: #000;
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -119,57 +166,48 @@
   <header class="shrunk" id="site-header" role="banner">
     <div class="header-flex">
       <div class="header-left">
-        <a href="contact.html" class="contact-link" style="color: var(--brand-blue); text-decoration: underline; font-weight: bold; font-size: 1.1em; margin-right: 8px; background: none; border: none; padding: 0; border-radius: 0;">Contact</a>
-      </div>
-      <div class="header-center">
-        <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
-      </div>
-      <div class="header-right">
-        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu-drawer">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
         </button>
       </div>
+      <div class="header-center">
+        <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
+      </div>
     </div>
-    <nav id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Main menu">
-      <a href="index.html">Home</a>
-      <a href="contact.html" aria-current="page">Contact</a>
-    </nav>
   </header>
+
+  <div id="menu-drawer" class="menu-drawer">
+    <button class="close-drawer" aria-label="Close menu">×</button>
+    <nav class="drawer-nav" role="navigation" aria-label="Main menu">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="contact.html" aria-current="page" role="menuitem">Contact</a>
+    </nav>
+  </div>
   
   <script>
-    // Mobile hamburger toggle
+    // Drawer toggle logic
     (function() {
       var toggle = document.querySelector('.menu-toggle');
-      var menu = document.getElementById('mobile-menu');
-      if (!toggle || !menu) return;
+      var drawer = document.getElementById('menu-drawer');
+      if (!toggle || !drawer) return;
+      var closeBtn = drawer.querySelector('.close-drawer');
 
-      function closeMenu() {
-        menu.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        try { toggle.blur(); } catch (e) {}
-      }
-      function openMenu() {
-        menu.classList.add('open');
-        toggle.classList.add('open');
-        toggle.setAttribute('aria-expanded', 'true');
-      }
-      function toggleMenu() {
-        if (menu.classList.contains('open')) closeMenu(); else openMenu();
-      }
       toggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        toggleMenu();
+        e.preventDefault();
+        drawer.classList.add('open');
+      });
+      closeBtn.addEventListener('click', function() {
+        drawer.classList.remove('open');
       });
       document.addEventListener('click', function(e) {
-        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-          closeMenu();
+        if (!drawer.contains(e.target) && !toggle.contains(e.target)) {
+          drawer.classList.remove('open');
         }
       });
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeMenu();
+        if (e.key === 'Escape') drawer.classList.remove('open');
       });
     })();
 
