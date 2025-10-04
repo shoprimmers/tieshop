@@ -375,6 +375,14 @@
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
+  <!-- Sliding Drawer Mobile Menu -->
+  <div id="menu-drawer" class="menu-drawer">
+    <button class="close-drawer" aria-label="Close menu">&times;</button>
+    <nav class="drawer-nav" role="navigation" aria-label="Main menu">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="contact.html" role="menuitem">Contact</a>
+    </nav>
+  </div>
   <!-- Thin preheader bar always visible at the top -->
   <div class="preheader preheader--visible" id="preheader">
     <div class="preheader__inner">
@@ -396,25 +404,62 @@
 
   <header class="shrunk" id="site-header" role="banner">
     <div class="header-flex">
-    <div class="header-left">
-  <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </button>
-  <a href="contact.html" class="contact-link" style="color: var(--brand-blue); text-decoration: underline; font-weight: bold; font-size: 1.1em; margin-right: 8px; background: none; border: none; padding: 0; border-radius: 0;">Contact</a>
+      <div class="header-left">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <a href="contact.html" class="contact-link" style="color: var(--brand-blue); text-decoration: underline; font-weight: bold; font-size: 1.1em; margin-right: 8px; background: none; border: none; padding: 0; border-radius: 0;">Contact</a>
       </div>
       <div class="header-center">
-  <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
-</div>
+        <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
       </div>
       <div class="header-right">
       </div>
-      </div>
     </div>
-    <nav id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Main menu" aria-hidden="true">
-      <a href="contact.html" role="menuitem">Contact</a>
-    </nav>
+  <style>
+    .menu-drawer {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 260px;
+      height: 100%;
+      background: #fff;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+      transition: left 0.3s ease;
+      z-index: 9999; /* ensure above preheader and header */
+      padding: 20px;
+    }
+    .menu-drawer.open {
+      left: 0;
+    }
+    .menu-drawer .close-drawer {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      float: right;
+    }
+    .drawer-nav {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* center horizontally */
+      justify-content: flex-start; /* keep at the top */
+      gap: 16px;
+      text-align: center;
+    }
+    .drawer-nav a {
+      font-size: 1.2em;
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .drawer-nav a:hover {
+      text-decoration: underline;
+    }
+  </style>
   <style>
     .header-flex {
       display: flex;
@@ -552,38 +597,27 @@
   })();
   // Fullscreen hero disabled: start in shrunk state and show collection by default
 
-    // Mobile hamburger toggle
+    // Sliding drawer mobile menu toggle
     (function() {
       var toggle = document.querySelector('.menu-toggle');
-      var menu = document.getElementById('mobile-menu');
-      if (!toggle || !menu) return;
+      var drawer = document.getElementById('menu-drawer');
+      if (!toggle || !drawer) return;
+      var closeBtn = drawer.querySelector('.close-drawer');
 
-      function closeMenu() {
-        menu.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        // Remove focus so :focus-visible styles don’t linger on mobile
-        try { toggle.blur(); } catch (e) {}
-      }
-      function openMenu() {
-        menu.classList.add('open');
-        toggle.classList.add('open');
-        toggle.setAttribute('aria-expanded', 'true');
-      }
-      function toggleMenu() {
-        if (menu.classList.contains('open')) closeMenu(); else openMenu();
-      }
       toggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        toggleMenu();
+        e.preventDefault();
+        drawer.classList.add('open');
+      });
+      closeBtn.addEventListener('click', function() {
+        drawer.classList.remove('open');
       });
       document.addEventListener('click', function(e) {
-        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-          closeMenu();
+        if (!drawer.contains(e.target) && !toggle.contains(e.target)) {
+          drawer.classList.remove('open');
         }
       });
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeMenu();
+        if (e.key === 'Escape') drawer.classList.remove('open');
       });
     })();
 
