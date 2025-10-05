@@ -8,7 +8,7 @@
   --font-display: 'Roboto Slab', serif; /* squared, less-detailed serif */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   /* computed in-page: actual preheader height in pixels */
-  --preheader-height: 28px; /* Thickness of the preheader bar (edit me) */
+  --preheader-height: 34px; /* Thickness of the preheader bar (edit me) */
 }
 
 html {
@@ -116,7 +116,7 @@ body {
   margin: 0;
   padding: 0;
   /* Reserve space at the top for fixed   /* ...existing code... */
-  padding-top: calc(var(--preheader-height, 0px) + var(--header-shrunk-height, 56px));
+  padding-top: calc(var(--preheader-height, 0px) + var(--header-shrunk-height, px));
 }
 h1, h2, h3 {
   font-family: var(--font-display);
@@ -210,7 +210,7 @@ h2 { text-align: center; color: #fff; }
   transform: translateY(-100%);
   transition: transform 240ms ease, opacity 180ms ease;
   pointer-events: none; /* don't intercept clicks when hidden */
-  height: var(--preheader-height, 28px); /* Controls bar thickness */
+  height: var(--preheader-height, px); /* Controls bar thickness */
 }
 .preheader__inner {
   margin: 0;
@@ -234,7 +234,7 @@ h2 { text-align: center; color: #fff; }
        4 columns of 250px + 3 gaps of 12px = 1036px total grid width
        Centered offset: (1108px - 1036px) / 2 = 36px
        Total left offset: 16px (container padding) + 36px (centering) = 52px */
-    padding-left: 52px;
+    padding-left: 0px;
     padding-right: 16px;
   }
 
@@ -248,7 +248,7 @@ h2 { text-align: center; color: #fff; }
 
   /* Position menu button to align its left edge with tie images */
   .header-left {
-    margin-left: 36px; /* The centering offset to align with first tie image */
+    margin-left: -15px; /* The centering offset to align with first tie image */
     padding-left: 0;
   }
 
@@ -666,7 +666,7 @@ header.shrunk .logo {
   max-width: 90vw;
 }
 header.fullscreen .logo { max-height: 65vh; }
-header.shrunk .logo { max-height: 42px; }
+header.shrunk .logo { max-height: 50px; }
 
 
 /* Logo color per state */
@@ -2179,7 +2179,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
   /* Tame fullscreen logo for phones (smaller) */
   header.fullscreen .logo { max-height: 28vh; max-width: 74vw; }
   /* Slightly smaller shrunk logo on phones */
-  header.shrunk .logo { max-height: 36px; }
+  header.shrunk .logo { max-height: 44px; }
   /* Bring scroll hint closer to the centered logo on phones */
   header .scroll-hint { bottom: 48px; font-size: 0.75rem; }
   /* Even closer when the header is in fullscreen (big blue bar) */
@@ -2251,7 +2251,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
 /* iPads and Desktop: make shrunk white bar 80px height (keep logo size unchanged) */
 @media (min-width: 768px) {
   :root {
-    --header-shrunk-height: 60px; /* Set to 80px for desktop/iPad */
+    --header-shrunk-height: 74px; /* Set to 80px for desktop/iPad */
   }
   /* Reinforce in case any other rule interferes */
   header.shrunk { height: var(--header-shrunk-height) !important; }
