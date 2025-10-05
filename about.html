@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Rimmer's</title>
+  <link rel="icon" href="images/favicon-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css?v=20251005-1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body.about-page { background: #ffffff; color: var(--brand-blue); font-family: var(--font-sans); }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 16px; box-sizing: border-box; }
+
+    /* Elegant hero */
+    .about-hero { padding: 36px 0 28px; text-align: center; }
+    .about-hero h1 { color: var(--brand-blue); font-size: clamp(2rem, 3.6vw, 2.8rem); margin: 0 0 8px; }
+    .about-hero p { color: #2b3d57; font-size: clamp(1rem, 1.3vw, 1.15rem); margin: 0; }
+
+    /* Section blocks */
+    .about-section { padding: 28px 0; border-top: 1px solid #e6e9ef; }
+    .about-grid { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center; }
+    @media (min-width: 900px) { .about-grid { grid-template-columns: 1.1fr 0.9fr; gap: 28px; } }
+    .about-copy h2 { font-family: var(--font-display); font-weight: 700; color: var(--brand-blue); margin: 0 0 10px; }
+    .about-copy p { margin: 8px 0; color: #2b3d57; line-height: 1.6; }
+
+    /* Image placeholders (drop your images later) */
+    .image-placeholder {
+      width: 100%; aspect-ratio: 3/2; background: #f6f8fb; border: 1px dashed #cfd6e6;
+      border-radius: 8px; display: grid; place-items: center; color: #7a8aa3; font-weight: 600;
+    }
+    .image-tall { aspect-ratio: 2/3; }
+
+    /* Reversed layout helper */
+    .reverse .about-grid { direction: rtl; }
+    .reverse .about-grid > * { direction: ltr; }
+
+    /* CTA band */
+    .about-cta { padding: 28px 0 40px; }
+    .cta-card { background: #0b2450; color: #fff; border-radius: 10px; padding: 22px 20px; text-align: center; }
+    .cta-card h3 { margin: 0 0 10px; font-weight: 700; }
+    .cta-card p { margin: 0 0 16px; color: rgba(255,255,255,0.9); }
+    .cta-card a { display: inline-block; background: #fff; color: var(--brand-blue); padding: 10px 16px; border-radius: 6px; font-weight: 700; text-decoration: none; }
+
+    /* Drawer styles (match site) */
+    .menu-drawer { position: fixed; top: 0; left: -100%; width: 260px; height: 100%; background: #fff; box-shadow: 4px 0 12px rgba(0,0,0,0.2); transition: left 0.3s ease; z-index: 9999; padding: 20px; }
+    .menu-drawer.open { left: 0; }
+    .drawer-nav { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    .drawer-nav a { font-size: 1.2em; color: var(--brand-blue); text-decoration: none; font-weight: bold; }
+    .drawer-nav a:hover { text-decoration: underline; }
+    .close-drawer { position: absolute; top: 16px; right: 16px; background: none; border: none; cursor: pointer; font-size: 28px; line-height: 1; padding: 0; color: var(--brand-blue); }
+  </style>
+</head>
+<body class="about-page">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Drawer menu overlay -->
+  <div id="menu-drawer" class="menu-drawer">
+    <button class="close-drawer" aria-label="Close menu">&times;</button>
+    <nav class="drawer-nav" role="navigation" aria-label="Main menu">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="about.html" aria-current="page" role="menuitem">About</a>
+      <a href="contact.html" role="menuitem">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Thin preheader bar: always visible, header offsets below it -->
+  <div class="preheader preheader--visible" id="preheader" aria-hidden="false">
+    <div class="preheader__inner">
+      <span class="preheader__text">Italian Artisanship in Every Stitch</span>
+      <div class="preheader__lang">
+        <div class="lang-switcher">
+          <button class="lang-toggle" type="button" aria-label="Language" aria-expanded="false" aria-controls="lang-menu">
+            <span class="label">English</span>
+            <span class="arrow" aria-hidden="true"></span>
+          </button>
+          <div id="lang-menu" class="lang-menu" role="menu" aria-label="Language options">
+            <button class="lang-option" role="menuitemradio" aria-checked="true" data-lang="en">English</button>
+            <button class="lang-option" role="menuitemradio" aria-checked="false" data-lang="he">עברית</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Standardized header (index-style) -->
+  <header class="shrunk" id="site-header" role="banner">
+    <div class="header-flex">
+      <div class="header-left">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu-drawer">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+      <div class="header-center">
+        <a href="index.html"><img src="images/logo.svg" alt="Rimmer's Logo" class="logo"></a>
+      </div>
+      <div class="header-right"></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="about-hero">
+      <div class="container">
+        <h1>About Rimmer's</h1>
+        <p>Luxury neckwear, crafted with unwavering artisanship in every stitch.</p>
+      </div>
+    </section>
+
+    <!-- Story: text left, image right -->
+    <section class="about-section">
+      <div class="container about-grid">
+        <div class="about-copy">
+          <h2>Our Heritage</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim, mi vitae venenatis maximus, felis risus faucibus mi, non interdum purus odio ut mi. Morbi in egestas lorem, in gravida nisl.</p>
+          <p>Curabitur at lorem sed ipsum vulputate iaculis. Pellentesque a nisl in mi ultricies rhoncus. Sed laoreet, elit sed suscipit interdum, turpis nibh aliquam turpis, sit amet molestie purus nisi quis eros.</p>
+        </div>
+        <div class="image-placeholder" aria-label="Heritage image placeholder">Image Placeholder</div>
+      </div>
+    </section>
+
+    <!-- Craft: image left, text right -->
+    <section class="about-section reverse">
+      <div class="container about-grid">
+        <div class="image-placeholder image-tall" aria-label="Craftsmanship image placeholder">Image Placeholder</div>
+        <div class="about-copy">
+          <h2>Craftsmanship</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in scelerisque justo. Aliquam erat volutpat. Integer sed mattis dolor, vitae facilisis mauris.</p>
+          <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Ut finibus scelerisque massa, vitae tempor augue condimentum vitae.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Materials: text over wide image slot -->
+    <section class="about-section">
+      <div class="container" style="display:grid; gap:16px;">
+        <div class="about-copy" style="text-align:center;">
+          <h2>Materials</h2>
+          <p>From Como silk to refined interlinings — Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet ligula a velit malesuada vulputate.</p>
+        </div>
+        <div class="image-placeholder" aria-label="Materials image placeholder">Wide Image Placeholder</div>
+      </div>
+    </section>
+
+    <!-- Values: image right, text left -->
+    <section class="about-section">
+      <div class="container about-grid">
+        <div class="about-copy">
+          <h2>Values</h2>
+          <p>Precision, patience, and pride. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere dui nec magna aliquet, id mattis odio sodales.</p>
+          <p>Aenean semper, odio sit amet luctus malesuada, lorem risus imperdiet mi, a condimentum nisi massa eget augue.</p>
+        </div>
+        <div class="image-placeholder" aria-label="Values image placeholder">Image Placeholder</div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="about-cta">
+      <div class="container">
+        <div class="cta-card">
+          <h3>Visit Our Studio</h3>
+          <p>Prefer to feel the silk in person? Reach out, we’ll arrange a time.</p>
+          <a href="contact.html">Contact Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      var toggle = document.querySelector('.menu-toggle');
+      var drawer = document.getElementById('menu-drawer');
+      if (!toggle || !drawer) return;
+      var closeBtn = drawer.querySelector('.close-drawer');
+
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        drawer.classList.add('open');
+      });
+      closeBtn.addEventListener('click', function() { drawer.classList.remove('open'); });
+      drawer.addEventListener('click', function(e) {
+        if (e.target === drawer) drawer.classList.remove('open');
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') drawer.classList.remove('open');
+      });
+    })();
+  </script>
+</body>
+</html>
+

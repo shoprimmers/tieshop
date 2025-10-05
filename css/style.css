@@ -2179,7 +2179,7 @@ footer.site-footer .footer-contact .footer-email { font-size: 0.98rem; opacity: 
   /* Tame fullscreen logo for phones (smaller) */
   header.fullscreen .logo { max-height: 28vh; max-width: 74vw; }
   /* Slightly smaller shrunk logo on phones */
-  header.shrunk .logo { max-height: 44px; }
+  header.shrunk .logo { max-height: 42px; }
   /* Bring scroll hint closer to the centered logo on phones */
   header .scroll-hint { bottom: 48px; font-size: 0.75rem; }
   /* Even closer when the header is in fullscreen (big blue bar) */
